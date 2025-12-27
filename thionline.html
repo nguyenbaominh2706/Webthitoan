@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Thi Toán</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #2575fc;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin: 20px 0 15px;
+            color: #6a11cb;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .intro {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .menu {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .grade-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            flex: 1;
+            min-width: 300px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .grade-section:hover {
+            transform: translateY(-5px);
+        }
+        
+        .exam-list {
+            list-style-type: none;
+        }
+        
+        .exam-list li {
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .exam-list li:hover {
+            background-color: #e9ecef;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .btn-fullscreen {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            margin-left: 10px;
+        }
+        
+        .exam-container {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        /* Bố cục mới cho màn hình làm bài thi */
+        .exam-layout {
+            display: flex;
+            gap: 20px;
+            height: 80vh;
+        }
+        
+        .exam-question-panel {
+            flex: 3;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .exam-answer-panel {
+            flex: 2;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e74c3c;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .question-section {
+            margin-bottom: 30px;
+        }
+        
+        .question {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .question-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        input[type="radio"], input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .short-answer {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+        
+        .result-container {
+            display: none;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #2575fc;
+            margin: 20px 0;
+        }
+        
+        .score-zero {
+            color: #e74c3c;
+        }
+        
+        .score-details {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .score-breakdown {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .score-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .score-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #6a11cb;
+        }
+        
+        .score-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 30px;
+            color: #777;
+            border-top: 1px solid #eee;
+        }
+        
+        .exam-content {
+            border: 2px solid #e74c3c;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #fff9f9;
+        }
+        
+        .exam-title {
+            color: #e74c3c;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .exam-frame {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .exam-instructions {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        /* Fullscreen mode */
+        body:fullscreen .exam-container,
+        body:-webkit-full-screen .exam-container,
+        body:-moz-full-screen .exam-container,
+        body:-ms-fullscreen .exam-container {
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            border-radius: 0;
+        }
+        
+        body:fullscreen .exam-layout,
+        body:-webkit-full-screen .exam-layout,
+        body:-moz-full-screen .exam-layout,
+        body:-ms-fullscreen .exam-layout {
+            height: 90vh;
+        }
+        
+        .fullscreen-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .fullscreen-message {
+            display: none;
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        body:fullscreen .fullscreen-message,
+        body:-webkit-full-screen .fullscreen-message,
+        body:-moz-full-screen .fullscreen-message,
+        body:-ms-fullscreen .fullscreen-message {
+            display: block;
+        }
+        
+        .warning-message {
+            background-color: #f39c12;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .cheat-detected {
+            background-color: #e74c3c;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2rem;
+        }
+        
+        .correct-answer {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .wrong-answer {
+            color: #e74c3c;
+            text-decoration: line-through;
+        }
+        
+        .user-answer {
+            color: #3498db;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Web Thi Toán</h1>
+            <p>Nền tảng ôn luyện và kiểm tra kiến thức Toán học</p>
+        </header>
+        
+        <section class="intro">
+            <h2>Giới thiệu</h2>
+            <p>Chào mừng bạn đến với Web Thi Toán - nền tảng hỗ trợ học tập và ôn luyện môn Toán dành cho học sinh từ lớp 10 đến lớp 12.</p>
+            <p>Web cung cấp các đề thi theo chương trình học, giúp học sinh củng cố kiến thức và chuẩn bị tốt cho các kỳ thi quan trọng.</p>
+            <p>Với giao diện thân thiện, dễ sử dụng và hệ thống chấm điểm tự động, Web Thi Toán là công cụ hữu ích cho việc tự học và đánh giá năng lực.</p>
+            <p><strong>Lưu ý:</strong> Hệ thống có tính năng chống gian lận. Nếu bạn thoát khỏi màn hình thi hoặc chuyển tab trong khi thi, bài thi sẽ tự động bị chấm 0 điểm. </p>
+        </section>
+        
+        <section class="menu">
+            <div class="grade-section">
+                <h2>Toán 10</h2>
+                <ul class="exam-list">
+                    <li onclick="selectExam('toan10-gk1')">Đề thi giữa kỳ 1</li>
+                    <li onclick="selectExam('toan10-ck1')">Đề thi cuối kỳ 1</li>
+                    <li onclick="selectExam('toan10-gk2')">Đề thi giữa kỳ 2</li>
+                    <li onclick="selectExam('toan10-ck2')">Đề thi cuối kỳ 2</li>
+                </ul>
+            </div>
+            
+            <div class="grade-section">
+                <h2>Toán 11</h2>
+                <ul class="exam-list">
+                    <li onclick="selectExam('toan11-gk1')">Đề thi giữa kỳ 1</li>
+                    <li onclick="selectExam('toan11-ck1')">Đề thi cuối kỳ 1</li>
+                    <li onclick="selectExam('toan11-gk2')">Đề thi giữa kỳ 2</li>
+                    <li onclick="selectExam('toan11-ck2')">Đề thi cuối kỳ 2</li>
+                </ul>
+            </div>
+            
+            <div class="grade-section">
+                <h2>Toán 12</h2>
+                <ul class="exam-list">
+                    <li onclick="selectExam('toan12-gk1')">Đề thi giữa kỳ 1</li>
+                    <li onclick="selectExam('toan12-ck1')">Đề thi cuối kỳ 1</li>
+                    <li onclick="selectExam('toan12-gk2')">Đề thi giữa kỳ 2</li>
+                    <li onclick="selectExam('toan12-ck2')">Đề thi cuối kỳ 2</li>
+                </ul>
+            </div>
+        </section>
+        
+        <div id="exam-selection" style="text-align: center; margin-bottom: 30px; display: none;">
+            <p>Bạn đã chọn: <span id="selected-exam-name"></span></p>
+            <button class="btn" onclick="startExam()">Bắt đầu thi</button>
+        </div>
+        
+        <div id="exam-container" class="exam-container">
+            <div class="fullscreen-controls">
+                <div class="timer" id="timer">60:00</div>
+                <div>
+                    <button class="btn btn-fullscreen" onclick="toggleFullscreen()">Toàn màn hình</button>
+                    <button class="btn" onclick="submitExam()">Nộp bài</button>
+                </div>
+            </div>
+            
+            <div class="fullscreen-message" id="fullscreen-message">
+                Bạn đang ở chế độ toàn màn hình. Thoát khỏi chế độ này sẽ bị tính là vi phạm quy chế thi!
+            </div>
+            
+            <div class="warning-message" id="warning-message">
+                CẢNH BÁO: Bạn đã rời khỏi màn hình thi lần thứ <span id="warning-count">0</span>/3. Nếu vi phạm lần thứ 4, bài thi sẽ bị hủy với 0 điểm!
+            </div>
+            
+            <div id="cheat-detected-message" class="cheat-detected" style="display: none;">
+                <h3>⚠️ VI PHẠM QUY CHẾ THI ⚠️</h3>
+                <p>Bạn đã rời khỏi màn hình thi quá nhiều lần.</p>
+                <p>Bài thi của bạn đã bị hủy với 0 điểm.</p>
+            </div>
+            
+            <div class="exam-layout">
+                <div class="exam-question-panel">
+                    <div class="exam-content">
+                        <div class="exam-title" id="exam-title">ĐỀ THI MÔN TOÁN</div>
+                        <div id="exam-description">
+                            <!-- Nội dung đề thi sẽ được hiển thị ở đây -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="exam-answer-panel">
+                    <div class="question-section">
+                        <h3>A. Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</h3>
+                        <div id="multiple-choice-questions">
+                            <!-- Câu hỏi trắc nghiệm sẽ được thêm ở đây -->
+                        </div>
+                    </div>
+                    
+                    <div class="question-section">
+                        <h3>B. Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</h3>
+                        <div id="true-false-questions">
+                            <!-- Câu hỏi đúng/sai sẽ được thêm ở đây -->
+                        </div>
+                    </div>
+                    
+                    <div class="question-section">
+                        <h3>C. Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm) ( 4 câu trả lời ngắn, 4 câu trả lời đáp án của 4 câu tự luận</h3>
+                        <div id="short-answer-questions">
+                            <!-- Câu hỏi trả lời ngắn sẽ được thêm ở đây -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="result-container" class="result-container">
+            <h2>Kết quả bài thi</h2>
+            <div class="score" id="score">0/10</div>
+            <p id="result-details"></p>
+            
+            <div class="score-details">
+                <h3>Chi tiết điểm số</h3>
+                <div class="score-breakdown">
+                    <div class="score-item">
+                        <div class="score-value" id="mc-score">0</div>
+                        <div class="score-label">Trắc nghiệm<br>(3 điểm tối đa)</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-value" id="tf-score">0</div>
+                        <div class="score-label">Đúng/Sai<br>(3 điểm tối đa)</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-value" id="sa-score">0</div>
+                        <div class="score-label">Trả lời ngắn<br>(4 điểm tối đa)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="answer-review" style="display: none; margin-top: 20px; text-align: left;">
+                <h3>Xem lại đáp án</h3>
+                <div id="answer-details"></div>
+            </div>
+            
+            <div id="cheat-penalty-message" style="display: none; color: #e74c3c; font-weight: bold; margin: 15px 0;">
+                ⚠️ Bài thi của bạn bị hủy do vi phạm quy chế: Rời khỏi màn hình thi nhiều lần.
+            </div>
+            <button class="btn btn-secondary" onclick="goHome()">Quay lại trang chủ</button>
+        </div>
+        
+        <footer>
+            <p>Web Thi Toán &copy; </p>
+            <p style="font-size: 0.9rem; color: #e74c3c; margin-top: 10px;">Hệ thống có tính năng chống gian lận - Không thoát màn hình khi đang thi</p>
+        </footer>
+    </div>
+
+   <script>
+            let selectedExam = '';
+        let timerInterval;
+        let timeLeft = 60 * 60; // 60 phút tính bằng giây
+        let isFullscreen = false;
+        let isExamActive = false;
+        let violationCount = 0;
+        let cheatDetected = false;
+        let lastFocusTime = Date.now();
+        let visibilityWarningShown = false;
+        
+        // Đáp án cho đề thi Toán 10 cuối kỳ 1 
+        const examAnswers = {
+            'toan10-gk1': {
+                multipleChoice: [
+                    'C', 'D', 'A', 'A', 'A', 'D', 'B', 'D', 'B', 'C',
+                    'A', 'D'
+                ],
+                trueFalse: [
+                    ['Đúng', 'Sai', 'Đúng', 'Sai'], // Câu 1: a,b,c,d
+                    ['Đúng', 'Sai', 'Sai', 'Đúng'], // Câu 2: a,b,c,d
+                    ['Sai', 'Đúng', 'Sai', 'Đúng']  // Câu 3: a,b,c,d
+                ],
+                shortAnswer: [
+                    '0.19',          // Câu 1
+                    '53',           // Câu 2
+                    '4',            // Câu 3
+                    '3.25',         // Câu 4
+                    '-2;2', // Câu 5 
+                    '34.2', // Câu 6
+                    '2', // Câu 7
+                    '5/12'  // Câu 8
+                ]
+            },
+             'toan10-ck1': {
+                multipleChoice: [
+                    'C', 'D', 'A', 'A', 'A', 'D', 'B', 'D', 'B', 'C',
+                    'A', 'D'
+                ],
+                trueFalse: [
+                    ['Đúng', 'Sai', 'Đúng', 'Sai'], // Câu 1: a,b,c,d
+                    ['Đúng', 'Sai', 'Sai', 'Đúng'], // Câu 2: a,b,c,d
+                    ['Sai', 'Đúng', 'Sai', 'Đúng']  // Câu 3: a,b,c,d
+                ],
+                shortAnswer: [
+                    '0.19',          // Câu 1
+                    '53',           // Câu 2
+                    '4',            // Câu 3
+                    '3.25',         // Câu 4
+                    '-2;2', // Câu 5 
+                    '34.2', // Câu 6
+                    '2', // Câu 7
+                    '5/12'  // Câu 8
+                ]
+            },
+            'toan10-gk2': {
+                multipleChoice: [
+                    'D', 'B', 'B', 'A', 'C', 'A', 'B', 'D', 'C', 'A',
+                    'B', 'C'
+                ],
+                trueFalse: [
+                    ['Đúng', 'Đúng', 'Sai', 'Sai'], // Câu 1: a,b,c,d
+                    ['Đúng', 'Sai', 'Đúng', 'Đúng'], // Câu 2: a,b,c,d
+                    
+                ],
+                shortAnswer: [
+                    '10',          // Câu 1
+                    '2',           // Câu 2
+                    '5',            // Câu 3
+                    '0.89',         // Câu 4
+                    '-x^2+2x+3', // Câu 5 
+                    '-7<m<-3', // Câu 6
+                    '1', // Câu 7
+                    '(x-3)^2+(y-2)^2=10'  // Câu 8
+                ]
+            },
+            'toan10-ck2': {
+                multipleChoice: [
+                    'D', 'B', 'B', 'A', 'C', 'A', 'B', 'D', 'C', 'A',
+                    'B', 'C'
+                ],
+                trueFalse: [
+                    ['Đúng', 'Đúng', 'Sai', 'Sai'], // Câu 1: a,b,c,d
+                    ['Đúng', 'Sai', 'Đúng', 'Đúng'], // Câu 2: a,b,c,d
+                    
+                ],
+                shortAnswer: [
+                    '10',          // Câu 1
+                    '2',           // Câu 2
+                    '5',            // Câu 3
+                    '0.89',         // Câu 4
+                    '-x^2+2x+3', // Câu 5 
+                    '-7<m<-3', // Câu 6
+                    '1', // Câu 7
+                    '(x-3)^2+(y-2)^2=10'  // Câu 8
+                ]
+            },
+            
+
+
+        };
+        
+        // Hàm chọn đề thi
+        function selectExam(examId) {
+            selectedExam = examId;
+            document.getElementById('selected-exam-name').textContent = getExamName(examId);
+            document.getElementById('exam-selection').style.display = 'block';
+            
+            // Cuộn đến phần chọn đề thi
+            document.getElementById('exam-selection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Hàm lấy tên đề thi
+        function getExamName(examId) {
+            const examNames = {
+                'toan10-gk1': 'Toán 10 - Đề thi giữa kỳ 1',
+                'toan10-ck1': 'Toán 10 - Đề thi cuối kỳ 1',
+                'toan10-gk2': 'Toán 10 - Đề thi giữa kỳ 2',
+                'toan10-ck2': 'Toán 10 - Đề thi cuối kỳ 2',
+                'toan11-gk1': 'Toán 11 - Đề thi giữa kỳ 1',
+                'toan11-ck1': 'Toán 11 - Đề thi cuối kỳ 1',
+                'toan11-gk2': 'Toán 11 - Đề thi giữa kỳ 2',
+                'toan11-ck2': 'Toán 11 - Đề thi cuối kỳ 2',
+                'toan12-gk1': 'Toán 12 - Đề thi giữa kỳ 1',
+                'toan12-ck1': 'Toán 12 - Đề thi cuối kỳ 1',
+                'toan12-gk2': 'Toán 12 - Đề thi giữa kỳ 2',
+                'toan12-ck2': 'Toán 12 - Đề thi cuối kỳ 2'
+            };
+            
+            return examNames[examId] || 'Đề thi';
+        }
+        
+        // Hàm bắt đầu làm bài thi
+        function startExam() {
+            document.getElementById('exam-selection').style.display = 'none';
+            document.getElementById('exam-container').style.display = 'block';
+            
+            // Reset các biến theo dõi
+            isExamActive = true;
+            violationCount = 0;
+            cheatDetected = false;
+            lastFocusTime = Date.now();
+            visibilityWarningShown = false;
+            
+            // Ẩn các thông báo vi phạm
+            document.getElementById('cheat-detected-message').style.display = 'none';
+            document.getElementById('warning-message').style.display = 'none';
+            document.getElementById('warning-count').textContent = '0';
+            
+            // Hiển thị đề thi
+            document.getElementById('exam-title').textContent = getExamName(selectedExam);
+            document.getElementById('exam-description').innerHTML = generateExamContent(selectedExam);
+            
+            // Khởi tạo câu hỏi mẫu
+            generateSampleQuestions();
+            
+            // Bắt đầu đếm ngược
+            startTimer();
+            
+            // Bắt đầu theo dõi hành vi gian lận
+            startCheatDetection();
+            
+            // Tự động vào chế độ fullscreen
+            setTimeout(() => {
+                toggleFullscreen();
+            }, 500);
+            
+            // Cuộn đến phần làm bài
+            document.getElementById('exam-container').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Hàm tạo nội dung đề thi //
+        // giữa kì 1 toán 10 // 
+        function generateExamContent(examId) {
+            if (examId === 'toan10-gk1') {
+                return `
+                    <div class="exam-instructions">
+                        <p><strong>Thời gian làm bài: 60 phút</strong></p>
+                        <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
+                        <p><strong>Hướng dẫn chung:</strong></p>
+                        <ul>
+                            <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
+                            <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
+                            <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
+                            <li>Tổng điểm: 10 điểm</li>
+                            <li>Thí sinh không được sử dụng tài liệu</li>
+                            <li>Điền đáp án vào đúng vị trí quy định</li>
+                        </ul>
+                        <p style="color: #e74c3c; font-weight: bold;">
+                            ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
+                            Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
+                        </p>
+                    </div>
+                    <p><strong>Đề thi:</strong></p>
+                    <iframe src="https://drive.google.com/file/d/1CbILHvTTWRPLcZpkDLOkxOifxhNctHbG/preview" 
+                            class="exam-frame" 
+                            allow="autoplay">
+                    </iframe>
+                `;
+            
+            }
+            if (examId === 'toan10-ck1') {
+                return `
+                    <div class="exam-instructions">
+                        <p><strong>Thời gian làm bài: 60 phút</strong></p>
+                        <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
+                        <p><strong>Hướng dẫn chung:</strong></p>
+                        <ul>
+                            <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
+                            <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
+                            <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
+                            <li>Tổng điểm: 10 điểm</li>
+                            <li>Thí sinh không được sử dụng tài liệu</li>
+                            <li>Điền đáp án vào đúng vị trí quy định</li>
+                        </ul>
+                        <p style="color: #e74c3c; font-weight: bold;">
+                            ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
+                            Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
+                        </p>
+                    </div>
+                    <p><strong>Đề thi:</strong></p>
+                    <iframe src="https://drive.google.com/file/d/1GCq_4NC1DemeTJ-qC3TaS4A-dg5si2_5/preview" 
+                            class="exam-frame" 
+                            allow="autoplay">
+                    </iframe>
+                `;
+            
+            }
+            if (examId === 'toan10-gk2') {
+                return `
+                    <div class="exam-instructions">
+                        <p><strong>Thời gian làm bài: 60 phút</strong></p>
+                        <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
+                        <p><strong>Hướng dẫn chung:</strong></p>
+                        <ul>
+                            <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
+                            <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
+                            <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
+                            <li>Tổng điểm: 10 điểm</li>
+                            <li>Thí sinh không được sử dụng tài liệu</li>
+                            <li>Điền đáp án vào đúng vị trí quy định</li>
+                        </ul>
+                        <p style="color: #e74c3c; font-weight: bold;">
+                            ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
+                            Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
+                        </p>
+                    </div>
+                    <p><strong>Đề thi:</strong></p>
+                    <iframe src="https://drive.google.com/file/d/1w2Pt5ktO-ADS8gOkfXzdhXMdft4sNTQL/preview" 
+                            class="exam-frame" 
+                            allow="autoplay">
+                    </iframe>
+                `;
+            
+            }
+             if (examId === 'toan10-ck2') {
+                return `
+                    <div class="exam-instructions">
+                        <p><strong>Thời gian làm bài: 60 phút</strong></p>
+                        <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
+                        <p><strong>Hướng dẫn chung:</strong></p>
+                        <ul>
+                            <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
+                            <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
+                            <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
+                            <li>Tổng điểm: 10 điểm</li>
+                            <li>Thí sinh không được sử dụng tài liệu</li>
+                            <li>Điền đáp án vào đúng vị trí quy định</li>
+                        </ul>
+                        <p style="color: #e74c3c; font-weight: bold;">
+                            ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
+                            Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
+                        </p>
+                    </div>
+                    <p><strong>Đề thi:</strong></p>
+                    <iframe src="https://drive.google.com/file/d/1w48m6IyLmF9suq3vAlZwagV3L-8zlhtx/preview" 
+                            class="exam-frame" 
+                            allow="autoplay">
+                    </iframe>
+                `;
+            
+            }
+        }
+        
+        // Hàm tạo câu hỏi mẫu
+        function generateSampleQuestions() {
+            const multipleChoiceContainer = document.getElementById('multiple-choice-questions');
+            const trueFalseContainer = document.getElementById('true-false-questions');
+            const shortAnswerContainer = document.getElementById('short-answer-questions');
+            
+            // Xóa nội dung cũ
+            multipleChoiceContainer.innerHTML = '';
+            trueFalseContainer.innerHTML = '';
+            shortAnswerContainer.innerHTML = '';
+            
+            // Tạo 12 câu hỏi trắc nghiệm nhiều lựa chọn
+            for (let i = 1; i <= 12; i++) {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                questionDiv.innerHTML = `
+                    <div class="question-title">Câu ${i}: Đây là câu hỏi mẫu số ${i}?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q${i}_a" name="q${i}" value="A">
+                            <label for="q${i}_a">A. Đáp án A</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q${i}_b" name="q${i}" value="B">
+                            <label for="q${i}_b">B. Đáp án B</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q${i}_c" name="q${i}" value="C">
+                            <label for="q${i}_c">C. Đáp án C</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q${i}_d" name="q${i}" value="D">
+                            <label for="q${i}_d">D. Đáp án D</label>
+                        </div>
+                    </div>
+                `;
+                
+                multipleChoiceContainer.appendChild(questionDiv);
+            }
+            
+            // Tạo 3 câu hỏi trắc nghiệm đúng/sai (mỗi câu có 4 ý con)
+            for (let i = 1; i <= 3; i++) {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                questionDiv.innerHTML = `
+                    <div class="question-title">Câu ${i}: Phát biểu này đúng hay sai?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="tf${i}_a_true" name="tf${i}_a" value="true">
+                            <label for="tf${i}_a_true">a) Đúng</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="tf${i}_a_false" name="tf${i}_a" value="false">
+                            <label for="tf${i}_a_false">a) Sai</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="tf${i}_b_true" name="tf${i}_b" value="true">
+                            <label for="tf${i}_b_true">b) Đúng</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="tf${i}_b_false" name="tf${i}_b" value="false">
+                            <label for="tf${i}_b_false">b) Sai</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="tf${i}_c_true" name="tf${i}_c" value="true">
+                            <label for="tf${i}_c_true">c) Đúng</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="tf${i}_c_false" name="tf${i}_c" value="false">
+                            <label for="tf${i}_c_false">c) Sai</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="tf${i}_d_true" name="tf${i}_d" value="true">
+                            <label for="tf${i}_d_true">d) Đúng</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="tf${i}_d_false" name="tf${i}_d" value="false">
+                            <label for="tf${i}_d_false">d) Sai</label>
+                        </div>
+                    </div>
+                `;
+                
+                trueFalseContainer.appendChild(questionDiv);
+            }
+            
+            // Tạo 8 câu hỏi trả lời ngắn
+            for (let i = 1; i <= 8; i++) {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                questionDiv.innerHTML = `
+                    <div class="question-title">Câu ${i}: Hãy nhập đáp án cho câu hỏi này:</div>
+                    <input type="text" class="short-answer" id="sa${i}" placeholder="Nhập đáp án...">
+                `;
+                
+                shortAnswerContainer.appendChild(questionDiv);
+            }
+        }
+        
+        // Hàm bắt đầu đếm ngược
+        function startTimer() {
+            updateTimerDisplay();
+            
+            timerInterval = setInterval(function() {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitExam();
+                }
+            }, 1000);
+        }
+        
+        // Hàm cập nhật hiển thị thời gian
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Hàm nộp bài
+        function submitExam() {
+            clearInterval(timerInterval);
+            isExamActive = false;
+            
+            // Thoát khỏi chế độ fullscreen trước
+            if (isFullscreen) {
+                exitFullscreen();
+            }
+            
+            // Ẩn phần làm bài, hiển thị kết quả
+            document.getElementById('exam-container').style.display = 'none';
+            document.getElementById('result-container').style.display = 'block';
+            
+            // Tính điểm (0 điểm nếu phát hiện gian lận)
+            let totalScore = 0;
+            let mcScore = 0;
+            let tfScore = 0;
+            let saScore = 0;
+            let isZeroDueToCheating = false;
+            
+            if (cheatDetected) {
+                totalScore = 0;
+                isZeroDueToCheating = true;
+                document.getElementById('score').textContent = `0/10`;
+                document.getElementById('score').className = 'score score-zero';
+                document.getElementById('result-details').textContent = 
+                    `Bài thi ${getExamName(selectedExam)} của bạn bị hủy do vi phạm quy chế thi.`;
+                document.getElementById('cheat-penalty-message').style.display = 'block';
+                document.getElementById('answer-review').style.display = 'none';
+                
+                // Đặt tất cả điểm chi tiết về 0
+                document.getElementById('mc-score').textContent = '0';
+                document.getElementById('tf-score').textContent = '0';
+                document.getElementById('sa-score').textContent = '0';
+            } else {
+                // Tính điểm chi tiết
+                const scores = calculateDetailedScores();
+                mcScore = scores.mcScore;
+                tfScore = scores.tfScore;
+                saScore = scores.saScore;
+                totalScore = scores.totalScore;
+                
+                // Hiển thị điểm
+                document.getElementById('score').textContent = `${totalScore}/10`;
+                document.getElementById('score').className = 'score';
+                document.getElementById('result-details').textContent = 
+                    `Bạn đã hoàn thành bài thi ${getExamName(selectedExam)} với số điểm ${totalScore}/10.`;
+                document.getElementById('cheat-penalty-message').style.display = 'none';
+                document.getElementById('answer-review').style.display = 'block';
+                
+                // Hiển thị điểm chi tiết
+                document.getElementById('mc-score').textContent = mcScore.toFixed(2);
+                document.getElementById('tf-score').textContent = tfScore.toFixed(2);
+                document.getElementById('sa-score').textContent = saScore.toFixed(2);
+                
+                // Hiển thị đánh giá chi tiết
+                showAnswerReview(scores);
+            }
+            
+            // Cuộn đến phần kết quả
+            document.getElementById('result-container').scrollIntoView({ behavior: 'smooth' });
+        }
+             
+        // Hàm tính điểm chi tiết
+        function calculateDetailedScores() {
+            let mcScore = 0;
+            let tfScore = 0;
+            let saScore = 0;
+            
+            const answers = examAnswers[selectedExam];
+            if (!answers) {
+                return { mcScore, tfScore, saScore, totalScore: 0 };
+            }
+            
+            // Tính điểm phần trắc nghiệm nhiều lựa chọn (12 câu x 0.25 điểm = 3 điểm)
+            for (let i = 1; i <= 12; i++) {
+                const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selectedAnswer && selectedAnswer.value === answers.multipleChoice[i-1]) {
+                    mcScore += 0.25;
+                }
+            }
+            
+            // Tính điểm phần trắc nghiệm đúng/sai (3 câu x 1 điểm = 3 điểm)
+            for (let i = 1; i <= 3; i++) {
+                const correctAnswers = answers.trueFalse[i-1];
+                let correctCount = 0;
+                
+                // Kiểm tra 4 ý con trong mỗi câu
+                const subQuestions = ['a', 'b', 'c', 'd'];
+                subQuestions.forEach((sub, index) => {
+                    const selectedAnswer = document.querySelector(`input[name="tf${i}_${sub}"]:checked`);
+                    if (selectedAnswer) {
+                        const isCorrect = (correctAnswers[index] === 'Đúng' && selectedAnswer.value === 'true') || 
+                                         (correctAnswers[index] === 'Sai' && selectedAnswer.value === 'false');
+                        if (isCorrect) {
+                            correctCount++;
+                        }
+                    }
+                });
+                
+                // Mỗi câu 4 ý, mỗi ý đúng được 0.25 điểm, tổng 1 điểm cho mỗi câu
+                tfScore += (correctCount * 0.25);
+            }
+            
+            // Tính điểm phần trả lời ngắn (8 câu x 0.5 điểm = 4 điểm)
+            for (let i = 1; i <= 8; i++) {
+                const userAnswer = document.getElementById(`sa${i}`).value.trim();
+                const correctAnswer = answers.shortAnswer[i-1];
+                
+                // So sánh đáp án
+                if (userAnswer === correctAnswer) {
+                    saScore += 0.5;
+                }
+            }      
+            const totalScore = mcScore + tfScore + saScore;
+return { mcScore, tfScore, saScore, totalScore };
+        }
+
+        // Hàm hiển thị đánh giá chi tiết
+        function showAnswerReview(scores) {
+            const answerDetails = document.getElementById('answer-details');
+            answerDetails.innerHTML = '';
+            
+            const answers = examAnswers[selectedExam];
+            if (!answers) return;
+            
+            // Hiển thị đáp án phần trắc nghiệm nhiều lựa chọn
+            let mcReview = '<h4>Phần A: Trắc nghiệm nhiều lựa chọn</h4>';
+            for (let i = 1; i <= 12; i++) {
+                const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+                const userAnswer = selectedAnswer ? selectedAnswer.value : 'Chưa chọn';
+                const correctAnswer = answers.multipleChoice[i-1];
+                const isCorrect = userAnswer === correctAnswer;
+                
+                mcReview += `<p>Câu ${i}: `;
+                mcReview += `<span class="user-answer">${userAnswer}</span> `;
+                mcReview += isCorrect ? 
+                    `<span class="correct-answer">(Đúng)</span>` : 
+                    `<span class="wrong-answer">(Sai) - Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
+                mcReview += '</p>';
+            }
+            
+            // Hiển thị đáp án phần đúng/sai
+            let tfReview = '<h4>Phần B: Trắc nghiệm đúng/sai</h4>';
+            for (let i = 1; i <= 3; i++) {
+                const correctAnswers = answers.trueFalse[i-1];
+                tfReview += `<p>Câu ${i}:</p><ul>`;
+                
+                const subQuestions = ['a', 'b', 'c', 'd'];
+                subQuestions.forEach((sub, index) => {
+                    const selectedAnswer = document.querySelector(`input[name="tf${i}_${sub}"]:checked`);
+                    const userAnswer = selectedAnswer ? (selectedAnswer.value === 'true' ? 'Đúng' : 'Sai') : 'Chưa chọn';
+                    const correctAnswer = correctAnswers[index];
+                    const isCorrect = userAnswer === correctAnswer;
+                    
+                    tfReview += `<li>Ý ${sub}: `;
+                    tfReview += `<span class="user-answer">${userAnswer}</span> `;
+                    tfReview += isCorrect ? 
+                        `<span class="correct-answer">(Đúng)</span>` : 
+                        `<span class="wrong-answer">(Sai) - Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
+                    tfReview += '</li>';
+                });
+                tfReview += '</ul>';
+            }
+            
+            // Hiển thị đáp án phần trả lời ngắn
+            let saReview = '<h4>Phần C: Trả lời ngắn</h4>';
+            for (let i = 1; i <= 8; i++) {
+                const userAnswer = document.getElementById(`sa${i}`).value.trim();
+                const correctAnswer = answers.shortAnswer[i-1];
+                const isCorrect = userAnswer === correctAnswer;
+                
+                saReview += `<p>Câu ${i}: `;
+                saReview += `<span class="user-answer">${userAnswer || 'Chưa trả lời'}</span> `;
+                saReview += isCorrect ? 
+                    `<span class="correct-answer">(Đúng)</span>` : 
+                    `<span class="wrong-answer">(Sai) - Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
+                saReview += '</p>';
+            }
+            
+            answerDetails.innerHTML = mcReview + tfReview + saReview;
+        }
+        
+        // Hàm quay lại trang chủ
+        function goHome() {
+            // Reset thời gian
+            timeLeft = 60 * 60;
+            isExamActive = false;
+            cheatDetected = false;
+            violationCount = 0;
+            
+            // Ẩn tất cả các phần, chỉ hiển thị menu chính
+            document.getElementById('exam-selection').style.display = 'none';
+            document.getElementById('exam-container').style.display = 'none';
+            document.getElementById('result-container').style.display = 'none';
+            
+            // Reset giao diện
+            document.getElementById('score').className = 'score';
+            document.getElementById('cheat-penalty-message').style.display = 'none';
+            document.getElementById('answer-review').style.display = 'none';
+            
+            // Cuộn lên đầu trang
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Hàm chuyển đổi chế độ fullscreen
+        function toggleFullscreen() {
+            if (!isFullscreen) {
+                enterFullscreen();
+            } else {
+                exitFullscreen();
+            }
+        }
+        
+        // Hàm vào chế độ fullscreen
+        function enterFullscreen() {
+            const elem = document.documentElement;
+            
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { // Firefox
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari và Opera
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { // IE/Edge
+                elem.msRequestFullscreen();
+            }
+            
+            isFullscreen = true;
+        }
+        
+        // Hàm thoát chế độ fullscreen
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) { // Firefox
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) { // Chrome, Safari và Opera
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { // IE/Edge
+                document.msExitFullscreen();
+            }
+            
+            isFullscreen = false;
+        }
+        
+        // Theo dõi sự kiện fullscreen change
+        document.addEventListener('fullscreenchange', fullscreenChangeHandler);
+        document.addEventListener('mozfullscreenchange', fullscreenChangeHandler);
+        document.addEventListener('webkitfullscreenchange', fullscreenChangeHandler);
+        document.addEventListener('msfullscreenchange', fullscreenChangeHandler);
+        
+        function fullscreenChangeHandler() {
+            isFullscreen = !!(document.fullscreenElement || 
+                             document.mozFullScreenElement || 
+                             document.webkitFullscreenElement || 
+                             document.msFullscreenElement);
+        }
+        
+        // Hàm bắt đầu phát hiện gian lận
+        function startCheatDetection() {
+            // Theo dõi sự kiện visibility change (chuyển tab)
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+            
+            // Theo dõi sự kiện blur/focus (rời khỏi cửa sổ)
+            window.addEventListener('blur', handleWindowBlur);
+            window.addEventListener('focus', handleWindowFocus);
+            
+            // Theo dõi chuột rời khỏi cửa sổ
+            document.addEventListener('mouseleave', handleMouseLeave);
+        }
+        
+        // Xử lý khi người dùng chuyển tab
+        function handleVisibilityChange() {
+            if (!isExamActive) return;
+            
+            if (document.hidden) {
+                // Người dùng đã chuyển tab
+                handleCheatViolation('Chuyển tab khác');
+            }
+        }
+        
+        // Xử lý khi cửa sổ bị mất focus
+        function handleWindowBlur() {
+            if (!isExamActive) return;
+            
+            // Kiểm tra xem có phải do chuyển tab không
+            // Nếu không phải do chuyển tab (document không hidden) thì đây là rời khỏi cửa sổ
+            if (!document.hidden) {
+                handleCheatViolation('Rời khỏi cửa sổ trình duyệt');
+            }
+        }
+        
+        // Xử lý khi cửa sổ được focus lại
+        function handleWindowFocus() {
+            if (!isExamActive) return;
+            
+            lastFocusTime = Date.now();
+        }
+        
+        // Xử lý khi chuột rời khỏi cửa sổ
+        function handleMouseLeave(e) {
+            if (!isExamActive) return;
+            
+            // Chỉ xử lý nếu chuột đi lên trên cùng (có thể để chuyển tab)
+            if (e.clientY <= 0) {
+                handleCheatViolation('Chuột rời khỏi cửa sổ');
+            }
+        }
+        
+        // Xử lý vi phạm
+        function handleCheatViolation(reason) {
+            if (!isExamActive || cheatDetected) return;
+            
+            violationCount++;
+            
+            // Cập nhật thông báo cảnh báo
+            document.getElementById('warning-count').textContent = violationCount;
+            
+            if (violationCount <= 3) {
+                // Hiển thị cảnh báo
+                document.getElementById('warning-message').style.display = 'block';
+                
+                // Hiệu ứng cảnh báo
+                document.getElementById('timer').style.color = '#e74c3c';
+                document.getElementById('timer').style.animation = 'none';
+                setTimeout(() => {
+                    document.getElementById('timer').style.animation = 'pulse 0.5s 3';
+                }, 10);
+                
+                // Ẩn cảnh báo sau 5 giây
+                setTimeout(() => {
+                    document.getElementById('warning-message').style.display = 'none';
+                }, 5000);
+                
+                // Ghi log vi phạm
+                console.log(`Vi phạm #${violationCount}: ${reason}`);
+            } else {
+                // Phát hiện gian lận, hủy bài thi
+                cheatDetected = true;
+                document.getElementById('cheat-detected-message').style.display = 'block';
+                document.getElementById('warning-message').style.display = 'none';
+                
+                // Tự động nộp bài với 0 điểm sau 3 giây
+                setTimeout(() => {
+                    submitExam();
+                }, 3000);
+                
+                // Ghi log vi phạm nghiêm trọng
+                console.log(`VI PHẠM NGHIÊM TRỌNG: ${reason} - Bài thi bị hủy`);
+            }
+        }
+        
+        // Ngăn chặn thoát khỏi trang khi đang thi
+        window.addEventListener('beforeunload', function (e) {
+            if (isExamActive) {
+                e.preventDefault();
+                e.returnValue = 'Bạn đang trong bài thi. Nếu thoát ra, bài thi của bạn sẽ bị hủy với 0 điểm. Bạn có chắc chắn muốn thoát?';
+            }
+        });
+        
+        // Tạo hiệu ứng pulse cho cảnh báo
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+   </script>
+</body>
+</html>
