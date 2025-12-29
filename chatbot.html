@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Giải toán với AI CHATBOT</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      background: #ffffff;
+      color: #343541;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    /* Header */
+    .header {
+      background: #ffffff;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .header h2 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #343541;
+      margin: 0;
+    }
+    
+    /* Chat container */
+    .chat-container {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Messages */
+    .message {
+      padding: 24px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .message.user {
+      background: #ffffff;
+    }
+    
+    .message.assistant {
+      background: #f7f7f8;
+    }
+    
+    .message-content {
+      max-width: 800px;
+      margin: 0 auto;
+      width: 100%;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+    
+    .message-label {
+      font-weight: 600;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: #343541;
+    }
+    
+    /* Input area */
+    .input-container {
+      padding: 20px;
+      background: #ffffff;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .input-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    textarea {
+      width: 100%;
+      min-height: 52px;
+      max-height: 200px;
+      font-size: 16px;
+      padding: 14px 50px 14px 14px;
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      resize: none;
+      color: #343541;
+      font-family: inherit;
+      line-height: 1.5;
+    }
+    
+    textarea:focus {
+      outline: none;
+      border-color: rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    textarea::placeholder {
+      color: rgba(0, 0, 0, 0.4);
+    }
+    
+    button {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      background: #19c37d;
+      color: white;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    
+    button:hover:not(:disabled) {
+      background: #1a9f6a;
+    }
+    
+    button:disabled {
+      background: #d1d5db;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+    
+    button::before {
+      content: "↑";
+      font-size: 20px;
+      font-weight: bold;
+    }
+    
+    #status {
+      text-align: center;
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.5);
+      margin-top: 8px;
+    }
+    
+    /* Scrollbar */
+    .chat-container::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .chat-container::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+    
+    .chat-container::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 4px;
+    }
+    
+    .chat-container::-webkit-scrollbar-thumb:hover {
+      background: #9ca3af;
+    }
+    
+    /* Empty state */
+    .empty-state {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+      padding: 20px;
+    }
+    
+    .empty-state h3 {
+      font-size: 24px;
+      color: #343541;
+      font-weight: 600;
+    }
+    
+    .empty-state p {
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2>Website hỗ trợ học tốt môn Toán</h2>
+  </div>
+
+  <div class="chat-container" id="chatContainer">
+    <div class="empty-state">
+      <h3>Xin chào! Tôi có thể giúp gì cho bạn?</h3>
+      <p>Nhập câu hỏi của bạn bên dưới để bắt đầu</p>
+    </div>
+  </div>
+
+  <div class="input-container">
+    <div class="input-wrapper">
+      <textarea id="prompt" placeholder="Nhập tin nhắn..." rows="1"></textarea>
+      <button id="send"></button>
+    </div>
+    <div id="status"></div>
+  </div>
+
+  <script>
+    const API_KEY = 'AIzaSyCOMMDzm8_1oc3gxldO9Bk6I9pT6uY2e8c';
+    const MODEL = 'gemini-2.0-flash-thinking-exp-01-21';
+    const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(MODEL)}:generateContent`;
+
+    const sendBtn = document.getElementById('send');
+    const promptEl = document.getElementById('prompt');
+    const chatContainer = document.getElementById('chatContainer');
+    const statusEl = document.getElementById('status');
+
+    // Auto-resize textarea
+    promptEl.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+    });
+
+    function processMathContent(content) {
+      let processedContent = content
+        .replace(/\$\$(.*?)\$\$/g, '\\[$1\\]')
+        .replace(/\$(.*?)\$/g, '\\($1\\)');
+      
+      processedContent = processedContent.replace(/\n/g, '<br>');
+      
+      return processedContent;
+    }
+
+    function addMessage(text, isUser) {
+      // Remove empty state if exists
+      const emptyState = chatContainer.querySelector('.empty-state');
+      if (emptyState) {
+        emptyState.remove();
+      }
+
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${isUser ? 'user' : 'assistant'}`;
+      
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'message-content';
+      
+      const label = document.createElement('div');
+      label.className = 'message-label';
+      label.textContent = isUser ? 'Bạn' : 'nbminh2706AI';
+      
+      const textDiv = document.createElement('div');
+      textDiv.innerHTML = processMathContent(text);
+      
+      contentDiv.appendChild(label);
+      contentDiv.appendChild(textDiv);
+      messageDiv.appendChild(contentDiv);
+      chatContainer.appendChild(messageDiv);
+      
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      if (!isUser && window.MathJax && window.MathJax.typesetPromise) {
+        MathJax.typesetPromise([textDiv]).catch(err => {
+          console.error('MathJax typeset error:', err);
+        });
+      }
+    }
+
+    sendBtn.addEventListener('click', async () => {
+      const text = (promptEl.value || '').trim();
+      if (!text) {
+        return;
+      }
+
+      addMessage(text, true);
+      promptEl.value = '';
+      promptEl.style.height = 'auto';
+
+      statusEl.textContent = 'Đang nhập...';
+      sendBtn.disabled = true;
+
+      try {
+        const payload = {
+          contents: [{ parts: [{ text: text }] }]
+        };
+
+        const res = await fetch(ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-goog-api-key': API_KEY
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+          const errText = await res.text();
+          addMessage(`Lỗi: ${errText}`, false);
+          statusEl.textContent = '';
+          sendBtn.disabled = false;
+          return;
+        }
+
+        const data = await res.json();
+
+        let out = '';
+        if (data.candidates?.length > 0) {
+          out = data.candidates.map(c => {
+            if (c.content?.parts) {
+              return c.content.parts.map(p => p.text || '').join('\n');
+            }
+            return c.text || JSON.stringify(c);
+          }).join('\n\n---\n\n');
+        } else {
+          out = JSON.stringify(data, null, 2);
+        }
+
+        addMessage(out, false);
+        statusEl.textContent = '';
+      } catch (err) {
+        addMessage(`Lỗi: ${String(err)}`, false);
+        statusEl.textContent = '';
+      } finally {
+        sendBtn.disabled = false;
+      }
+    });
+
+    promptEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendBtn.click();
+      }
+    });
+  </script>
+</body>
+</html>
