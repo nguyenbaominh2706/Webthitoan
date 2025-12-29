@@ -70,34 +70,30 @@ header nav {
 .carousel .list .item .content {
     position: absolute;
     top: 20%;
-    /* Xích văn bản sang trái nhiều hơn */
+    width: 1140px;
+    max-width: 80%;
+    /* Di chuyển văn bản sang nhiều bên trái */
     left: 5%;
-    width: 45%;
-    max-width: 600px;
     transform: none;
+    padding-right: 40%;
     box-sizing: border-box;
-    /* Đổi màu chữ sang đen */
+    /* Chuyển màu chữ sang đen */
     color: #000;
-    text-shadow: 0 2px 5px rgba(255, 255, 255, 0.5);
-    /* Thêm background để nổi bật text */
-    background: rgba(255, 255, 255, 0.85);
-    padding: 30px;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
+    text-shadow: 0 5px 10px #0004;
 }
 
 .carousel .list .item .content .author {
     font-weight: bold;
     letter-spacing: 10px;
-    color: #000;
 }
 
 .carousel .list .item .content .title,
 .carousel .list .item .content .topic {
     font-weight: bold;
-    font-size: 3em;
+    font-size: 5em;
     line-height: 1.3em;
-    color: #000;
+    /* Giữ tiêu đề trên một hàng */
+    white-space: nowrap;
 }
 
 .carousel .list .item .content .topic {
@@ -108,8 +104,8 @@ header nav {
     margin-top: 20px;
     margin-bottom: 20px;
     line-height: 1.5em;
-    font-size: 1em;
-    color: #000;
+    font-size: 1.2em;
+    /* Căn đều văn bản */
     text-align: justify;
 }
 
@@ -135,13 +131,13 @@ header nav {
 }
 
 .carousel .list .item .content .buttons .btn-primary {
-    background-color: #f1683a;
-    color: #fff !important;
+    background-color: #eee;
+    color: #000 !important;
     border: none;
 }
 
 .carousel .list .item .content .buttons .btn-primary:hover {
-    background-color: #d85534;
+    background-color: #f1683a;
     color: #fff !important;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(241, 104, 58, 0.4);
@@ -149,22 +145,22 @@ header nav {
 
 .carousel .list .item .content .buttons .btn-secondary {
     background-color: transparent;
-    color: #000 !important;
-    border: 2px solid #000;
+    color: #eee;
+    border: 1px solid #eee;
 }
 
 .carousel .list .item .content .buttons .btn-secondary:hover {
-    background-color: #000;
-    border-color: #000;
-    color: #fff !important;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #f1683a;
+    color: #f1683a;
     transform: translateY(-2px);
 }
 
 /* thumbnail */
 .thumbnail {
     position: absolute;
-    /* Di chuyển thumbnail sang phải hơn */
     bottom: 50px;
+    /* Di chuyển thumbnail sang phải nhiều hơn */
     right: 5%;
     left: auto;
     transform: none;
@@ -180,26 +176,18 @@ header nav {
     flex-shrink: 0;
     position: relative;
     cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
 }
 
 .thumbnail .item:hover {
-    transform: scale(1.08) translateY(-5px);
-    box-shadow: 0 8px 25px rgba(241, 104, 58, 0.6);
+    transform: scale(1.05);
 }
 
 .thumbnail .item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.thumbnail .item:hover img {
-    transform: scale(1.1);
+    border-radius: 20px;
 }
 
 .thumbnail .item .content {
@@ -209,62 +197,45 @@ header nav {
     right: 10px;
     color: #fff;
     text-shadow: 0 2px 5px #000;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 10px;
-    border-radius: 8px;
 }
 
 .thumbnail .item .content .title {
     font-weight: bold;
-    font-size: 12px;
-    margin-bottom: 3px;
-}
-
-.thumbnail .item .content .des {
-    font-size: 10px;
-    opacity: 0.9;
+    font-size: 14px;
 }
 
 /* arrow */
 .arrows {
     position: absolute;
-    /* Nâng arrows lên cao hơn - ngang với thumbnail */
-    top: calc(100vh - 350px);
+    /* Di chuyển arrows lên trên 4 ô tính năng */
+    top: 60%;
     right: 5%;
     left: auto;
     width: 300px;
     max-width: 30%;
     display: flex;
-    gap: 15px;
+    gap: 10px;
     align-items: center;
-    z-index: 101;
 }
 
 .arrows button {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    /* Làm nổi bật nút carousel */
-    background: linear-gradient(135deg, #f1683a 0%, #d85534 100%);
-    border: 3px solid #fff;
+    background-color: rgba(238, 238, 238, 0.4);
+    border: none;
     font-family: monospace;
     color: #fff;
     font-weight: bold;
-    font-size: 20px;
-    transition: all 0.3s ease;
+    font-size: large;
+    transition: .5s;
     z-index: 100;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(241, 104, 58, 0.5);
 }
 
 .arrows button:hover {
-    background: linear-gradient(135deg, #d85534 0%, #f1683a 100%);
-    transform: scale(1.15);
-    box-shadow: 0 8px 25px rgba(241, 104, 58, 0.7);
-}
-
-.arrows button:active {
-    transform: scale(1.05);
+    background-color: #eee;
+    color: #555;
 }
 
 .carousel .list .item:nth-child(1) {
@@ -307,23 +278,15 @@ header nav {
     animation-delay: 1.8s;
 }
 
-/* Active thumbnail highlight */
-.thumbnail .item.active {
-    border: 3px solid #f1683a;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
-    .carousel .list .item .content {
-        width: 85%;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 20px;
-    }
-    
     .carousel .list .item .content .title,
     .carousel .list .item .content .topic {
-        font-size: 2em;
+        font-size: 2.5em;
+    }
+    
+    .carousel .list .item .content {
+        padding-right: 10%;
     }
     
     .thumbnail {
@@ -334,19 +297,12 @@ header nav {
     }
     
     .thumbnail .item {
-        width: 80px;
-        height: 120px;
+        width: 100px;
+        height: 150px;
     }
     
     .arrows {
-        top: calc(100vh - 200px);
-        right: 50%;
-        transform: translateX(50%);
-    }
-    
-    .arrows button {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
+        top: 85%;
+        right: 10%;
     }
 }
