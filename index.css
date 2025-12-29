@@ -70,12 +70,12 @@ header nav {
 .carousel .list .item .content {
     position: absolute;
     top: 20%;
-    width: 1140px;
-    max-width: 80%;
-    /* Di chuyển văn bản sang nhiều bên trái */
-    left: 5%;
+    width: 50%;
+    max-width: 600px;
+    /* Di chuyển văn bản sang góc trái */
+    left: 2%;
     transform: none;
-    padding-right: 40%;
+    padding-right: 0;
     box-sizing: border-box;
     /* Chuyển màu chữ sang đen */
     color: #000;
@@ -160,8 +160,8 @@ header nav {
 .thumbnail {
     position: absolute;
     bottom: 50px;
-    /* Di chuyển thumbnail sang phải nhiều hơn */
-    right: 5%;
+    /* Di chuyển thumbnail sang góc phải */
+    right: 2%;
     left: auto;
     transform: none;
     width: max-content;
@@ -209,7 +209,7 @@ header nav {
     position: absolute;
     /* Di chuyển arrows lên trên 4 ô tính năng */
     top: 60%;
-    right: 5%;
+    right: 2%;
     left: auto;
     width: 300px;
     max-width: 30%;
