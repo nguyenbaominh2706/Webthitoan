@@ -12,7 +12,7 @@ body {
 
 a {
     text-decoration: none !important;
-    color: #eee !important;
+    color: #ff0000 !important;
 }
 
 a:hover {
@@ -306,3 +306,4 @@ header nav {
         right: 10%;
     }
 }
+
