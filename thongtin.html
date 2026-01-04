@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Tin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .founder-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .founder-profile {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .founder-profile:hover {
+            transform: translateY(-5px);
+        }
+        
+        .profile-img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+        }
+        
+        .profile-info {
+            padding: 30px;
+        }
+        
+        .profile-info h2 {
+            color: #182848;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .profile-info .title {
+            color: #4b6cb7;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .profile-info p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+        
+        .founder-details {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .detail-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .detail-card h3 {
+            color: #182848;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .detail-card h3 i {
+            margin-right: 10px;
+            color: #4b6cb7;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline-item {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #4b6cb7;
+        }
+        
+        .timeline-item:after {
+            content: '';
+            position: absolute;
+            left: -23px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% + 10px);
+            background-color: #ddd;
+        }
+        
+        .timeline-item:last-child:after {
+            display: none;
+        }
+        
+        .timeline-year {
+            font-weight: 700;
+            color: #4b6cb7;
+            margin-bottom: 5px;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            width: calc(50% - 10px);
+        }
+        
+        .contact-item i {
+            background-color: #eef2ff;
+            color: #4b6cb7;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        
+        /* Phần trường học */
+        .school-info {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 40px;
+            margin-top: 15px;
+            padding: 20px;
+            background: linear-gradient(to right, #f8f9ff, #ffffff);
+            border-radius: 12px;
+            border-left: 5px solid #4b6cb7;
+        }
+        
+        .school-logo {
+            flex: 0 0 180px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .school-logo-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ffffff, #eef2ff);
+            box-shadow: 8px 8px 16px #d9dde8, -8px -8px 16px #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border: 5px solid #4b6cb7;
+        }
+        
+        .school-logo-circle img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .school-details {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .school-name {
+            font-size: 1.8rem;
+            color: #182848;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        
+        .school-eng-name {
+            color: #4b6cb7;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: block;
+        }
+        
+        .school-degree {
+            color: #182848;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+            font-size: 1.2rem;
+        }
+        
+        .school-period {
+            color: #666;
+            margin-bottom: 15px;
+            display: block;
+            font-style: italic;
+            background-color: #eef2ff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .school-description {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .school-achievements {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .achievement {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding: 12px;
+            background-color: #f8f9ff;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .achievement:hover {
+            transform: translateX(5px);
+            background-color: #eef2ff;
+        }
+        
+        .achievement i {
+            color: #4b6cb7;
+            margin-right: 12px;
+            margin-top: 3px;
+            font-size: 1.1rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            background-color: #182848;
+            color: white;
+            border-radius: 10px;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background-color: #4b6cb7;
+            transform: translateY(-3px);
+        }
+        
+        @media (max-width: 768px) {
+            .contact-item {
+                width: 100%;
+            }
+            
+            .school-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .school-achievements {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Người Sáng Lập Website - Hỗ trợ học tốt môn Toán</h1>
+            <p class="subtitle">Giới thiệu về người đã tạo ra và phát triển nền tảng web này với tầm nhìn, đam mê và sự cống hiến không ngừng.</p>
+        </header>
+        
+        <div class="founder-container">
+            <div class="founder-profile">
+                <img src="/images/anhtoi.jpg" alt="Nguyễn Bảo Minh - Người sáng lập" class="profile-img">
+                <div class="profile-info">
+                    <h2>Nguyễn Bảo Minh</h2>
+                    <span class="title">Học sinh THPT Phan Đăng Lưu</span>
+                    <p>Tôi là Nguyễn Bảo Minh, học sinh lớp 10A1 và đang học tại trường THPT Phan Đăng Lưu. Là một học sinh giàu đam mê sáng tạo và luôn không ngừng học hỏi, tôi yêu thích công nghệ, đặc biệt là trí tuệ nhân tạo và lập trình web, đồng thời có hứng thú với việc vận dụng kiến thức để tạo ra những sản phẩm mang giá trị thực tiễn.</p>
+                </div>
+            </div>
+            
+            <div class="founder-details">
+                <div class="detail-card">
+                    <h3><i class="fas fa-lightbulb"></i> Tầm nhìn & Sứ mệnh</h3>
+                    <p>Tôi tin rằng website hỗ trợ học tốt môn toán sẽ phục vụ học sinh và giáo viên. Mong muốn của tôi là xây dựng một nền tảng web mang lại giá trị thực sự cho người dùng, giúp họ tự học, tự phát triển và giải trí sau những giờ học tập căng thẳng.</p>
+                    <p>"Công nghệ chỉ là công cụ, còn con người mới là trung tâm của mọi sáng tạo." - Đây là triết lý xuyên suốt trong quá trình xây dựng và phát triển trang web.</p>
+                </div>
+                
+                <div class="detail-card">
+                    <h3><i class="fas fa-graduation-cap"></i> THPT Phan Đăng Lưu</h3>
+                    <div class="school-info">
+                        <div class="school-logo">
+                            <div class="school-logo-circle">
+                                <img src="/images/pdl.jpg">
+                            </div>
+                        </div>
+                        <div class="school-details">
+                            <div class="school-name">THPT Phan Đăng Lưu</div>
+                            <span class="school-period">Thành lập năm 1961</span>
+                            
+                            <p class="school-description">
+                                Trường Trung học Phổ thông Phan Đăng Lưu - Huế là một ngôi trường trung học phổ thông công lập có bề dày truyền thống trong giáo dục và đào tạo học sinh. Trải qua nhiều năm phát triển, nhà trường đã không ngừng lớn mạnh về quy mô và chất lượng giáo dục với đội ngũ giáo viên giàu kinh nghiệm và học sinh chăm ngoan, sáng tạo. Phan Đăng Lưu luôn hướng tới môi trường học tập thân thiện, khuyến khích tư duy độc lập và phát triển toàn diện các năng lực cho học sinh, góp phần giúp các em tự tin bước vào các kỳ thi quan trọng và tương lai phía trước. Với truyền thống học tập và rèn luyện, trường là nơi gắn bó, nuôi dưỡng ước mơ và khát vọng của nhiều thế hệ học sinh tại vùng đất Huế mến yêu.
+                            </p>
+                            
+                            <div class="school-achievements">
+                                <div class="achievement">
+                                    <i class="fas fa-award"></i>
+                                    <div>
+                                        <strong>Chất lượng đào tạo</strong>
+                                        <div>Tỷ lệ đỗ tốt nghiệp THPT luôn trên 98%, tỷ lệ đỗ đại học, cao đẳng trên 60% hàng năm.</div>
+                                    </div>
+                                </div>
+                                <div class="achievement">
+                                    <i class="fas fa-trophy"></i>
+                                    <div>
+                                        <strong>Về khen thưởng của Nhà nước</strong>
+                                        <div>Huân chương Lao động hạng Ba (năm 2007 - 2008). Bằng khen của Thủ tướng Chính phủ (năm 2006-2007, 2010-2011).
+</div>
+                                    </div>
+                                </div>
+                                <div class="achievement">
+                                    <i class="fas fa-users"></i>
+                                    <div>
+                                        <strong>Về khen thưởng của Tỉnh/Bộ</strong>
+                                        <div>Cờ thi đua xuất sắc cho đơn vị dẫn đầu khối THPT (năm 2009-2010). Bằng khen của Bộ trưởng Bộ Giáo dục và Đào tạo trong nhiều năm.</div>
+                                    </div>
+                                </div>
+                                <div class="achievement">
+                                    <i class="fas fa-medal"></i>
+                                    <div>
+                                        <strong>Về Đảng</strong>
+                                        <div>Chi bộ trong sạch vững mạnh 10 năm liền. </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-card">
+                    <h3><i class="fas fa-envelope"></i> Thông tin liên hệ</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <strong>Email</strong>
+                                <p>bminh270610@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <strong>Điện thoại</strong>
+                                <p>0797555412</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <strong>Địa chỉ</strong>
+                                <p>Huế, Việt Nam</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-globe"></i>
+                            <div>
+                                <strong>Website</strong>
+                                <p>https://nguyenbaominh2706.github.io/Webhoctoan/</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Cảm ơn bạn đã quan tâm đến hành trình của tôi!</p>
+            <p>Hãy kết nối và theo dõi những cập nhật mới nhất</p>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/bao.minh.322840?locale=vi_VN"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+            </div>
+           
+        </footer>
+    </div>
+
+    <script>
+        // Thêm hiệu ứng khi cuộn trang
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.detail-card, .founder-profile, .school-info');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
