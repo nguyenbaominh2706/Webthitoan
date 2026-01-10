@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ai Là Triệu Phú - Phiên Bản Toán Học</title>
     <style>
+        /* CSS giữ nguyên như trước */
         * {
             margin: 0;
             padding: 0;
@@ -299,6 +300,85 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
         
+        /* Màn hình chọn lớp */
+        .class-selection {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e90ff, #00bfff, #87ceeb);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            text-align: center;
+        }
+        
+        .class-selection h1 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+        }
+        
+        .class-options {
+            display: flex;
+            gap: 30px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .class-option {
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .class-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #ffd700;
+            transform: scale(1.05);
+        }
+        
+        .class-option h2 {
+            font-size: 2.5rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+        
+        .class-option p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        #back-to-start {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            margin-top: 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        #back-to-start:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #ffd700;
+        }
+        
         .hidden {
             display: none !important;
         }
@@ -325,6 +405,24 @@
                 font-size: 1.2rem;
                 padding: 0 20px;
             }
+            
+            .class-options {
+                gap: 15px;
+            }
+            
+            .class-option {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .class-option h2 {
+                font-size: 2rem;
+            }
+            
+            .class-selection h1 {
+                font-size: 2.2rem;
+                padding: 0 20px;
+            }
         }
     </style>
 </head>
@@ -333,15 +431,36 @@
     <div class="start-screen" id="start-screen">
         <h1>AI LÀ TRIỆU PHÚ</h1>
         <p>Phiên bản Toán học - Thử thách 15 câu hỏi từ dễ đến khó</p>
-        <p>Mỗi câu trả lời đúng sẽ mang về phần thưởng giá trị tăng dần!</p>
+        <p>Mỗi lần chơi sẽ có bộ đề ngẫu nhiên khác nhau!</p>
         <button id="start-btn">BẮT ĐẦU</button>
+    </div>
+    
+    <!-- Màn hình chọn lớp -->
+    <div class="class-selection hidden" id="class-selection">
+        <h1>CHỌN LỚP HỌC</h1>
+        <p>Chọn lớp học để bắt đầu thử thách</p>
+        <div class="class-options">
+            <div class="class-option" data-level="10">
+                <h2>10</h2>
+                <p>Toán lớp 10</p>
+            </div>
+            <div class="class-option" data-level="11">
+                <h2>11</h2>
+                <p>Toán lớp 11</p>
+            </div>
+            <div class="class-option" data-level="12">
+                <h2>12</h2>
+                <p>Toán lớp 12</p>
+            </div>
+        </div>
+        <button id="back-to-start">Quay lại</button>
     </div>
     
     <!-- Giao diện trò chơi -->
     <div class="container hidden" id="game-container">
         <header>
             <h1>AI LÀ TRIỆU PHÚ</h1>
-            <p class="subtitle">Phiên bản Toán học - 15 câu hỏi thử thách</p>
+            <p class="subtitle">Phiên bản Toán học - Bộ đề ngẫu nhiên</p>
         </header>
         
         <div class="lifelines">
@@ -357,7 +476,7 @@
                 <div class="question-text" id="question-text"></div>
                 
                 <div class="options" id="options-container">
-                    <!-- Các lựa chọn sẽ được thêm bằng JavaScript -->
+                    <!-- Các lựaọn sẽ được thêm bằng JavaScript -->
                 </div>
                 
                 <div class="result" id="result"></div>
@@ -379,341 +498,1528 @@
     </div>
 
     <script>
-        // Hai bộ câu hỏi với công thức toán học đơn giản hơn
-        const questionSet1 = [
-            {
-                question: "Tập xác định của hàm số y = √(x - 1) là:",
-                options: [
-                    "A. (1; +∞)",
-                    "B. [1; +∞)",
-                    "C. (0; +∞)",
-                    "D. ℝ"
-                ],
-                correct: 1,
-                level: "0,5đ"
-            },
-            {
-                question: "Cho tam giác ABC vuông tại A, có AB = 3, AC = 4. Độ dài vectơ BC bằng bao nhiêu?",
-                options: [
-                    "A. 7",
-                    "B. 6",
-                    "C. 5",
-                    "D. √7"
-                ],
-                correct: 2,
-                level: "1đ"
-            },
-            {
-                question: "Nghiệm của phương trình √(x² - 3x) = √(x - 3) là:",
-                options: [
-                    "A. x = 1",
-                    "B. x = 3",
-                    "C. x = 1 và x = 3",
-                    "D. x = 2"
-                ],
-                correct: 1,
-                level: "1,25đ"
-            },
-            {
-                question: "Bất phương trình nào sau đây là bất phương trình bậc nhất hai ẩn?",
-                options: [
-                    "A. 2x² + 3y > 0",
-                    "B. x - 2y + 3 ≤ 0",
-                    "C. xy + 1 ≥ 0",
-                    "D. (1/x) + y < 5"
-                ],
-                correct: 1,
-                level: "1,5đ"
-            },
-            {
-                question: "Cho hình bình hành ABCD. Đẳng thức vectơ nào sau đây là đúng?",
-                options: [
-                    "A. AB + AD = AC",
-                    "B. AB + BC = AD",
-                    "C. AC + BD = 0",
-                    "D. AB - AD = DB"
-                ],
-                correct: 0,
-                level: "2đ"
-            },
-            {
-                question: "Giá trị nhỏ nhất của hàm số y = x + 4/x với x > 0 là:",
-                options: [
-                    "A. 2",
-                    "B. 3",
-                    "C. 4",
-                    "D. 5"
-                ],
-                correct: 2,
-                level: "2,25đ"
-            },
-            {
-                question: "Tập nghiệm của bất phương trình -2x² + 5x + 3 ≥ 0 là:",
-                options: [
-                    "A. [-1/2; 3]",
-                    "B. (-∞; -1/2] ∪ [3; +∞)",
-                    "C. (-∞; -3] ∪ [1/2; +∞)",
-                    "D. [-3; 1/2]"
-                ],
-                correct: 0,
-                level: "2,5đ"
-            },
-            {
-                question: "Trong mặt phẳng tọa độ Oxy, cho hai điểm A(1; 2) và B(4; 6). Tọa độ điểm M trên trục Oy sao cho ba điểm A, B, M thẳng hàng là:",
-                options: [
-                    "A. (0; 1)",
-                    "B. (0; -2)",
-                    "C. (0; 2/3)",
-                    "D. (0; -1)"
-                ],
-                correct: 2,
-                level: "3đ"
-            },
-            {
-                question: "Số nghiệm của phương trình √(x + 3) = x - 3 là:",
-                options: [
-                    "A. 0",
-                    "B. 1",
-                    "C. 2",
-                    "D. 3"
-                ],
-                correct: 1,
-                level: "3,25đ"
-            },
-            {
-                question: "Cho sinα = 1/3 với 0° < α < 90°. Giá trị của cosα là:",
-                options: [
-                    "A. (2√2)/3",
-                    "B. 4/9",
-                    "C. 2/3",
-                    "D. √10/3"
-                ],
-                correct: 0,
-                level: "3,5đ"
-            },
-            {
-                question: "Tổng các nghiệm của phương trình |2x - 1| = |x + 3| là:",
-                options: [
-                    "A. -4",
-                    "B. 8/3",
-                    "C. 4",
-                    "D. -8/3"
-                ],
-                correct: 3,
-                level: "3,75đ"
-            },
-            {
-                question: "Trong mặt phẳng Oxy, cho tam giác ABC có A(2; -1), B(4; 5), C(-3; 2). Tọa độ trực tâm H của tam giác là:",
-                options: [
-                    "A. (1; 1)",
-                    "B. (-1; -1)",
-                    "C. (3; 3)",
-                    "D. (0; 0)"
-                ],
-                correct: 1,
-                level: "4đ"
-            },
-            {
-                question: "Cho tập hợp A = {x ∈ ℝ | |x - 2| ≤ 3} và B = (0; 7]. Tập hợp A \\ B là:",
-                options: [
-                    "A. [-1; 0]",
-                    "B. (-1; 0)",
-                    "C. [-1; 0)",
-                    "D. (-1; 0]"
-                ],
-                correct: 2,
-                level: "4,5đ"
-            },
-            {
-                question: "Gọi m₀ là giá trị của tham số m để phương trình (m - 2)x² - 2mx + m + 3 = 0 có hai nghiệm dương phân biệt. Khi đó m₀ thuộc khoảng nào?",
-                options: [
-                    "A. (2; 4)",
-                    "B. (-∞; 2)",
-                    "C. (3; 6)",
-                    "D. (6; +∞)"
-                ],
-                correct: 2,
-                level: "4,75đ"
-            },
-            {
-                question: "Cho hình vuông ABCD cạnh a. Giá trị của AB · AC bằng:",
-                options: [
-                    "A. a²",
-                    "B. (a²√2)/2",
-                    "C. a²√2",
-                    "D. a²/2"
-                ],
-                correct: 0,
-                level: "5đ"
-            }
+        // ========== BỘ CÂU HỎI LỚP 10 ==========
+        const questionSets10 = [
+            // Bộ đề 1 - Toán lớp 10
+            [
+                {
+                    question: "Tập xác định của hàm số y = √(x - 1) là:",
+                    options: [
+                        "A. (1; +∞)",
+                        "B. [1; +∞)",
+                        "C. (0; +∞)",
+                        "D. ℝ"
+                    ],
+                    correct: 1,
+                    level: "0,5đ"
+                },
+                {
+                    question: "Phương trình x² - 5x + 6 = 0 có nghiệm là:",
+                    options: [
+                        "A. x = 2, x = 3",
+                        "B. x = 1, x = 6",
+                        "C. x = -2, x = -3",
+                        "D. x = -1, x = -6"
+                    ],
+                    correct: 0,
+                    level: "1đ"
+                },
+                {
+                    question: "Cho tam giác ABC vuông tại A, có AB = 3, AC = 4. Độ dài cạnh BC là:",
+                    options: [
+                        "A. 5",
+                        "B. 6",
+                        "C. 7",
+                        "D. √7"
+                    ],
+                    correct: 0,
+                    level: "1,25đ"
+                },
+                {
+                    question: "Bất phương trình nào sau đây là bất phương trình bậc nhất hai ẩn?",
+                    options: [
+                        "A. 2x² + 3y > 0",
+                        "B. x - 2y + 3 ≤ 0",
+                        "C. xy + 1 ≥ 0",
+                        "D. (1/x) + y < 5"
+                    ],
+                    correct: 1,
+                    level: "1,5đ"
+                },
+                {
+                    question: "Cho hình bình hành ABCD. Đẳng thức vectơ nào sau đây là đúng?",
+                    options: [
+                        "A. AB + AD = AC",
+                        "B. AB + BC = AD",
+                        "C. AC + BD = 0",
+                        "D. AB - AD = DB"
+                    ],
+                    correct: 0,
+                    level: "2đ"
+                },
+                {
+                    question: "Giá trị nhỏ nhất của hàm số y = x + 4/x với x > 0 là:",
+                    options: [
+                        "A. 2",
+                        "B. 3",
+                        "C. 4",
+                        "D. 5"
+                    ],
+                    correct: 2,
+                    level: "2,25đ"
+                },
+                {
+                    question: "Tập nghiệm của bất phương trình -2x² + 5x + 3 ≥ 0 là:",
+                    options: [
+                        "A. [-1/2; 3]",
+                        "B. (-∞; -1/2] ∪ [3; +∞)",
+                        "C. (-∞; -3] ∪ [1/2; +∞)",
+                        "D. [-3; 1/2]"
+                    ],
+                    correct: 0,
+                    level: "2,5đ"
+                },
+                {
+                    question: "Trong mặt phẳng tọa độ Oxy, cho hai điểm A(1; 2) và B(4; 6). Tọa độ điểm M trên trục Oy sao cho ba điểm A, B, M thẳng hàng là:",
+                    options: [
+                        "A. (0; 1)",
+                        "B. (0; -2)",
+                        "C. (0; 2/3)",
+                        "D. (0; -1)"
+                    ],
+                    correct: 2,
+                    level: "3đ"
+                },
+                {
+                    question: "Số nghiệm của phương trình √(x + 3) = x - 3 là:",
+                    options: [
+                        "A. 0",
+                        "B. 1",
+                        "C. 2",
+                        "D. 3"
+                    ],
+                    correct: 1,
+                    level: "3,25đ"
+                },
+                {
+                    question: "Cho sinα = 1/3 với 0° < α < 90°. Giá trị của cosα là:",
+                    options: [
+                        "A. (2√2)/3",
+                        "B. 4/9",
+                        "C. 2/3",
+                        "D. √10/3"
+                    ],
+                    correct: 0,
+                    level: "3,5đ"
+                },
+                {
+                    question: "Tổng các nghiệm của phương trình |2x - 1| = |x + 3| là:",
+                    options: [
+                        "A. -4",
+                        "B. 8/3",
+                        "C. 4",
+                        "D. -8/3"
+                    ],
+                    correct: 3,
+                    level: "3,75đ"
+                },
+                {
+                    question: "Trong mặt phẳng Oxy, cho tam giác ABC có A(2; -1), B(4; 5), C(-3; 2). Tọa độ trực tâm H của tam giác là:",
+                    options: [
+                        "A. (1; 1)",
+                        "B. (-1; -1)",
+                        "C. (3; 3)",
+                        "D. (0; 0)"
+                    ],
+                    correct: 1,
+                    level: "4đ"
+                },
+                {
+                    question: "Cho tập hợp A = {x ∈ ℝ | |x - 2| ≤ 3} và B = (0; 7]. Tập hợp A \\ B là:",
+                    options: [
+                        "A. [-1; 0]",
+                        "B. (-1; 0)",
+                        "C. [-1; 0)",
+                        "D. (-1; 0]"
+                    ],
+                    correct: 2,
+                    level: "4,5đ"
+                },
+                {
+                    question: "Gọi m₀ là giá trị của tham số m để phương trình (m - 2)x² - 2mx + m + 3 = 0 có hai nghiệm dương phân biệt. Khi đó m₀ thuộc khoảng nào?",
+                    options: [
+                        "A. (2; 4)",
+                        "B. (-∞; 2)",
+                        "C. (3; 6)",
+                        "D. (6; +∞)"
+                    ],
+                    correct: 2,
+                    level: "4,75đ"
+                },
+                {
+                    question: "Cho hình vuông ABCD cạnh a. Giá trị của AB · AC bằng:",
+                    options: [
+                        "A. a²",
+                        "B. (a²√2)/2",
+                        "C. a²√2",
+                        "D. a²/2"
+                    ],
+                    correct: 0,
+                    level: "5đ"
+                }
+            ],
+            // Bộ đề 2 - Toán lớp 10
+            [
+                {
+                    question: "Tập nghiệm của phương trình √(x-2) = 3 là:",
+                    options: [
+                        "A. {11}",
+                        "B. {5}",
+                        "C. {9}",
+                        "D. {7}"
+                    ],
+                    correct: 0,
+                    level: "0,5đ"
+                },
+                {
+                    question: "Hàm số nào sau đây là hàm số bậc nhất?",
+                    options: [
+                        "A. y = 2x² + 3",
+                        "B. y = 5x - 2",
+                        "C. y = 1/x",
+                        "D. y = √x"
+                    ],
+                    correct: 1,
+                    level: "1đ"
+                },
+                {
+                    question: "Giá trị của biểu thức cos60° + sin30° bằng:",
+                    options: [
+                        "A. 1",
+                        "B. 1.5",
+                        "C. 0.5",
+                        "D. √3/2"
+                    ],
+                    correct: 0,
+                    level: "1,25đ"
+                },
+                {
+                    question: "Vectơ đối của vectơ AB là:",
+                    options: [
+                        "A. BA",
+                        "B. -AB",
+                        "C. Cả A và B",
+                        "D. Không có"
+                    ],
+                    correct: 2,
+                    level: "1,5đ"
+                },
+                {
+                    question: "Bất phương trình x² - 4x + 3 < 0 có tập nghiệm là:",
+                    options: [
+                        "A. (1; 3)",
+                        "B. (-∞; 1) ∪ (3; +∞)",
+                        "C. [1; 3]",
+                        "D. (-∞; 1] ∪ [3; +∞)"
+                    ],
+                    correct: 0,
+                    level: "2đ"
+                },
+                {
+                    question: "Cho hình chữ nhật ABCD có AB = 4, BC = 3. Độ dài đường chéo AC là:",
+                    options: [
+                        "A. 5",
+                        "B. 6",
+                        "C. 7",
+                        "D. 8"
+                    ],
+                    correct: 0,
+                    level: "2,25đ"
+                },
+                {
+                    question: "Giải phương trình |x - 2| = 5",
+                    options: [
+                        "A. x = 7",
+                        "B. x = -3",
+                        "C. x = 7 hoặc x = -3",
+                        "D. x = 3 hoặc x = -7"
+                    ],
+                    correct: 2,
+                    level: "2,5đ"
+                },
+                {
+                    question: "Trong tam giác ABC, nếu sinA = 0.6 thì:",
+                    options: [
+                        "A. cosA = 0.8",
+                        "B. cosA = 0.4",
+                        "C. cosA = √0.4",
+                        "D. Không xác định được"
+                    ],
+                    correct: 0,
+                    level: "3đ"
+                },
+                {
+                    question: "Cho tập A = {1,2,3}, B = {2,3,4}. Tập A ∩ B là:",
+                    options: [
+                        "A. {1,2,3,4}",
+                        "B. {2,3}",
+                        "C. {1,4}",
+                        "D. ∅"
+                    ],
+                    correct: 1,
+                    level: "3,25đ"
+                },
+                {
+                    question: "Đồ thị hàm số y = ax + b đi qua gốc tọa độ khi:",
+                    options: [
+                        "A. a = 0",
+                        "B. b = 0",
+                        "C. a = b",
+                        "D. a = 1"
+                    ],
+                    correct: 1,
+                    level: "3,5đ"
+                },
+                {
+                    question: "Cho hình bình hành ABCD, tâm O. Khẳng định nào đúng?",
+                    options: [
+                        "A. OA + OC = 0",
+                        "B. AB = CD",
+                        "C. AD = BC",
+                        "D. AC = BD"
+                    ],
+                    correct: 0,
+                    level: "3,75đ"
+                },
+                {
+                    question: "Tập xác định của y = 1/(x-2) là:",
+                    options: [
+                        "A. ℝ \\ {2}",
+                        "B. (2; +∞)",
+                        "C. (-∞; 2)",
+                        "D. ℝ"
+                    ],
+                    correct: 0,
+                    level: "4đ"
+                },
+                {
+                    question: "Phương trình x² - 2(m+1)x + m² = 0 có nghiệm kép khi:",
+                    options: [
+                        "A. m = 1",
+                        "B. m = -1/2",
+                        "C. m = -1",
+                        "D. m = 1/2"
+                    ],
+                    correct: 1,
+                    level: "4,5đ"
+                },
+                {
+                    question: "Cho 3 điểm A(1,2), B(3,4), C(5,6). Chúng thẳng hàng?",
+                    options: [
+                        "A. Đúng",
+                        "B. Sai",
+                        "C. Chưa đủ dữ kiện",
+                        "D. Có thể"
+                    ],
+                    correct: 0,
+                    level: "4,75đ"
+                },
+                {
+                    question: "GTLN của hàm số y = -x² + 4x - 3 là:",
+                    options: [
+                        "A. 1",
+                        "B. 2",
+                        "C. 3",
+                        "D. 4"
+                    ],
+                    correct: 0,
+                    level: "5đ"
+                }
+            ],
+            // Bộ đề 3 - Toán lớp 10
+            [
+                {
+                    question: "Kết quả của phép tính 2³ × 2² là:",
+                    options: [
+                        "A. 2⁵",
+                        "B. 2⁶",
+                        "C. 4⁵",
+                        "D. 4⁶"
+                    ],
+                    correct: 0,
+                    level: "0,5đ"
+                },
+                {
+                    question: "Hàm số y = 3x - 5 đồng biến trên:",
+                    options: [
+                        "A. ℝ",
+                        "B. (0; +∞)",
+                        "C. (-∞; 0)",
+                        "D. (5/3; +∞)"
+                    ],
+                    correct: 0,
+                    level: "1đ"
+                },
+                {
+                    question: "Giá trị của tan45° là:",
+                    options: [
+                        "A. 0",
+                        "B. 1",
+                        "C. √2",
+                        "D. √3"
+                    ],
+                    correct: 1,
+                    level: "1,25đ"
+                },
+                {
+                    question: "Tập nghiệm của x² - 9 = 0 là:",
+                    options: [
+                        "A. {3}",
+                        "B. {-3}",
+                        "C. {3, -3}",
+                        "D. {9}"
+                    ],
+                    correct: 2,
+                    level: "1,5đ"
+                },
+                {
+                    question: "Cho |a| = 3, |b| = 4, a·b = 0. Tính |a + b|:",
+                    options: [
+                        "A. 5",
+                        "B. 7",
+                        "C. 12",
+                        "D. 25"
+                    ],
+                    correct: 0,
+                    level: "2đ"
+                },
+                {
+                    question: "Bất phương trình 2x - 5 > 3 có nghiệm:",
+                    options: [
+                        "A. x > 4",
+                        "B. x > 5",
+                        "C. x > 3",
+                        "D. x > 2"
+                    ],
+                    correct: 0,
+                    level: "2,25đ"
+                },
+                {
+                    question: "Đường tròn (x-1)² + (y+2)² = 9 có tâm:",
+                    options: [
+                        "A. (1, -2)",
+                        "B. (-1, 2)",
+                        "C. (1, 2)",
+                        "D. (-1, -2)"
+                    ],
+                    correct: 0,
+                    level: "2,5đ"
+                },
+                {
+                    question: "Hàm số y = |x| có đồ thị:",
+                    options: [
+                        "A. Parabol",
+                        "B. Đường thẳng",
+                        "C. Hình chữ V",
+                        "D. Hyperbol"
+                    ],
+                    correct: 2,
+                    level: "3đ"
+                },
+                {
+                    question: "Cho sinx = 0.8, 0° < x < 90°. Tính cosx:",
+                    options: [
+                        "A. 0.2",
+                        "B. 0.4",
+                        "C. 0.6",
+                        "D. 0.8"
+                    ],
+                    correct: 2,
+                    level: "3,25đ"
+                },
+                {
+                    question: "Trong hệ trục Oxy, khoảng cách từ A(0,0) đến B(3,4) là:",
+                    options: [
+                        "A. 3",
+                        "B. 4",
+                        "C. 5",
+                        "D. 7"
+                    ],
+                    correct: 2,
+                    level: "3,5đ"
+                },
+                {
+                    question: "Tập xác định của y = √(4-x²) là:",
+                    options: [
+                        "A. [-2, 2]",
+                        "B. (-2, 2)",
+                        "C. (-∞, 2]",
+                        "D. [2, +∞)"
+                    ],
+                    correct: 0,
+                    level: "3,75đ"
+                },
+                {
+                    question: "Phương trình m²x = m(x+1) vô nghiệm khi:",
+                    options: [
+                        "A. m = 0",
+                        "B. m = 1",
+                        "C. m = -1",
+                        "D. m = 2"
+                    ],
+                    correct: 0,
+                    level: "4đ"
+                },
+                {
+                    question: "Cho 3 vectơ a, b, c thỏa a + b + c = 0. Khẳng định nào đúng?",
+                    options: [
+                        "A. a, b, c đồng phẳng",
+                        "B. a, b, c không đồng phẳng",
+                        "C. |a| = |b| = |c|",
+                        "D. a ⊥ b, b ⊥ c"
+                    ],
+                    correct: 0,
+                    level: "4,5đ"
+                },
+                {
+                    question: "GTNN của y = x² - 4x + 7 là:",
+                    options: [
+                        "A. 3",
+                        "B. 4",
+                        "C. 5",
+                        "D. 7"
+                    ],
+                    correct: 0,
+                    level: "4,75đ"
+                },
+                {
+                    question: "Hàm số y = ax² + bx + c đạt cực tiểu tại x = 1 khi:",
+                    options: [
+                        "A. a > 0, b = -2a",
+                        "B. a < 0, b = -2a",
+                        "C. a > 0, b = 2a",
+                        "D. a < 0, b = 2a"
+                    ],
+                    correct: 0,
+                    level: "5đ"
+                }
+            ]
         ];
 
-        const questionSet2 = [
-            {
-                question: "Tập xác định của hàm số y = 1/(x-2) là:",
-                options: [
-                    "A. ℝ",
-                    "B. ℝ \\ {2}",
-                    "C. (2; +∞)",
-                    "D. (-∞; 2)"
-                ],
-                correct: 1,
-                level: "0,5đ"
-            },
-            {
-                question: "Phương trình x² - 5x + 6 = 0 có nghiệm là:",
-                options: [
-                    "A. x = 2, x = 3",
-                    "B. x = 1, x = 6",
-                    "C. x = -2, x = -3",
-                    "D. x = -1, x = -6"
-                ],
-                correct: 0,
-                level: "1đ"
-            },
-            {
-                question: "Cho hàm số y = 2x + 3. Đồ thị của hàm số này là:",
-                options: [
-                    "A. Một đường thẳng",
-                    "B. Một đường cong",
-                    "C. Một parabol",
-                    "D. Một hypebol"
-                ],
-                correct: 0,
-                level: "1,25đ"
-            },
-            {
-                question: "Giá trị của biểu thức √16 + √9 là:",
-                options: [
-                    "A. 5",
-                    "B. 7",
-                    "C. 25",
-                    "D. 13"
-                ],
-                correct: 1,
-                level: "1,5đ"
-            },
-            {
-                question: "Hàm số nào sau đây là hàm số bậc nhất?",
-                options: [
-                    "A. y = x² + 1",
-                    "B. y = 2x + 3",
-                    "C. y = 1/x",
-                    "D. y = √x"
-                ],
-                correct: 1,
-                level: "2đ"
-            },
-            {
-                question: "Nghiệm của phương trình 2x - 4 = 0 là:",
-                options: [
-                    "A. x = 2",
-                    "B. x = -2",
-                    "C. x = 4",
-                    "D. x = -4"
-                ],
-                correct: 0,
-                level: "2,25đ"
-            },
-            {
-                question: "Tập nghiệm của bất phương trình x - 3 > 0 là:",
-                options: [
-                    "A. (3; +∞)",
-                    "B. (-∞; 3)",
-                    "C. [3; +∞)",
-                    "D. (-∞; 3]"
-                ],
-                correct: 0,
-                level: "2,5đ"
-            },
-            {
-                question: "Cho tam giác ABC vuông tại A, AB = 3cm, AC = 4cm. Độ dài cạnh BC là:",
-                options: [
-                    "A. 5cm",
-                    "B. 6cm",
-                    "C. 7cm",
-                    "D. 8cm"
-                ],
-                correct: 0,
-                level: "3đ"
-            },
-            {
-                question: "Hàm số y = -x² + 4x - 3 có giá trị lớn nhất là:",
-                options: [
-                    "A. 1",
-                    "B. 2",
-                    "C. 3",
-                    "D. 4"
-                ],
-                correct: 0,
-                level: "3,25đ"
-            },
-            {
-                question: "Phương trình x² - 4x + 4 = 0 có nghiệm kép là:",
-                options: [
-                    "A. x = 2",
-                    "B. x = -2",
-                    "C. x = 4",
-                    "D. x = -4"
-                ],
-                correct: 0,
-                level: "3,5đ"
-            },
-            {
-                question: "Tập nghiệm của phương trình |x - 2| = 3 là:",
-                options: [
-                    "A. {5}",
-                    "B. {-1, 5}",
-                    "C. {-1}",
-                    "D. {-5, 1}"
-                ],
-                correct: 1,
-                level: "3,75đ"
-            },
-            {
-                question: "Cho hàm số y = ax + b có đồ thị đi qua điểm A(1; 2) và B(2; 5). Giá trị của a là:",
-                options: [
-                    "A. 1",
-                    "B. 2",
-                    "C. 3",
-                    "D. 4"
-                ],
-                correct: 2,
-                level: "4đ"
-            },
-            {
-                question: "Phương trình x² - 2x - 3 = 0 có tổng các nghiệm là:",
-                options: [
-                    "A. 2",
-                    "B. -2",
-                    "C. 3",
-                    "D. -3"
-                ],
-                correct: 0,
-                level: "4,5đ"
-            },
-            {
-                question: "Hàm số y = (1/2)x² - 2x + 1 có trục đối xứng là đường thẳng:",
-                options: [
-                    "A. x = 1",
-                    "B. x = 2",
-                    "C. x = -1",
-                    "D. x = -2"
-                ],
-                correct: 1,
-                level: "4,75đ"
-            },
-            {
-                question: "Tập nghiệm của bất phương trình x² - 5x + 6 < 0 là:",
-                options: [
-                    "A. (2; 3)",
-                    "B. (-∞; 2) ∪ (3; +∞)",
-                    "C. (-∞; 2] ∪ [3; +∞)",
-                    "D. [2; 3]"
-                ],
-                correct: 0,
-                level: "5đ"
-            }
+        // ========== BỘ CÂU HỎI LỚP 11 ==========
+        const questionSets11 = [
+            // Bộ đề 1 - Toán lớp 11
+            [
+                {
+                    question: "Giá trị của lim(x→1) (x² - 1)/(x - 1) là:",
+                    options: [
+                        "A. 0",
+                        "B. 1",
+                        "C. 2",
+                        "D. Không tồn tại"
+                    ],
+                    correct: 2,
+                    level: "0,5đ"
+                },
+                {
+                    question: "Đạo hàm của hàm số y = sin(2x) là:",
+                    options: [
+                        "A. 2cos(2x)",
+                        "B. cos(2x)",
+                        "C. 2sin(2x)",
+                        "D. -2cos(2x)"
+                    ],
+                    correct: 0,
+                    level: "1đ"
+                },
+                {
+                    question: "Số nghiệm của phương trình cos2x = 1/2 trên đoạn [0; 2π] là:",
+                    options: [
+                        "A. 2",
+                        "B. 3",
+                        "C. 4",
+                        "D. 5"
+                    ],
+                    correct: 2,
+                    level: "1,25đ"
+                },
+                {
+                    question: "Cho cấp số cộng có u₁ = 3, d = 2. Số hạng thứ 10 là:",
+                    options: [
+                        "A. 21",
+                        "B. 20",
+                        "C. 19",
+                        "D. 18"
+                    ],
+                    correct: 0,
+                    level: "1,5đ"
+                },
+                {
+                    question: "Tập xác định của hàm số y = tan(x - π/4) là:",
+                    options: [
+                        "A. ℝ \\ {π/4 + kπ}",
+                        "B. ℝ \\ {π/4 + k2π}",
+                        "C. ℝ \\ {3π/4 + kπ}",
+                        "D. ℝ \\ {π/2 + kπ}"
+                    ],
+                    correct: 0,
+                    level: "2đ"
+                },
+                {
+                    question: "Số cách chọn 3 học sinh từ 10 học sinh là:",
+                    options: [
+                        "A. 30",
+                        "B. 720",
+                        "C. 120",
+                        "D. 1000"
+                    ],
+                    correct: 2,
+                    level: "2,25đ"
+                },
+                {
+                    question: "Hệ số của x⁵ trong khai triển (2 - x)⁸ là:",
+                    options: [
+                        "A. -448",
+                        "B. 448",
+                        "C. -56",
+                        "D. 56"
+                    ],
+                    correct: 0,
+                    level: "2,5đ"
+                },
+                {
+                    question: "Cho hình chóp S.ABCD có đáy là hình vuông. Khẳng định nào sau đây sai?",
+                    options: [
+                        "A. SA ⊥ BC",
+                        "B. SA ⊥ CD",
+                        "C. SA ⊥ BD",
+                        "D. SA ⊥ AC"
+                    ],
+                    correct: 3,
+                    level: "3đ"
+                },
+                {
+                    question: "Giá trị của lim(n→∞) (3n² - 2n + 1)/(2n² + n - 3) là:",
+                    options: [
+                        "A. 0",
+                        "B. 1/2",
+                        "C. 3/2",
+                        "D. ∞"
+                    ],
+                    correct: 2,
+                    level: "3,25đ"
+                },
+                {
+                    question: "Phương trình tiếp tuyến của đồ thị y = x³ - 3x tại điểm có hoành độ x = 1 là:",
+                    options: [
+                        "A. y = 3x - 1",
+                        "B. y = 3x - 3",
+                        "C. y = -3x + 1",
+                        "D. y = -3x + 3"
+                    ],
+                    correct: 1,
+                    level: "3,5đ"
+                },
+                {
+                    question: "Số hạng không chứa x trong khai triển (x² + 1/x)¹² là:",
+                    options: [
+                        "A. 495",
+                        "B. 924",
+                        "C. 792",
+                        "D. 220"
+                    ],
+                    correct: 0,
+                    level: "3,75đ"
+                },
+                {
+                    question: "Cho hình chóp S.ABC có SA ⊥ (ABC). Góc giữa SC và mặt phẳng (ABC) là góc:",
+                    options: [
+                        "A. ∠SCA",
+                        "B. ∠SAC",
+                        "C. ∠SCB",
+                        "D. ∠SBC"
+                    ],
+                    correct: 0,
+                    level: "4đ"
+                },
+                {
+                    question: "Tổng các nghiệm của phương trình sin²x - 4sinx + 3 = 0 trên [0; 2π] là:",
+                    options: [
+                        "A. π",
+                        "B. 2π",
+                        "C. 3π",
+                        "D. π/2"
+                    ],
+                    correct: 3,
+                    level: "4,5đ"
+                },
+                {
+                    question: "Cho dãy số (uₙ) với uₙ = (2n - 1)/(n + 1). Giá trị của lim uₙ là:",
+                    options: [
+                        "A. 0",
+                        "B. 1",
+                        "C. 2",
+                        "D. ∞"
+                    ],
+                    correct: 2,
+                    level: "4,75đ"
+                },
+                {
+                    question: "Cho tứ diện đều ABCD cạnh a. Khoảng cách từ A đến mặt phẳng (BCD) là:",
+                    options: [
+                        "A. a√6/3",
+                        "B. a√3/3",
+                        "C. a√2/2",
+                        "D. a"
+                    ],
+                    correct: 0,
+                    level: "5đ"
+                }
+            ],
+            // Bộ đề 2 - Toán lớp 11
+            [
+                {
+                    question: "lim(x→0) sinx/x bằng:",
+                    options: [
+                        "A. 0",
+                        "B. 1",
+                        "C. ∞",
+                        "D. Không tồn tại"
+                    ],
+                    correct: 1,
+                    level: "0,5đ"
+                },
+                {
+                    question: "Đạo hàm của y = ln(x² + 1) là:",
+                    options: [
+                        "A. 1/(x²+1)",
+                        "B. 2x/(x²+1)",
+                        "C. 2x/(x²+1)²",
+                        "D. x/(x²+1)"
+                    ],
+                    correct: 1,
+                    level: "1đ"
+                },
+                {
+                    question: "Nghiệm của sinx = √3/2 là:",
+                    options: [
+                        "A. x = π/3 + k2π",
+                        "B. x = π/6 + k2π",
+                        "C. x = π/3 + kπ",
+                        "D. x = π/6 + kπ"
+                    ],
+                    correct: 0,
+                    level: "1,25đ"
+                },
+                {
+                    question: "Cho CSC: 2, 5, 8,... Số hạng thứ 20 là:",
+                    options: [
+                        "A. 59",
+                        "B. 60",
+                        "C. 61",
+                        "D. 62"
+                    ],
+                    correct: 0,
+                    level: "1,5đ"
+                },
+                {
+                    question: "Tập xác định của y = √(sinx-1) là:",
+                    options: [
+                        "A. ℝ",
+                        "B. ∅",
+                        "C. {π/2 + k2π}",
+                        "D. {kπ}"
+                    ],
+                    correct: 2,
+                    level: "2đ"
+                },
+                {
+                    question: "Có 5 quyển sách khác nhau. Số cách xếp lên giá là:",
+                    options: [
+                        "A. 5",
+                        "B. 25",
+                        "C. 120",
+                        "D. 625"
+                    ],
+                    correct: 2,
+                    level: "2,25đ"
+                },
+                {
+                    question: "Hệ số của x³ trong (1+2x)⁵ là:",
+                    options: [
+                        "A. 10",
+                        "B. 40",
+                        "C. 80",
+                        "D. 32"
+                    ],
+                    correct: 1,
+                    level: "2,5đ"
+                },
+                {
+                    question: "Trong không gian, hai đường thẳng chéo nhau thì:",
+                    options: [
+                        "A. Không có điểm chung",
+                        "B. Không song song",
+                        "C. Không cắt nhau",
+                        "D. Cả 3 đều đúng"
+                    ],
+                    correct: 3,
+                    level: "3đ"
+                },
+                {
+                    question: "lim(x→∞) (3x+1)/(2x-5) bằng:",
+                    options: [
+                        "A. 3/2",
+                        "B. 0",
+                        "C. ∞",
+                        "D. 1"
+                    ],
+                    correct: 0,
+                    level: "3,25đ"
+                },
+                {
+                    question: "Tiếp tuyến của y = 1/x tại x=1 có hệ số góc:",
+                    options: [
+                        "A. 1",
+                        "B. -1",
+                        "C. 0",
+                        "D. 2"
+                    ],
+                    correct: 1,
+                    level: "3,5đ"
+                },
+                {
+                    question: "Số hạng chính giữa của (x+y)⁶ là:",
+                    options: [
+                        "A. 15x³y³",
+                        "B. 20x³y³",
+                        "C. 15x⁴y²",
+                        "D. 20x²y⁴"
+                    ],
+                    correct: 1,
+                    level: "3,75đ"
+                },
+                {
+                    question: "Góc giữa đường thẳng và mặt phẳng là góc:",
+                    options: [
+                        "A. Giữa đường thẳng và hình chiếu",
+                        "B. Giữa đường thẳng và pháp tuyến",
+                        "C. Nhỏ nhất có thể",
+                        "D. Lớn nhất có thể"
+                    ],
+                    correct: 0,
+                    level: "4đ"
+                },
+                {
+                    question: "Phương trình 2cos²x - 3cosx + 1 = 0 có nghiệm:",
+                    options: [
+                        "A. x = kπ",
+                        "B. x = π/3 + k2π",
+                        "C. x = ±π/3 + k2π",
+                        "D. Cả 3 đều đúng"
+                    ],
+                    correct: 3,
+                    level: "4,5đ"
+                },
+                {
+                    question: "lim(n→∞) (√(n²+1)-n) bằng:",
+                    options: [
+                        "A. 0",
+                        "B. 1",
+                        "C. ∞",
+                        "D. -∞"
+                    ],
+                    correct: 0,
+                    level: "4,75đ"
+                },
+                {
+                    question: "Cho hình lập phương cạnh a. Khoảng cách giữa AA' và B'C' là:",
+                    options: [
+                        "A. a",
+                        "B. a√2",
+                        "C. a√3",
+                        "D. a/2"
+                    ],
+                    correct: 0,
+                    level: "5đ"
+                }
+            ],
+            // Bộ đề 3 - Toán lớp 11
+            [
+                {
+                    question: "lim(x→2) (x²-4)/(x-2) bằng:",
+                    options: [
+                        "A. 0",
+                        "B. 2",
+                        "C. 4",
+                        "D. ∞"
+                    ],
+                    correct: 2,
+                    level: "0,5đ"
+                },
+                {
+                    question: "y = eˣ có đạo hàm là:",
+                    options: [
+                        "A. eˣ",
+                        "B. x·eˣ",
+                        "C. eˣ/x",
+                        "D. lnx"
+                    ],
+                    correct: 0,
+                    level: "1đ"
+                },
+                {
+                    question: "cosx = -1/2 có nghiệm:",
+                    options: [
+                        "A. x = ±π/3 + k2π",
+                        "B. x = ±2π/3 + k2π",
+                        "C. x = π/6 + kπ",
+                        "D. x = π/3 + kπ"
+                    ],
+                    correct: 1,
+                    level: "1,25đ"
+                },
+                {
+                    question: "Cho CSN: 3, 6, 12,... Số hạng thứ 5 là:",
+                    options: [
+                        "A. 24",
+                        "B. 48",
+                        "C. 96",
+                        "D. 192"
+                    ],
+                    correct: 1,
+                    level: "1,5đ"
+                },
+                {
+                    question: "y = cotx xác định khi:",
+                    options: [
+                        "A. x ≠ π/2 + kπ",
+                        "B. x ≠ kπ",
+                        "C. x ≠ π/2 + k2π",
+                        "D. x ≠ kπ/2"
+                    ],
+                    correct: 1,
+                    level: "2đ"
+                },
+                {
+                    question: "Số cách chọn chủ tịch và phó chủ tịch từ 5 người:",
+                    options: [
+                        "A. 10",
+                        "B. 20",
+                        "C. 25",
+                        "D. 120"
+                    ],
+                    correct: 1,
+                    level: "2,25đ"
+                },
+                {
+                    question: "Hệ số của x² trong (x-2)⁵ là:",
+                    options: [
+                        "A. 10",
+                        "B. 40",
+                        "C. -40",
+                        "D. 80"
+                    ],
+                    correct: 2,
+                    level: "2,5đ"
+                },
+                {
+                    question: "Đường thẳng vuông góc với mặt phẳng nếu:",
+                    options: [
+                        "A. Vuông góc với 1 đường trong mặt phẳng",
+                        "B. Vuông góc với 2 đường cắt nhau",
+                        "C. Vuông góc với pháp tuyến",
+                        "D. Song song với giao tuyến"
+                    ],
+                    correct: 1,
+                    level: "3đ"
+                },
+                {
+                    question: "lim(x→0) (1-cosx)/x² bằng:",
+                    options: [
+                        "A. 0",
+                        "B. 1/2",
+                        "C. 1",
+                        "D. 2"
+                    ],
+                    correct: 1,
+                    level: "3,25đ"
+                },
+                {
+                    question: "Đạo hàm của y = √(x²+1) tại x=0 là:",
+                    options: [
+                        "A. 0",
+                        "B. 1",
+                        "C. 1/2",
+                        "D. Không tồn tại"
+                    ],
+                    correct: 0,
+                    level: "3,5đ"
+                },
+                {
+                    question: "Khai triển (1+x)⁸ có tổng các hệ số:",
+                    options: [
+                        "A. 256",
+                        "B. 128",
+                        "C. 64",
+                        "D. 512"
+                    ],
+                    correct: 0,
+                    level: "3,75đ"
+                },
+                {
+                    question: "Hai mặt phẳng vuông góc khi:",
+                    options: [
+                        "A. Góc giữa chúng = 90°",
+                        "B. Có đường thẳng vuông góc",
+                        "C. Pháp tuyến vuông góc",
+                        "D. Cả 3 đều đúng"
+                    ],
+                    correct: 3,
+                    level: "4đ"
+                },
+                {
+                    question: "sinx + cosx = 1 có nghiệm:",
+                    options: [
+                        "A. x = kπ",
+                        "B. x = π/2 + kπ",
+                        "C. x = k2π",
+                        "D. x = π/4 + kπ"
+                    ],
+                    correct: 2,
+                    level: "4,5đ"
+                },
+                {
+                    question: "lim(n→∞) (1 + 1/n)ⁿ bằng:",
+                    options: [
+                        "A. 0",
+                        "B. 1",
+                        "C. e",
+                        "D. ∞"
+                    ],
+                    correct: 2,
+                    level: "4,75đ"
+                },
+                {
+                    question: "Hình chóp đều có cạnh bên bằng a, góc với đáy 60°. Chiều cao là:",
+                    options: [
+                        "A. a/2",
+                        "B. a√3/2",
+                        "C. a√2/2",
+                        "D. a"
+                    ],
+                    correct: 1,
+                    level: "5đ"
+                }
+            ]
+        ];
+
+        // ========== BỘ CÂU HỎI LỚP 12 ==========
+        const questionSets12 = [
+            // Bộ đề 1 - Toán lớp 12
+            [
+                {
+                    question: "Tập xác định của hàm số y = log₂(x - 1) là:",
+                    options: [
+                        "A. (1; +∞)",
+                        "B. [1; +∞)",
+                        "C. (0; +∞)",
+                        "D. ℝ"
+                    ],
+                    correct: 0,
+                    level: "0,5đ"
+                },
+                {
+                    question: "Nguyên hàm của hàm số f(x) = 3x² - 2x + 1 là:",
+                    options: [
+                        "A. x³ - x² + x + C",
+                        "B. x³ - 2x² + x + C",
+                        "C. 6x - 2 + C",
+                        "D. 3x³ - 2x² + x + C"
+                    ],
+                    correct: 0,
+                    level: "1đ"
+                },
+                {
+                    question: "Hàm số y = x³ - 3x + 1 đồng biến trên khoảng nào?",
+                    options: [
+                        "A. (-∞; -1) ∪ (1; +∞)",
+                        "B. (-1; 1)",
+                        "C. (-∞; 0)",
+                        "D. (0; +∞)"
+                    ],
+                    correct: 0,
+                    level: "1,25đ"
+                },
+                {
+                    question: "Thể tích khối lập phương cạnh a là:",
+                    options: [
+                        "A. a²",
+                        "B. a³",
+                        "C. 3a³",
+                        "D. 6a²"
+                    ],
+                    correct: 1,
+                    level: "1,5đ"
+                },
+                {
+                    question: "Cho số phức z = 3 - 4i. Phần thực của z là:",
+                    options: [
+                        "A. 3",
+                        "B. -4",
+                        "C. 5",
+                        "D. -3"
+                    ],
+                    correct: 0,
+                    level: "2đ"
+                },
+                {
+                    question: "Giá trị lớn nhất của hàm số y = -x⁴ + 2x² + 1 trên [0; 2] là:",
+                    options: [
+                        "A. 1",
+                        "B. 2",
+                        "C. 3",
+                        "D. 4"
+                    ],
+                    correct: 1,
+                    level: "2,25đ"
+                },
+                {
+                    question: "Tích phân ∫₀¹ (2x + 1)dx bằng:",
+                    options: [
+                        "A. 1",
+                        "B. 2",
+                        "C. 3",
+                        "D. 4"
+                    ],
+                    correct: 1,
+                    level: "2,5đ"
+                },
+                {
+                    question: "Mặt cầu có bán kính R = 3 có diện tích là:",
+                    options: [
+                        "A. 9π",
+                        "B. 18π",
+                        "C. 27π",
+                        "D. 36π"
+                    ],
+                    correct: 3,
+                    level: "3đ"
+                },
+                {
+                    question: "Cho hàm số y = (2x - 1)/(x + 1). Tiệm cận ngang của đồ thị là:",
+                    options: [
+                        "A. y = 2",
+                        "B. y = 1",
+                        "C. y = -1",
+                        "D. y = -2"
+                    ],
+                    correct: 0,
+                    level: "3,25đ"
+                },
+                {
+                    question: "Thể tích khối trụ có bán kính đáy r = 2, chiều cao h = 3 là:",
+                    options: [
+                        "A. 4π",
+                        "B. 6π",
+                        "C. 8π",
+                        "D. 12π"
+                    ],
+                    correct: 3,
+                    level: "3,5đ"
+                },
+                {
+                    question: "Số nghiệm của phương trình log₂(x² - 3x) = 2 là:",
+                    options: [
+                        "A. 0",
+                        "B. 1",
+                        "C. 2",
+                        "D. 3"
+                    ],
+                    correct: 2,
+                    level: "3,75đ"
+                },
+                {
+                    question: "Cho khối chóp có diện tích đáy B = 6, chiều cao h = 4. Thể tích khối chóp là:",
+                    options: [
+                        "A. 8",
+                        "B. 12",
+                        "C. 24",
+                        "D. 48"
+                    ],
+                    correct: 0,
+                    level: "4đ"
+                },
+                {
+                    question: "Cho số phức z thỏa mãn (1 + i)z = 3 - i. Môđun của z là:",
+                    options: [
+                        "A. √5",
+                        "B. √10",
+                        "C. 5",
+                        "D. 10"
+                    ],
+                    correct: 0,
+                    level: "4,5đ"
+                },
+                {
+                    question: "Tích phân ∫e^(2x)dx bằng:",
+                    options: [
+                        "A. e^(2x) + C",
+                        "B. 2e^(2x) + C",
+                        "C. (1/2)e^(2x) + C",
+                        "D. e^(x) + C"
+                    ],
+                    correct: 2,
+                    level: "4,75đ"
+                },
+                {
+                    question: "Cho hàm số y = f(x) có f'(x) = x(x - 1)(x - 2). Số điểm cực trị của hàm số là:",
+                    options: [
+                        "A. 1",
+                        "B. 2",
+                        "C. 3",
+                        "D. 4"
+                    ],
+                    correct: 2,
+                    level: "5đ"
+                }
+            ],
+            // Bộ đề 2 - Toán lớp 12
+            [
+                {
+                    question: "y = log₃(x+2) xác định khi:",
+                    options: [
+                        "A. x > -2",
+                        "B. x ≥ -2",
+                        "C. x > 0",
+                        "D. x ≠ -2"
+                    ],
+                    correct: 0,
+                    level: "0,5đ"
+                },
+                {
+                    question: "∫(2x+3)dx bằng:",
+                    options: [
+                        "A. x²+3x+C",
+                        "B. 2x²+3x+C",
+                        "C. x²+3+C",
+                        "D. 2x+3+C"
+                    ],
+                    correct: 0,
+                    level: "1đ"
+                },
+                {
+                    question: "y = -x³+3x²-4 nghịch biến trên:",
+                    options: [
+                        "A. (0,2)",
+                        "B. (-∞,0)∪(2,+∞)",
+                        "C. ℝ",
+                        "D. (2,+∞)"
+                    ],
+                    correct: 1,
+                    level: "1,25đ"
+                },
+                {
+                    question: "Thể tích khối cầu bán kính R:",
+                    options: [
+                        "A. 4πR³/3",
+                        "B. 4πR²",
+                        "C. πR³",
+                        "D. 2πR³"
+                    ],
+                    correct: 0,
+                    level: "1,5đ"
+                },
+                {
+                    question: "Số phức liên hợp của 2+3i là:",
+                    options: [
+                        "A. 2-3i",
+                        "B. -2+3i",
+                        "C. -2-3i",
+                        "D. 3+2i"
+                    ],
+                    correct: 0,
+                    level: "2đ"
+                },
+                {
+                    question: "GTNN của y = x+1/x trên [1,3] là:",
+                    options: [
+                        "A. 2",
+                        "B. 10/3",
+                        "C. 4",
+                        "D. 5"
+                    ],
+                    correct: 0,
+                    level: "2,25đ"
+                },
+                {
+                    question: "∫₁² (1/x)dx bằng:",
+                    options: [
+                        "A. ln2",
+                        "B. 1",
+                        "C. 2",
+                        "D. 0"
+                    ],
+                    correct: 0,
+                    level: "2,5đ"
+                },
+                {
+                    question: "Hình nón có l=5, r=3 thì chiều cao:",
+                    options: [
+                        "A. 4",
+                        "B. √34",
+                        "C. 8",
+                        "D. 2"
+                    ],
+                    correct: 0,
+                    level: "3đ"
+                },
+                {
+                    question: "Tiệm cận đứng của y = (x+1)/(x-2) là:",
+                    options: [
+                        "A. x=2",
+                        "B. x=-1",
+                        "C. y=1",
+                        "D. x=1"
+                    ],
+                    correct: 0,
+                    level: "3,25đ"
+                },
+                {
+                    question: "Thể tích khối chóp S.ABC có SA⊥(ABC), SA=4, S(ABC)=6:",
+                    options: [
+                        "A. 8",
+                        "B. 12",
+                        "C. 24",
+                        "D. 48"
+                    ],
+                    correct: 0,
+                    level: "3,5đ"
+                },
+                {
+                    question: "log₂(x-1) = 3 có nghiệm:",
+                    options: [
+                        "A. x=9",
+                        "B. x=8",
+                        "C. x=7",
+                        "D. x=6"
+                    ],
+                    correct: 0,
+                    level: "3,75đ"
+                },
+                {
+                    question: "Khối lăng trụ đứng có V=24, chiều cao=3 thì diện tích đáy:",
+                    options: [
+                        "A. 8",
+                        "B. 12",
+                        "C. 6",
+                        "D. 4"
+                    ],
+                    correct: 0,
+                    level: "4đ"
+                },
+                {
+                    question: "z = (1+i)/(1-i) có phần ảo:",
+                    options: [
+                        "A. 0",
+                        "B. 1",
+                        "C. -1",
+                        "D. i"
+                    ],
+                    correct: 1,
+                    level: "4,5đ"
+                },
+                {
+                    question: "∫sin(2x)dx bằng:",
+                    options: [
+                        "A. -cos(2x)/2 + C",
+                        "B. cos(2x)/2 + C",
+                        "C. -cos(2x) + C",
+                        "D. cos(2x) + C"
+                    ],
+                    correct: 0,
+                    level: "4,75đ"
+                },
+                {
+                    question: "y = x⁴-2x² có số điểm cực trị:",
+                    options: [
+                        "A. 1",
+                        "B. 2",
+                        "C. 3",
+                        "D. 4"
+                    ],
+                    correct: 2,
+                    level: "5đ"
+                }
+            ],
+            // Bộ đề 3 - Toán lớp 12
+            [
+                {
+                    question: "Đạo hàm của y = e^(3x) là:",
+                    options: [
+                        "A. 3e^(3x)",
+                        "B. e^(3x)",
+                        "C. 3e^(x)",
+                        "D. e^(x)"
+                    ],
+                    correct: 0,
+                    level: "0,5đ"
+                },
+                {
+                    question: "∫cosx dx bằng:",
+                    options: [
+                        "A. sinx + C",
+                        "B. -sinx + C",
+                        "C. cosx + C",
+                        "D. -cosx + C"
+                    ],
+                    correct: 0,
+                    level: "1đ"
+                },
+                {
+                    question: "y = x/(x+1) đồng biến trên:",
+                    options: [
+                        "A. ℝ",
+                        "B. (-∞,-1)∪(-1,∞)",
+                        "C. (-1,∞)",
+                        "D. (-∞,-1)"
+                    ],
+                    correct: 1,
+                    level: "1,25đ"
+                },
+                {
+                    question: "Khối chóp tứ giác đều cạnh đáy a, cạnh bên a√2 có chiều cao:",
+                    options: [
+                        "A. a",
+                        "B. a√2",
+                        "C. a/2",
+                        "D. a√3"
+                    ],
+                    correct: 0,
+                    level: "1,5đ"
+                },
+                {
+                    question: "|3+4i| bằng:",
+                    options: [
+                        "A. 5",
+                        "B. 7",
+                        "C. 12",
+                        "D. 25"
+                    ],
+                    correct: 0,
+                    level: "2đ"
+                },
+                {
+                    question: "GTLN của y = √(4-x²) là:",
+                    options: [
+                        "A. 2",
+                        "B. 4",
+                        "C. 0",
+                        "D. -2"
+                    ],
+                    correct: 0,
+                    level: "2,25đ"
+                },
+                {
+                    question: "∫₀¹ e^x dx bằng:",
+                    options: [
+                        "A. e-1",
+                        "B. e",
+                        "C. 1",
+                        "D. 0"
+                    ],
+                    correct: 0,
+                    level: "2,5đ"
+                },
+                {
+                    question: "Mặt cầu đường kính 6 có diện tích:",
+                    options: [
+                        "A. 36π",
+                        "B. 9π",
+                        "C. 12π",
+                        "D. 24π"
+                    ],
+                    correct: 0,
+                    level: "3đ"
+                },
+                {
+                    question: "y = (x²+1)/(x-1) có tiệm cận xiên:",
+                    options: [
+                        "A. y=x+1",
+                        "B. y=x-1",
+                        "C. y=x",
+                        "D. y=1"
+                    ],
+                    correct: 0,
+                    level: "3,25đ"
+                },
+                {
+                    question: "Khối trụ có r=2, h=5 thì V:",
+                    options: [
+                        "A. 20π",
+                        "B. 10π",
+                        "C. 40π",
+                        "D. 100π"
+                    ],
+                    correct: 0,
+                    level: "3,5đ"
+                },
+                {
+                    question: "log(x-1)+log(x+1)=log3 có nghiệm:",
+                    options: [
+                        "A. x=2",
+                        "B. x=-2",
+                        "C. x=±2",
+                        "D. x=1"
+                    ],
+                    correct: 0,
+                    level: "3,75đ"
+                },
+                {
+                    question: "Khối lập phương cạnh a có đường chéo:",
+                    options: [
+                        "A. a√3",
+                        "B. a√2",
+                        "C. 2a",
+                        "D. a"
+                    ],
+                    correct: 0,
+                    level: "4đ"
+                },
+                {
+                    question: "z thỏa z+2z̄=3+4i thì phần thực:",
+                    options: [
+                        "A. 1",
+                        "B. 2",
+                        "C. 3",
+                        "D. 4"
+                    ],
+                    correct: 0,
+                    level: "4,5đ"
+                },
+                {
+                    question: "∫(1/(1+x²))dx bằng:",
+                    options: [
+                        "A. arctanx + C",
+                        "B. ln(1+x²) + C",
+                        "C. 2x/(1+x²) + C",
+                        "D. 1/(1+x²) + C"
+                    ],
+                    correct: 0,
+                    level: "4,75đ"
+                },
+                {
+                    question: "y = x³-3x+2 đạt cực đại tại:",
+                    options: [
+                        "A. x=-1",
+                        "B. x=1",
+                        "C. x=0",
+                        "D. x=2"
+                    ],
+                    correct: 0,
+                    level: "5đ"
+                }
+            ]
         ];
 
         // Biến toàn cục
@@ -723,13 +2029,15 @@
         let timer;
         let timeLeft = 30;
         let questions = [];
+        let selectedClass = null;
         let lifelines = {
             fiftyFifty: false,
             audiencePoll: false,
             phoneFriend: false
         };
+        let currentQuestionSet = null; // Lưu bộ đề hiện tại
 
-        // Tạo âm thanh bằng Web Audio API
+        // Hàm tạo âm thanh (giữ nguyên)
         function createSound(frequency, duration, type = 'sine') {
             try {
                 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -752,17 +2060,62 @@
             }
         }
 
-        // Bắt đầu trò chơi
-        function startGame() {
+        // Hàm chọn ngẫu nhiên một bộ đề
+        function getRandomQuestionSet(classLevel) {
+            let questionSets;
+            switch(classLevel) {
+                case '10':
+                    questionSets = questionSets10;
+                    break;
+                case '11':
+                    questionSets = questionSets11;
+                    break;
+                case '12':
+                    questionSets = questionSets12;
+                    break;
+                default:
+                    return [];
+            }
+            
+            // Chọn ngẫu nhiên một bộ đề
+            const randomIndex = Math.floor(Math.random() * questionSets.length);
+            return questionSets[randomIndex];
+        }
+
+        // Hàm xáo trộn câu hỏi trong bộ đề
+        function shuffleQuestions(questionArray) {
+            const shuffled = [...questionArray];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Hiển thị màn hình chọn lớp (giữ nguyên)
+        function showClassSelection() {
             document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('class-selection').classList.remove('hidden');
+            document.getElementById('game-container').classList.add('hidden');
+        }
+
+        // Bắt đầu trò chơi với lớp được chọn
+        function startGameWithClass(level) {
+            selectedClass = level;
+            
+            // Chọn ngẫu nhiên một bộ đề và xáo trộn câu hỏi
+            const questionSet = getRandomQuestionSet(level);
+            currentQuestionSet = shuffleQuestions(questionSet);
+            
+            document.getElementById('class-selection').classList.add('hidden');
             document.getElementById('game-container').classList.remove('hidden');
             initGame();
         }
 
         // Khởi tạo trò chơi
         function initGame() {
-            // Chọn ngẫu nhiên một bộ câu hỏi
-            questions = Math.random() < 0.5 ? [...questionSet1] : [...questionSet2];
+            // Sử dụng bộ đề đã được chọn ngẫu nhiên
+            questions = [...currentQuestionSet];
             
             currentQuestionIndex = 0;
             selectedOption = null;
@@ -790,7 +2143,7 @@
             document.getElementById('result').textContent = '';
         }
 
-        // Hiển thị câu hỏi hiện tại
+        // Hiển thị câu hỏi hiện tại (giữ nguyên)
         function displayQuestion() {
             const question = questions[currentQuestionIndex];
             document.getElementById('question-text').textContent = question.question;
@@ -820,7 +2173,7 @@
             updatePrizeList();
         }
 
-        // Bắt đầu đếm ngược
+        // Bắt đầu đếm ngược (giữ nguyên)
         function startTimer() {
             clearInterval(timer);
             timeLeft = 30;
@@ -842,7 +2195,7 @@
             }, 1000);
         }
 
-        // Hết thời gian
+        // Hết thời gian (giữ nguyên)
         function timeUp() {
             const question = questions[currentQuestionIndex];
             const options = document.querySelectorAll('.option');
@@ -868,7 +2221,7 @@
             }, 3000);
         }
 
-        // Chọn một phương án
+        // Chọn một phương án (giữ nguyên)
         function selectOption(index) {
             // Bỏ chọn tất cả các phương án
             const options = document.querySelectorAll('.option');
@@ -879,7 +2232,7 @@
             selectedOption = index;
         }
 
-        // Kiểm tra câu trả lời
+        // Kiểm tra câu trả lời (giữ nguyên)
         function checkAnswer() {
             if (selectedOption === null) {
                 alert('Vui lòng chọn một phương án!');
@@ -941,7 +2294,7 @@
             }
         }
 
-        // Chuyển đến câu hỏi tiếp theo
+        // Chuyển đến câu hỏi tiếp theo (giữ nguyên)
         function nextQuestion() {
             currentQuestionIndex++;
             displayQuestion();
@@ -950,7 +2303,7 @@
             document.getElementById('result').textContent = '';
         }
 
-        // Kết thúc trò chơi
+        // Kết thúc trò chơi (giữ nguyên)
         function endGame(isWinner) {
             if (isWinner) {
                 // Phát âm thanh chiến thắng
@@ -964,7 +2317,7 @@
             }
         }
 
-        // Cập nhật danh sách giải thưởng = điểm
+        // Cập nhật danh sách giải thưởng (giữ nguyên)
         function updatePrizeList() {
             const prizeList = document.getElementById('prize-list');
             prizeList.innerHTML = '';
@@ -1002,7 +2355,7 @@
             });
         }
 
-        // Xử lý sự kiện cho nút trợ giúp 50:50
+        // Xử lý sự kiện cho nút trợ giúp 50:50 (giữ nguyên)
         document.getElementById('fifty-fifty').addEventListener('click', function() {
             if (lifelines.fiftyFifty) return;
             
@@ -1023,7 +2376,7 @@
             this.classList.add('used');
         });
 
-        // Xử lý sự kiện cho nút hỏi ý kiến khán giả
+        // Xử lý sự kiện cho nút hỏi ý kiến khán giả (giữ nguyên)
         document.getElementById('audience-poll').addEventListener('click', function() {
             if (lifelines.audiencePoll) return;
             
@@ -1034,7 +2387,7 @@
             this.classList.add('used');
         });
 
-        // Xử lý sự kiện cho nút gọi điện cho người thân
+        // Xử lý sự kiện cho nút gọi điện cho người thân (giữ nguyên)
         document.getElementById('phone-friend').addEventListener('click', function() {
             if (lifelines.phoneFriend) return;
             
@@ -1045,15 +2398,28 @@
             this.classList.add('used');
         });
 
-        // Gán sự kiện cho các nút
-        document.getElementById('start-btn').addEventListener('click', startGame);
+        // Gán sự kiện cho các nút (giữ nguyên)
+        document.getElementById('start-btn').addEventListener('click', showClassSelection);
+        document.getElementById('back-to-start').addEventListener('click', function() {
+            document.getElementById('class-selection').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        });
         document.getElementById('submit-btn').addEventListener('click', checkAnswer);
         document.getElementById('next-btn').addEventListener('click', nextQuestion);
         document.getElementById('restart-btn').addEventListener('click', initGame);
 
+        // Xử lý sự kiện chọn lớp
+        document.querySelectorAll('.class-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const level = this.getAttribute('data-level');
+                startGameWithClass(level);
+            });
+        });
+
         // Khởi động màn hình bắt đầu khi trang được tải
         window.onload = function() {
             document.getElementById('start-screen').classList.remove('hidden');
+            document.getElementById('class-selection').classList.add('hidden');
             document.getElementById('game-container').classList.add('hidden');
         };
     </script>
