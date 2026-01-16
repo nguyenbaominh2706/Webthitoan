@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Thi Toán</title>
-   <style>
+    <title>Kiểm tra trực tuyến</title>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -104,6 +104,42 @@
             background-color: #e9ecef;
         }
         
+        .exam-codes {
+            display: none;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .exam-codes.active {
+            display: block;
+        }
+        
+        .exam-codes-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .exam-code {
+            padding: 10px 15px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            flex: 1;
+            min-width: 80px;
+            transition: all 0.3s;
+        }
+        
+        .exam-code:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
         .btn {
             display: inline-block;
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
@@ -162,6 +198,7 @@
             padding: 15px;
             overflow-y: auto;
             box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+            height: 70vh;
         }
         
         .exam-answer-panel {
@@ -171,6 +208,7 @@
             padding: 15px;
             overflow-y: auto;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            height: 20vh;
         }
         
         .timer {
@@ -311,25 +349,74 @@
             font-weight: bold;
         }
         
-        /* KHUNG XEM ĐỀ THI TỐI ƯU CHO ĐIỆN THOẠI */
-        .exam-frame-container {
-            width: 100%;
-            overflow: hidden;
-            border-radius: 5px;
-            margin: 15px 0;
-            background: #f8f9fa;
-            padding: 10px;
-        }
-        
-        .exam-frame {
-            width: 100%;
-            height: 500px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background: white;
-            -webkit-overflow-scrolling: touch;
-            transform-origin: top left;
-        }
+        /* KHUNG XEM ĐỀ THI - SCROLL PDF */
+.exam-frame-container {
+    width: 100%;
+    height: 75vh; /* Chiều cao cố định để iframe scroll được bên trong */
+    border-radius: 8px;
+    margin: 20px 0;
+    background: #f8f9fa;
+    padding: 15px;
+    border: 2px solid #2575fc;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.exam-frame {
+    width: 100%;
+    height: 100%; /* Chiếm toàn bộ chiều cao container */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: block;
+}
+
+/* Responsive điều chỉnh */
+@media (min-width: 768px) {
+    .exam-frame-container {
+        height: 80vh;
+    }
+
+    .exam-frame {
+        width: 100%;
+        max-width: 900px;
+        height: 100%;
+        margin: 0 auto;
+    }
+}
+
+/* Tối ưu cho màn hình rất nhỏ */
+@media (max-width: 480px) {
+    .exam-frame-container {
+        height: 65vh;
+        padding: 10px;
+    }
+}
+
+/* Tối ưu cho landscape mode */
+@media (orientation: landscape) and (max-height: 600px) {
+    .exam-frame-container {
+        height: 70vh;
+    }
+}
+
+/* Fullscreen mode */
+body:fullscreen .exam-frame-container,
+body:-webkit-full-screen .exam-frame-container,
+body:-moz-full-screen .exam-frame-container,
+body:-ms-fullscreen .exam-frame-container {
+    height: 85vh;
+    padding: 10px;
+}
+
+body:fullscreen .exam-frame,
+body:-webkit-full-screen .exam-frame,
+body:-moz-full-screen .exam-frame,
+body:-ms-fullscreen .exam-frame {
+    width: 100%;
+    max-width: 95vw;
+    height: 100%;
+}
         
         .exam-zoom-controls {
             display: flex;
@@ -487,21 +574,17 @@
             
             .exam-layout {
                 flex-direction: row;
-                height: 70vh;
+                height: 85vh;
             }
             
             .exam-question-panel {
-                flex: 1;
+                flex: 8;
                 height: 100%;
             }
             
             .exam-answer-panel {
-                flex: 1;
+                flex: 2;
                 height: 100%;
-            }
-            
-            .exam-frame {
-                height: 600px;
             }
         }
         
@@ -513,10 +596,6 @@
             
             .grade-section {
                 min-width: calc(33.333% - 15px);
-            }
-            
-            .exam-frame {
-                height: 700px;
             }
         }
         
@@ -538,10 +617,6 @@
                 font-size: 1.3rem;
             }
             
-            .exam-frame {
-                height: 400px;
-            }
-            
             .score {
                 font-size: 2rem;
             }
@@ -551,11 +626,7 @@
         @media (orientation: landscape) and (max-height: 600px) {
             .exam-layout {
                 flex-direction: row;
-                height: 65vh;
-            }
-            
-            .exam-frame {
-                height: 50vh;
+                height: 70vh;
             }
             
             .timer {
@@ -573,6 +644,16 @@
             padding: 5px 0;
             display: block;
         }
+        
+        /* Animation cho exam-code */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .exam-code {
+            animation: fadeIn 0.3s ease-out;
+        }
     </style>
 </head>
 <body>
@@ -587,43 +668,161 @@
             <p>Chào mừng bạn đến với Web Thi Toán - nền tảng hỗ trợ học tập và ôn luyện môn Toán dành cho học sinh từ lớp 10 đến lớp 12.</p>
             <p>Web cung cấp các đề thi theo chương trình học, giúp học sinh củng cố kiến thức và chuẩn bị tốt cho các kỳ thi quan trọng.</p>
             <p>Với giao diện thân thiện, dễ sử dụng và hệ thống chấm điểm tự động, Web Thi Toán là công cụ hữu ích cho việc tự học và đánh giá năng lực.</p>
-            <p><strong>Lưu ý:</strong> Hệ thống có tính năng chống gian lận. Nếu bạn thoát khỏi màn hình thi hoặc chuyển tab trong khi thi, bài thi sẽ tự động bị chấm 0 điểm. </p>
+            <p><strong>Lưu ý:</strong> Hệ thống có tính năng chống gian lận. Nếu bạn thoát khỏi màn hình thi hoặc chuyển tab trong khi thi, bài thi sẽ tự động bị chấm 0 điểm.</p>
         </section>
         
         <section class="menu">
             <div class="grade-section">
                 <h2>Toán 10</h2>
                 <ul class="exam-list">
-                    <li onclick="selectExam('toan10-gk1')">Đề thi giữa kỳ 1</li>
-                    <li onclick="selectExam('toan10-ck1')">Đề thi cuối kỳ 1</li>
-                    <li onclick="selectExam('toan10-gk2')">Đề thi giữa kỳ 2</li>
-                    <li onclick="selectExam('toan10-ck2')">Đề thi cuối kỳ 2</li>
+                    <li onclick="toggleExamCodes('toan10-gk1')">Đề thi giữa kỳ 1</li>
+                    <div id="toan10-gk1-codes" class="exam-codes">
+                        <p>Chọn đề:</p>
+                        <div class="exam-codes-list">
+                            <div class="exam-code" onclick="selectExamCode('toan10-gk1', '001')">Đề số 1</div>
+                            <div class="exam-code" onclick="selectExamCode('toan10-gk1', '002')">Đề số 2</div>
+                            <div class="exam-code" onclick="selectExamCode('toan10-gk1', '003')">Đề số 3</div>
+                            <div class="exam-code" onclick="selectExamCode('toan10-gk1', '004')">Đề số 4</div>
+                        </div>
+                    </div>
+                    
+                    <li onclick="toggleExamCodes('toan10-ck1')">Đề thi cuối kỳ 1</li>
+                    <div id="toan10-ck1-codes" class="exam-codes">
+                        <p>Chọn đề:</p>
+                        <div class="exam-codes-list">
+                            <div class="exam-code" onclick="selectExamCode('toan10-ck1', '001')">Đề số 1</div>
+                            <div class="exam-code" onclick="selectExamCode('toan10-ck1', '002')">Đề số 2</div>
+                            <div class="exam-code" onclick="selectExamCode('toan10-ck1', '003')">Đề số 3</div>
+                            <div class="exam-code" onclick="selectExamCode('toan10-ck1', '004')">Đề số 4</div>
+                        </div>
+                    </div>
+                    
+                    <li onclick="toggleExamCodes('toan10-gk2')">Đề thi giữa kỳ 2</li>
+                    <div id="toan10-gk2-codes" class="exam-codes">
+                        <p>Chọn đề:</p>
+                        <div class="exam-codes-list">
+                            <div class="exam-code" onclick="selectExamCode('toan10-gk2', '001')">Đề số 1</div>
+                            <div class="exam-code" onclick="selectExamCode('toan10-gk2', '002')">Đề số 2</div>
+                            <div class="exam-code" onclick="selectExamCode('toan10-gk2', '003')">Đề số 3</div>
+                            <div class="exam-code" onclick="selectExamCode('toan10-gk2', '004')">Đề số 4</div>
+                        </div>
+                    </div>
+                    
+                    <li onclick="toggleExamCodes('toan10-ck2')">Đề thi cuối kỳ 2</li>
+                    <div id="toan10-ck2-codes" class="exam-codes">
+                        <p>Chọn đề:</p>
+                        <div class="exam-codes-list">
+                            <div class="exam-code" onclick="selectExamCode('toan10-ck2', '001')">Đề số 1</div>
+                            <div class="exam-code" onclick="selectExamCode('toan10-ck2', '002')">Đề số 2</div>
+                            <div class="exam-code" onclick="selectExamCode('toan10-ck2', '003')">Đề số 3</div>
+                            <div class="exam-code" onclick="selectExamCode('toan10-ck2', '004')">Đề số 4</div>
+                        </div>
+                    </div>
                 </ul>
             </div>
             
             <div class="grade-section">
                 <h2>Toán 11</h2>
                 <ul class="exam-list">
-                    <li onclick="selectExam('toan11-gk1')">Đề thi giữa kỳ 1</li>
-                    <li onclick="selectExam('toan11-ck1')">Đề thi cuối kỳ 1</li>
-                    <li onclick="selectExam('toan11-gk2')">Đề thi giữa kỳ 2</li>
-                    <li onclick="selectExam('toan11-ck2')">Đề thi cuối kỳ 2</li>
+                    <li onclick="toggleExamCodes('toan11-gk1')">Đề thi giữa kỳ 1</li>
+                    <div id="toan11-gk1-codes" class="exam-codes">
+                        <p>Chọn đề:</p>
+                        <div class="exam-codes-list">
+                            <div class="exam-code" onclick="selectExamCode('toan11-gk1', '001')">Đề số 1</div>
+                            <div class="exam-code" onclick="selectExamCode('toan11-gk1', '002')">Đề số 2</div>
+                            <div class="exam-code" onclick="selectExamCode('toan11-gk1', '003')">Đề số 3</div>
+                            <div class="exam-code" onclick="selectExamCode('toan11-gk1', '004')">Đề số 4</div>
+                        </div>
+                    </div>
+                    
+                    <li onclick="toggleExamCodes('toan11-ck1')">Đề thi cuối kỳ 1</li>
+                    <div id="toan11-ck1-codes" class="exam-codes">
+                        <p>Chọn đề:</p>
+                        <div class="exam-codes-list">
+                            <div class="exam-code" onclick="selectExamCode('toan11-ck1', '001')">Đề số 1</div>
+                            <div class="exam-code" onclick="selectExamCode('toan11-ck1', '002')">Đề số 2</div>
+                            <div class="exam-code" onclick="selectExamCode('toan11-ck1', '003')">Đề số 3</div>
+                            <div class="exam-code" onclick="selectExamCode('toan11-ck1', '004')">Đề số 4</div>
+                        </div>
+                    </div>
+                    
+                    <li onclick="toggleExamCodes('toan11-gk2')">Đề thi giữa kỳ 2</li>
+                    <div id="toan11-gk2-codes" class="exam-codes">
+                        <p>Chọn đề:</p>
+                        <div class="exam-codes-list">
+                            <div class="exam-code" onclick="selectExamCode('toan11-gk2', '001')">Đề số 1</div>
+                            <div class="exam-code" onclick="selectExamCode('toan11-gk2', '002')">Đề số 2</div>
+                            <div class="exam-code" onclick="selectExamCode('toan11-gk2', '003')">Đề số 3</div>
+                            <div class="exam-code" onclick="selectExamCode('toan11-gk2', '004')">Đề số 4</div>
+                        </div>
+                    </div>
+                    
+                    <li onclick="toggleExamCodes('toan11-ck2')">Đề thi cuối kỳ 2</li>
+                    <div id="toan11-ck2-codes" class="exam-codes">
+                        <p>Chọn đề:</p>
+                        <div class="exam-codes-list">
+                            <div class="exam-code" onclick="selectExamCode('toan11-ck2', '001')">Đề số 1</div>
+                            <div class="exam-code" onclick="selectExamCode('toan11-ck2', '002')">Đề số 2</div>
+                            <div class="exam-code" onclick="selectExamCode('toan11-ck2', '003')">Đề số 3</div>
+                            <div class="exam-code" onclick="selectExamCode('toan11-ck2', '004')">Đề số 4</div>
+                        </div>
+                    </div>
                 </ul>
             </div>
             
             <div class="grade-section">
                 <h2>Toán 12</h2>
                 <ul class="exam-list">
-                    <li onclick="selectExam('toan12-gk1')">Đề thi giữa kỳ 1</li>
-                    <li onclick="selectExam('toan12-ck1')">Đề thi cuối kỳ 1</li>
-                    <li onclick="selectExam('toan12-gk2')">Đề thi giữa kỳ 2</li>
-                    <li onclick="selectExam('toan12-ck2')">Đề thi cuối kỳ 2</li>
+                    <li onclick="toggleExamCodes('toan12-gk1')">Đề thi giữa kỳ 1</li>
+                    <div id="toan12-gk1-codes" class="exam-codes">
+                        <p>Chọn đề:</p>
+                        <div class="exam-codes-list">
+                            <div class="exam-code" onclick="selectExamCode('toan12-gk1', '001')">Đề số 1</div>
+                            <div class="exam-code" onclick="selectExamCode('toan12-gk1', '002')">Đề số 2</div>
+                            <div class="exam-code" onclick="selectExamCode('toan12-gk1', '003')">Đề số 3</div>
+                            <div class="exam-code" onclick="selectExamCode('toan12-gk1', '004')">Đề số 4</div>
+                        </div>
+                    </div>
+                    
+                    <li onclick="toggleExamCodes('toan12-ck1')">Đề thi cuối kỳ 1</li>
+                    <div id="toan12-ck1-codes" class="exam-codes">
+                        <p>Chọn đề:</p>
+                        <div class="exam-codes-list">
+                            <div class="exam-code" onclick="selectExamCode('toan12-ck1', '001')">Đề số 1</div>
+                            <div class="exam-code" onclick="selectExamCode('toan12-ck1', '002')">Đề số 2</div>
+                            <div class="exam-code" onclick="selectExamCode('toan12-ck1', '003')">Đề số 3</div>
+                            <div class="exam-code" onclick="selectExamCode('toan12-ck1', '004')">Đề số 4</div>
+                        </div>
+                    </div>
+                    
+                    <li onclick="toggleExamCodes('toan12-gk2')">Đề thi giữa kỳ 2</li>
+                    <div id="toan12-gk2-codes" class="exam-codes">
+                        <p>Chọn đề:</p>
+                        <div class="exam-codes-list">
+                            <div class="exam-code" onclick="selectExamCode('toan12-gk2', '001')">Đề số 1</div>
+                            <div class="exam-code" onclick="selectExamCode('toan12-gk2', '002')">Đề số 2</div>
+                            <div class="exam-code" onclick="selectExamCode('toan12-gk2', '003')">Đề số 3</div>
+                            <div class="exam-code" onclick="selectExamCode('toan12-gk2', '004')">Đề số 4</div>
+                        </div>
+                    </div>
+                    
+                    <li onclick="toggleExamCodes('toan12-ck2')">Đề thi cuối kỳ 2</li>
+                    <div id="toan12-ck2-codes" class="exam-codes">
+                        <p>Chọn đề:</p>
+                        <div class="exam-codes-list">
+                            <div class="exam-code" onclick="selectExamCode('toan12-ck2', '001')">Đề số 1</div>
+                            <div class="exam-code" onclick="selectExamCode('toan12-ck2', '002')">Đề số 2</div>
+                            <div class="exam-code" onclick="selectExamCode('toan12-ck2', '003')">Đề số 3</div>
+                            <div class="exam-code" onclick="selectExamCode('toan12-ck2', '004')">Đề số 4</div>
+                        </div>
+                    </div>
                 </ul>
             </div>
         </section>
         
         <div id="exam-selection" style="text-align: center; margin-bottom: 30px; display: none;">
             <p>Bạn đã chọn: <span id="selected-exam-name"></span></p>
+            <p>Đề số: <span id="selected-exam-code"></span></p>
             <button class="btn" onclick="startExam()">Bắt đầu thi</button>
         </div>
         
@@ -676,7 +875,7 @@
                     </div>
                     
                     <div class="question-section">
-                        <h3>C. Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm) ( 4 câu trả lời ngắn, 4 câu trả lời đáp án của 4 câu tự luận</h3>
+                        <h3>C. Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm)</h3>
                         <div id="short-answer-questions">
                             <!-- Câu hỏi trả lời ngắn sẽ được thêm ở đây -->
                         </div>
@@ -720,12 +919,12 @@
         </div>
         
         <footer>
-            <p>Web Thi Toán &copy; </p>
             <p style="font-size: 0.9rem; color: #e74c3c; margin-top: 10px;">Hệ thống có tính năng chống gian lận - Không thoát màn hình khi đang thi</p>
         </footer>
     </div>
     <script>
     let selectedExam = '';
+    let selectedExamCode = '';
     let timerInterval;
     let timeLeft = 60 * 60; // 60 phút tính bằng giây
     let isFullscreen = false;
@@ -735,59 +934,128 @@
     let lastFocusTime = Date.now();
     let visibilityWarningShown = false;
     
-    // Đáp án cho đề thi Toán 10 cuối kỳ 1 
+    // Đáp án cho đề thi 
     const examAnswers = {
-        'toan10-gk1': {
+        
+        'toan10-gk1-001': {
             multipleChoice: [
                 'C', 'D', 'A', 'A', 'A', 'D', 'B', 'D', 'B', 'C',
                 'A', 'D'
             ],
             trueFalse: [
-                ['Đúng', 'Sai', 'Đúng', 'Sai'], // Câu 1: a,b,c,d
-                ['Đúng', 'Sai', 'Sai', 'Đúng'], // Câu 2: a,b,c,d
-                ['Sai', 'Đúng', 'Sai', 'Đúng']  // Câu 3: a,b,c,d
+                ['Đúng', 'Sai', 'Đúng', 'Sai'],
+                ['Đúng', 'Sai', 'Sai', 'Đúng'],
+                ['Sai', 'Đúng', 'Sai', 'Đúng']
             ],
             shortAnswer: [
-                '0.19',          // Câu 1
-                '53',           // Câu 2
-                '4',            // Câu 3
-                '3.25',         // Câu 4
-                '-2;2', // Câu 5 
-                '34.2', // Câu 6
-                '2', // Câu 7
-                '5/12'  // Câu 8
+                '0.19', '53', '4', '3.25', '-2;2', '34.2', '2', '5/12'
             ]
         },
-        'toan10-ck1': {
+        'toan10-gk1-002': {
             multipleChoice: [
                 'C', 'D', 'A', 'A', 'A', 'D', 'B', 'D', 'B', 'C',
                 'A', 'D'
             ],
             trueFalse: [
-                ['Đúng', 'Sai', 'Đúng', 'Sai'], // Câu 1: a,b,c,d
-                ['Đúng', 'Sai', 'Sai', 'Đúng'], // Câu 2: a,b,c,d
-                ['Sai', 'Đúng', 'Sai', 'Đúng']  // Câu 3: a,b,c,d
+                ['Đúng', 'Sai', 'Đúng', 'Sai'],
+                ['Đúng', 'Sai', 'Sai', 'Đúng'],
+                ['Sai', 'Đúng', 'Sai', 'Đúng']
             ],
             shortAnswer: [
-                '0.19',          // Câu 1
-                '53',           // Câu 2
-                '4',            // Câu 3
-                '3.25',         // Câu 4
-                '-2;2', // Câu 5 
-                '34.2', // Câu 6
-                '2', // Câu 7
-                '5/12'  // Câu 8
+                '0.19', '53', '4', '3.25', '-2;2', '34.2', '2', '5/12'
             ]
         },
-        'toan10-gk2': {
+        'toan10-gk1-003': {
+            multipleChoice: [
+                'C', 'D', 'A', 'A', 'A', 'D', 'B', 'D', 'B', 'C',
+                'A', 'D'
+            ],
+            trueFalse: [
+                ['Đúng', 'Sai', 'Đúng', 'Sai'],
+                ['Đúng', 'Sai', 'Sai', 'Đúng'],
+                ['Sai', 'Đúng', 'Sai', 'Đúng']
+            ],
+            shortAnswer: [
+                '0.19', '53', '4', '3.25', '-2;2', '34.2', '2', '5/12'
+            ]
+        },
+        'toan10-gk1-004': {
+            multipleChoice: [
+                'C', 'D', 'A', 'A', 'A', 'D', 'B', 'D', 'B', 'C',
+                'A', 'D'
+            ],
+            trueFalse: [
+                ['Đúng', 'Sai', 'Đúng', 'Sai'],
+                ['Đúng', 'Sai', 'Sai', 'Đúng'],
+                ['Sai', 'Đúng', 'Sai', 'Đúng']
+            ],
+            shortAnswer: [
+                '0.19', '53', '4', '3.25', '-2;2', '34.2', '2', '5/12'
+            ]
+        },
+        'toan10-ck1-001': {
+            multipleChoice: [
+                'C', 'D', 'A', 'A', 'A', 'D', 'B', 'D', 'B', 'C',
+                'A', 'D'
+            ],
+            trueFalse: [
+                ['Đúng', 'Sai', 'Đúng', 'Sai'], 
+                ['Đúng', 'Sai', 'Sai', 'Đúng'], 
+                ['Sai', 'Đúng', 'Sai', 'Đúng']  
+            ],
+            shortAnswer: [
+                '0.19', '53', '4', '3.25', '-2;2', '34.2', '2', '5/12'
+            ]
+        },
+        'toan10-ck1-002': {
+            multipleChoice: [
+                'B', 'B', 'D', 'A', 'C', 'B', 'A', 'C', 'B', 'B',
+                'A', 'A'
+            ],
+            trueFalse: [
+                ['Đúng', 'Sai', 'Đúng', 'Sai'],
+                ['Đúng', 'Sai', 'Đúng', 'Đúng']
+            ],
+            shortAnswer: [
+                '10', '2', '2.07', '4', '314.6', 'a/2', '-5;2'
+            ]
+        },
+        'toan10-ck1-003': {
+            multipleChoice: [
+                'C', 'D', 'A', 'A', 'A', 'D', 'B', 'D', 'B', 'C',
+                'A', 'D'
+            ],
+            trueFalse: [
+                ['Đúng', 'Sai', 'Đúng', 'Sai'],
+                ['Đúng', 'Sai', 'Sai', 'Đúng'],
+                ['Sai', 'Đúng', 'Sai', 'Đúng']
+            ],
+            shortAnswer: [
+                '0.19', '53', '4', '3.25', '-2;2', '34.2', '2', '5/12'
+            ]
+        },
+        'toan10-ck1-004': {
+            multipleChoice: [
+                'C', 'D', 'A', 'A', 'A', 'D', 'B', 'D', 'B', 'C',
+                'A', 'D'
+            ],
+            trueFalse: [
+                ['Đúng', 'Sai', 'Đúng', 'Sai'],
+                ['Đúng', 'Sai', 'Sai', 'Đúng'],
+                ['Sai', 'Đúng', 'Sai', 'Đúng']
+            ],
+            shortAnswer: [
+                '0.19', '53', '4', '3.25', '-2;2', '34.2', '2', '5/12'
+            ]
+        },
+        'toan10-gk2-001': {
             multipleChoice: [
                 'D', 'B', 'B', 'A', 'C', 'A', 'B', 'D', 'C', 'A',
                 'B', 'C'
             ],
             trueFalse: [
-                ['Đúng', 'Đúng', 'Sai', 'Sai'], // Câu 1: a,b,c,d
-                ['Đúng', 'Sai', 'Đúng', 'Đúng'], // Câu 2: a,b,c,d
-                
+                ['Đúng', 'Đúng', 'Sai', 'Sai'], 
+                ['Đúng', 'Sai', 'Đúng', 'Đúng'], 
             ],
             shortAnswer: [
                 '10',          // Câu 1
@@ -796,11 +1064,63 @@
                 '0.89',         // Câu 4
                 '-x^2+2x+3', // Câu 5 
                 '-7<m<-3', // Câu 6
-                '1', // Câu 7
-                '(x-3)^2+(y-2)^2=10'  // Câu 8
+                '1', 
+                '(x-3)^2+(y-2)^2=10'  
             ]
         },
-        'toan10-ck2': {
+        'toan10-gk2-002': {
+            multipleChoice: [
+                'D', 'A', 'D', 'C', 'A', 'D', 'D', 'C', 'A', 'D',
+                'A', 'C'
+            ],
+            trueFalse: [
+                ['Đúng', 'Sai', 'Sai', 'Đúng'],
+                ['Đúng', 'Sai', 'Đúng', 'Đúng']
+            ],
+            shortAnswer: [
+                '37', '-35', '27', '-1.5', '5/4', '4.5', '2101.80', 'x-2y-3=0'
+            ]
+        },
+        'toan10-gk2-003': {
+            multipleChoice: [
+                'D', 'B', 'B', 'A', 'C', 'A', 'B', 'D', 'C', 'A',
+                'B', 'C'
+            ],
+            trueFalse: [
+                ['Đúng', 'Đúng', 'Sai', 'Sai'], 
+                ['Đúng', 'Sai', 'Đúng', 'Đúng'], 
+            ],
+            shortAnswer: [
+                '10',          // Câu 1
+                '2',           // Câu 2
+                '5',            // Câu 3
+                '0.89',         // Câu 4
+                '-x^2+2x+3', // Câu 5 
+                '-7<m<-3', // Câu 6
+                '1', 
+                '(x-3)^2+(y-2)^2=10'  
+            ]
+        },'toan10-gk2-004': {
+            multipleChoice: [
+                'D', 'B', 'B', 'A', 'C', 'A', 'B', 'D', 'C', 'A',
+                'B', 'C'
+            ],
+            trueFalse: [
+                ['Đúng', 'Đúng', 'Sai', 'Sai'], 
+                ['Đúng', 'Sai', 'Đúng', 'Đúng'], 
+            ],
+            shortAnswer: [
+                '10',          // Câu 1
+                '2',           // Câu 2
+                '5',            // Câu 3
+                '0.89',         // Câu 4
+                '-x^2+2x+3', // Câu 5 
+                '-7<m<-3', // Câu 6
+                '1', 
+                '(x-3)^2+(y-2)^2=10'  
+            ]
+        },
+        'toan10-ck2-001': {
             multipleChoice: [
                 'A', 'B', 'D', 'A', 'B', 'C', 'D', 'B', 'A', 'A',
                 'B', 'C'
@@ -821,7 +1141,63 @@
                 '10'  // Câu 8
             ]
         },
-        'toan11-gk1': {
+        'toan10-ck2-002': {
+            multipleChoice: [
+                'C', 'D', 'A', 'A', 'A', 'D', 'B', 'D', 'B', 'C',
+                'A', 'D'
+            ],
+            trueFalse: [
+                ['Đúng', 'Sai', 'Đúng', 'Sai'],
+                ['Đúng', 'Sai', 'Sai', 'Đúng'],
+                ['Sai', 'Đúng', 'Sai', 'Đúng']
+            ],
+            shortAnswer: [
+                '0.19', '53', '4', '3.25', '-2;2', '34.2', '2', '5/12'
+            ]
+        },
+        'toan10-ck2-003': {
+           multipleChoice: [
+                'A', 'B', 'D', 'A', 'B', 'C', 'D', 'B', 'A', 'A',
+                'B', 'C'
+            ],
+            trueFalse: [
+                ['Đúng', 'Sai', 'Đúng', 'Sai'], // Câu 1: a,b,c,d
+                ['Đúng', 'Sai', 'Đúng', 'Đúng'], // Câu 2: a,b,c,d
+                
+            ],
+            shortAnswer: [
+                '6',          // Câu 1
+                '1080',           // Câu 2
+                '50',            // Câu 3
+                '7.62',         // Câu 4
+                '2x-y-7=0', // Câu 5 
+                '30', // Câu 6
+                '5', // Câu 7
+                '10'  // Câu 8
+            ]
+        },
+        'toan10-ck2-004': {
+            multipleChoice: [
+                'A', 'B', 'D', 'A', 'B', 'C', 'D', 'B', 'A', 'A',
+                'B', 'C'
+            ],
+            trueFalse: [
+                ['Đúng', 'Sai', 'Đúng', 'Sai'], // Câu 1: a,b,c,d
+                ['Đúng', 'Sai', 'Đúng', 'Đúng'], // Câu 2: a,b,c,d
+                
+            ],
+            shortAnswer: [
+                '6',          // Câu 1
+                '1080',           // Câu 2
+                '50',            // Câu 3
+                '7.62',         // Câu 4
+                '2x-y-7=0', // Câu 5 
+                '30', // Câu 6
+                '5', // Câu 7
+                '10'  // Câu 8
+            ]
+        },
+        'toan11-gk1-001': {
             multipleChoice: [
                 'A', 'D', 'C', 'B', 'C', 'D', 'C', 'A', 'A', 'C',
                 'C', 'D'
@@ -840,7 +1216,113 @@
                 
             ]
         },
-        'toan11-ck1': {
+        'toan11-gk1-002': {
+            multipleChoice: [
+                'A', 'D', 'A', 'D', 'C', 'B', 'C', 'D', 'A', 'B',
+                'C', 'B'
+            ],
+            trueFalse: [
+                ['Đúng', 'Đúng', 'Đúng', 'Sai'],
+                ['Sai', 'Đúng', 'Đúng', 'Sai'],
+                ['Đúng', 'Đúng', 'Sai', 'Đúng'],
+                ['Đúng', 'Đúng', 'Đúng', 'Sai']
+            ],
+            shortAnswer: [
+                '0.19', '53', '4', '3.25', '-2;2', '34.2', '2', '5/12' //chx sửa
+            ]
+        },
+        'toan11-gk1-003': {
+            multipleChoice: [
+                'A', 'D', 'C', 'B', 'C', 'D', 'C', 'A', 'A', 'C',
+                'C', 'D'
+            ],
+            trueFalse: [
+                ['Đúng', 'Sai', 'Đúng', 'Đúng'], // Câu 1: a,b,c,d
+                ['Đúng', 'Sai', 'Sai', 'Đúng'], // Câu 2: a,b,c,d
+                ['Đúng', 'Đúng', 'Sai', 'Đúng'], // Câu 3: a,b,c,d
+                ['Sai', 'Sai', 'Đúng', 'Đúng'], // Câu 4: a,b,c,d
+                
+            ],
+            shortAnswer: [
+                '8 / 31',          // Câu 1
+                '3',           // Câu 2
+                '5',            // Câu 3
+                
+            ]
+        },
+        'toan11-gk1-004': {
+            multipleChoice: [
+                'A', 'D', 'C', 'B', 'C', 'D', 'C', 'A', 'A', 'C',
+                'C', 'D'
+            ],
+            trueFalse: [
+                ['Đúng', 'Sai', 'Đúng', 'Đúng'], // Câu 1: a,b,c,d
+                ['Đúng', 'Sai', 'Sai', 'Đúng'], // Câu 2: a,b,c,d
+                ['Đúng', 'Đúng', 'Sai', 'Đúng'], // Câu 3: a,b,c,d
+                ['Sai', 'Sai', 'Đúng', 'Đúng'], // Câu 4: a,b,c,d
+                
+            ],
+            shortAnswer: [
+                '8 / 31',          // Câu 1
+                '3',           // Câu 2
+                '5',            // Câu 3
+                
+            ]
+        },
+        'toan11-ck1-001': {
+            multipleChoice: [
+                'B', 'B', 'C', 'A', 'A', 'C', 'B', 'C', 'C', 'D',
+                'B', 'D'
+            ],
+            trueFalse: [
+                ['Đúng', 'Đúng', 'Sai', 'Đúng'], // Câu 1: a,b,c,d
+                ['Đúng', 'Sai', 'Đúng', 'Sai'], // Câu 2: a,b,c,d
+                ['Sai', 'Đúng', 'Sai', 'Đúng'], // Câu 3: a,b,c,d
+                
+            ],
+            shortAnswer: [
+                '130',          // Câu 1
+                '5',           // Câu 2
+                '9',            // Câu 3
+                '-0.5',         // Câu 4
+                '30', // Câu 5 
+                '(3a^2 căn 3)/16', // Câu 6
+                '30', // Câu 7
+            ]
+        },'toan11-ck1-002': {
+            multipleChoice: [
+                'A', 'B', 'D', 'B', 'A', 'A', 'C', 'D', 'D', 'D',
+                'B', 'D'
+            ],
+            trueFalse: [
+                ['Đúng', 'Đúng', 'Đúng', 'Sai'],
+                ['Đúng', 'Sai', 'Đúng', 'Đúng']
+            ],
+            shortAnswer: [
+                '2', '-5', '65', '17'
+            ]
+        },
+        'toan11-ck1-003': {
+            multipleChoice: [
+                'B', 'B', 'C', 'A', 'A', 'C', 'B', 'C', 'C', 'D',
+                'B', 'D'
+            ],
+            trueFalse: [
+                ['Đúng', 'Đúng', 'Sai', 'Đúng'], // Câu 1: a,b,c,d
+                ['Đúng', 'Sai', 'Đúng', 'Sai'], // Câu 2: a,b,c,d
+                ['Sai', 'Đúng', 'Sai', 'Đúng'], // Câu 3: a,b,c,d
+                
+            ],
+            shortAnswer: [
+                '130',          // Câu 1
+                '5',           // Câu 2
+                '9',            // Câu 3
+                '-0.5',         // Câu 4
+                '30', // Câu 5 
+                '(3a^2 căn 3)/16', // Câu 6
+                '30', // Câu 7
+            ]
+        },'toan11-ck1-004': {
             multipleChoice: [
                 'B', 'B', 'C', 'A', 'A', 'C', 'B', 'C', 'C', 'D',
                 'B', 'D'
@@ -861,7 +1343,7 @@
                 '30', // Câu 7
             ]
         },
-        'toan11-gk2': {
+        'toan11-gk2-001': {
             multipleChoice: [
                 'C', 'A', 'D', 'A', 'A', 'C', 'D', 'C', 'C', 'A',
                 'B', 'A'
@@ -882,7 +1364,62 @@
                 '112 độ 26 phút 16 giây', // Câu 7
             ]
         },
-        'toan11-ck2': {
+        'toan11-gk2-002': {
+            multipleChoice: [
+                'C', 'D', 'B', 'D', 'B', 'A', 'B', 'C', 'A', 'C',
+                'A', 'D'
+            ],
+            trueFalse: [
+                ['Đúng', 'Đúng', 'Sai', 'Sai'],
+                ['Đúng', 'Sai', 'Đúng', 'Sai']
+            ],
+            shortAnswer: [
+                '7', '10', '2.56', '375', 'a^2', '5', '-1;3/7', '10^6'
+            ]
+        },
+        'toan11-gk2-003': {
+            multipleChoice: [
+                'C', 'A', 'D', 'A', 'A', 'C', 'D', 'C', 'C', 'A',
+                'B', 'A'
+            ],
+            trueFalse: [
+                ['Đúng', 'Đúng', 'Sai', 'Sai'], // Câu 1: a,b,c,d
+                ['Đúng', 'Sai', 'Sai', 'Đúng'], // Câu 2: a,b,c,d
+               
+                
+            ],
+            shortAnswer: [
+                '60',          // Câu 1
+                '10',           // Câu 2
+                '1.5',            // Câu 3
+                '9',         // Câu 4
+                '-1;2', // Câu 5 
+                '24 độ 5 phút', // Câu 6
+                '112 độ 26 phút 16 giây', // Câu 7
+            ]
+        },
+        'toan11-gk2-004': {
+            multipleChoice: [
+                'C', 'A', 'D', 'A', 'A', 'C', 'D', 'C', 'C', 'A',
+                'B', 'A'
+            ],
+            trueFalse: [
+                ['Đúng', 'Đúng', 'Sai', 'Sai'], // Câu 1: a,b,c,d
+                ['Đúng', 'Sai', 'Sai', 'Đúng'], // Câu 2: a,b,c,d
+               
+                
+            ],
+            shortAnswer: [
+                '60',          // Câu 1
+                '10',           // Câu 2
+                '1.5',            // Câu 3
+                '9',         // Câu 4
+                '-1;2', // Câu 5 
+                '24 độ 5 phút', // Câu 6
+                '112 độ 26 phút 16 giây', // Câu 7
+            ]
+        },
+        'toan11-ck2-001': {
             multipleChoice: [
                 'A', 'D', 'D', 'A', 'C', 'C', 'A', 'C', 'A', 'C',
                 'B', 'C'
@@ -904,7 +1441,64 @@
                 '0.708', // Câu 8
             ]
         },
-        'toan12-gk1': {
+        'toan11-ck2-002': {
+            multipleChoice: [
+                'A', 'C', 'D', 'B', 'A', 'C', 'C', 'D', 'A', 'D',
+                'B', 'B'
+            ],
+            trueFalse: [
+                ['Sai', 'Đúng', 'Sai', 'Đúng'],
+                ['Đúng', 'Sai', 'Đúng', 'Sai']
+            ],
+            shortAnswer: [
+                '10', '0.05', '245', '14', '2', '517.5', '5/9', '16/35'
+            ]
+        },
+        'toan11-ck2-003': {
+            multipleChoice: [
+                'A', 'D', 'D', 'A', 'C', 'C', 'A', 'C', 'A', 'C',
+                'B', 'C'
+            ],
+            trueFalse: [
+                ['Đúng', 'Đúng', 'Sai', 'Sai'], // Câu 1: a,b,c,d
+                ['Đúng', 'Sai', 'Sai', 'Đúng'], // Câu 2: a,b,c,d
+               
+                
+            ],
+            shortAnswer: [
+                '89',          // Câu 1
+                '43',           // Câu 2
+                '0.45',            // Câu 3
+                '0.29',         // Câu 4
+                '(a căn 15) / 5', // Câu 5 
+                '(3 căn 3) / 2', // Câu 6
+                '1 / 4', // Câu 7
+                '0.708', // Câu 8
+            ]
+        },
+        'toan11-ck2-004': {
+            multipleChoice: [
+                'A', 'D', 'D', 'A', 'C', 'C', 'A', 'C', 'A', 'C',
+                'B', 'C'
+            ],
+            trueFalse: [
+                ['Đúng', 'Đúng', 'Sai', 'Sai'], // Câu 1: a,b,c,d
+                ['Đúng', 'Sai', 'Sai', 'Đúng'], // Câu 2: a,b,c,d
+               
+                
+            ],
+            shortAnswer: [
+                '89',          // Câu 1
+                '43',           // Câu 2
+                '0.45',            // Câu 3
+                '0.29',         // Câu 4
+                '(a căn 15) / 5', // Câu 5 
+                '(3 căn 3) / 2', // Câu 6
+                '1 / 4', // Câu 7
+                '0.708', // Câu 8
+            ]
+        },
+        'toan12-gk1-001': {
             multipleChoice: [
                 'B', 'A', 'A', 'A', 'B', 'A', 'C', 'C', 'D', 'D',
                 'D', 'C'
@@ -927,7 +1521,67 @@
                 '112 độ 26 phút 16 giây', // Câu 7
             ]
         },
-        'toan12-ck1': {
+        'toan12-gk1-002': {
+            multipleChoice: [
+                'A', 'D', 'A', 'C', 'C', 'C', 'A', 'B', 'D', 'D',
+                'B', 'C'
+            ],
+            trueFalse: [
+                ['Sai', 'Sai', 'Đúng', 'Đúng'],
+                ['Sai', 'Sai', 'Đúng', 'Đúng'],
+                ['Đúng', 'Sai', 'Đúng', 'Sai']
+            ],
+            shortAnswer: [
+                '-6', '4', '1', '3.6', '5.8', '21', '-6', '4'
+            ]
+        },
+        'toan12-gk1-003': {
+            multipleChoice: [
+                'B', 'A', 'A', 'A', 'B', 'A', 'C', 'C', 'D', 'D',
+                'D', 'C'
+            ],
+            trueFalse: [
+                ['Sai', 'Sai', 'Đúng', 'Sai'], // Câu 1: a,b,c,d
+                ['Sai', 'Sai', 'Đúng', 'Đúng'], // Câu 2: a,b,c,d
+                ['Đúng', 'Sai', 'Đúng', 'Đúng'], // Câu 3: a,b,c,d
+                ['Đúng', 'Đúng', 'Sai', 'Đúng'], // Câu 4: a,b,c,d
+               
+                
+            ],
+            shortAnswer: [
+                '4',          // Câu 1
+                '-5',           // Câu 2
+                '6',            // Câu 3
+                '5',         // Câu 4
+                '35', // Câu 5 
+                '14', // Câu 6
+                '112 độ 26 phút 16 giây', // Câu 7
+            ]
+        },
+        'toan12-gk1-004': {
+            multipleChoice: [
+                'B', 'A', 'A', 'A', 'B', 'A', 'C', 'C', 'D', 'D',
+                'D', 'C'
+            ],
+            trueFalse: [
+                ['Sai', 'Sai', 'Đúng', 'Sai'], // Câu 1: a,b,c,d
+                ['Sai', 'Sai', 'Đúng', 'Đúng'], // Câu 2: a,b,c,d
+                ['Đúng', 'Sai', 'Đúng', 'Đúng'], // Câu 3: a,b,c,d
+                ['Đúng', 'Đúng', 'Sai', 'Đúng'], // Câu 4: a,b,c,d
+               
+                
+            ],
+            shortAnswer: [
+                '4',          // Câu 1
+                '-5',           // Câu 2
+                '6',            // Câu 3
+                '5',         // Câu 4
+                '35', // Câu 5 
+                '14', // Câu 6
+                '112 độ 26 phút 16 giây', // Câu 7
+            ]
+        },
+        'toan12-ck1-001': {
             multipleChoice: [
                 'A', 'A', 'D', 'D', 'D', 'D', 'C', 'D', 'B', 'A',
                 'D', 'D'
@@ -951,7 +1605,69 @@
                 '20' , // câu 8
             ]
         },
-        'toan12-gk2': {
+        'toan12-ck1-002': {
+            multipleChoice: [
+                'A', 'A', 'D', 'D', 'D', 'D', 'C', 'D', 'B', 'A',
+                'D', 'D'
+            ],
+            trueFalse: [
+                ['Sai', 'Sai', 'Đúng', 'Đúng'],
+                ['Sai', 'Sai', 'Đúng', 'Sai'],
+                ['Đúng', 'Sai', 'Đúng', 'Sai']
+            ],
+            shortAnswer: [
+                '8', '22.2', '2.5', '36', '-2;2', '34.2', '2', '5/12'
+            ]
+        },
+        'toan12-ck1-003': {
+            multipleChoice: [
+                'A', 'A', 'D', 'D', 'D', 'D', 'C', 'D', 'B', 'A',
+                'D', 'D'
+            ],
+            trueFalse: [
+                ['Sai', 'Sai', 'Đúng', 'Đúng'], // Câu 1: a,b,c,d
+                ['Sai', 'Sai', 'Đúng', 'Sai'], // Câu 2: a,b,c,d
+                ['Đúng', 'Sai', 'Đúng', 'Sai'], // Câu 3: a,b,c,d
+              
+               
+                
+            ],
+            shortAnswer: [
+                '8',          // Câu 1
+                '22.2',           // Câu 2
+                '2.5',            // Câu 3
+                '36',         // Câu 4
+                '-1;1', // Câu 5 
+                'căn 11', // Câu 6
+                'căn 2 / 2', // Câu 7
+                '20' , // câu 8
+            ]
+        },
+        'toan12-ck1-004': {
+            multipleChoice: [
+                'A', 'A', 'D', 'D', 'D', 'D', 'C', 'D', 'B', 'A',
+                'D', 'D'
+            ],
+            trueFalse: [
+                ['Sai', 'Sai', 'Đúng', 'Đúng'], // Câu 1: a,b,c,d
+                ['Sai', 'Sai', 'Đúng', 'Sai'], // Câu 2: a,b,c,d
+                ['Đúng', 'Sai', 'Đúng', 'Sai'], // Câu 3: a,b,c,d
+              
+               
+                
+            ],
+            shortAnswer: [
+                '8',          // Câu 1
+                '22.2',           // Câu 2
+                '2.5',            // Câu 3
+                '36',         // Câu 4
+                '-1;1', // Câu 5 
+                'căn 11', // Câu 6
+                'căn 2 / 2', // Câu 7
+                '20' , // câu 8
+            ]
+        },
+        'toan12-gk2-001': {
             multipleChoice: [
                 'D', 'B', 'A', 'D', 'A', 'A', 'B', 'A', 'C', 'A',
                 'A', 'D'
@@ -970,7 +1686,58 @@
                 
             ]
         },
-        'toan12-ck2': {
+        'toan12-gk2-002': {
+            multipleChoice: [
+                'A', 'A', 'B', 'B', 'D', 'C', 'C', 'B', 'A', 'B',
+                'A', 'D'
+            ],
+            trueFalse: [
+                ['Sai', 'Đúng', 'Đúng', 'Đúng'],
+                ['Đúng', 'Sai', 'Đúng', 'Sai']
+            ],
+            shortAnswer: [
+                '12', '6', '21', '3.4', '6.6', '630'
+            ]
+        },
+        'toan12-gk2-003': {
+            multipleChoice: [
+                'D', 'B', 'A', 'D', 'A', 'A', 'B', 'A', 'C', 'A',
+                'A', 'D'
+            ],
+            trueFalse: [
+                ['Đúng', 'Đúng', 'Sai', 'Sai'], // Câu 1: a,b,c,d
+                ['Sai', 'Sai', 'Đúng', 'Đúng'], // Câu 2: a,b,c,d
+               
+                
+            ],
+            shortAnswer: [
+                '7',          // Câu 1
+                '6.4',           // Câu 2
+                '4.5',            // Câu 3
+                '2',         // Câu 4
+                
+            ]
+        },
+        'toan12-gk2-004': {
+            multipleChoice: [
+                'D', 'B', 'A', 'D', 'A', 'A', 'B', 'A', 'C', 'A',
+                'A', 'D'
+            ],
+            trueFalse: [
+                ['Đúng', 'Đúng', 'Sai', 'Sai'], // Câu 1: a,b,c,d
+                ['Sai', 'Sai', 'Đúng', 'Đúng'], // Câu 2: a,b,c,d
+               
+                
+            ],
+            shortAnswer: [
+                '7',          // Câu 1
+                '6.4',           // Câu 2
+                '4.5',            // Câu 3
+                '2',         // Câu 4
+                
+            ]
+        },
+        'toan12-ck2-001': {
             multipleChoice: [
                 'D', 'A', 'D', 'B', 'B', 'A', 'A', 'B', 'C', 'B',
                 'C', 'B'
@@ -989,13 +1756,91 @@
                 
             ]
         },
+        'toan12-ck2-002': {
+            multipleChoice: [
+                'C', 'A', 'C', 'D', 'D', 'D', 'A', 'A', 'D', 'A',
+                'C', 'B'
+            ],
+            trueFalse: [
+                ['Sai', 'Đúng', 'Đúng', 'Sai'],
+                ['Đúng', 'Sai', 'Đúng', 'Đúng']
+            ],
+            shortAnswer: [
+                '7', '19', '38', '0.6', '4275', '0.73'
+            ]
+        },
+        'toan12-ck2-003': {
+            multipleChoice: [
+                'D', 'A', 'D', 'B', 'B', 'A', 'A', 'B', 'C', 'B',
+                'C', 'B'
+            ],
+            trueFalse: [
+                ['Đúng', 'Sai', 'Đúng', 'Đúng'], // Câu 1: a,b,c,d
+                ['Sai', 'Đúng', 'Đúng', 'Sai'], // Câu 2: a,b,c,d
+               
+                
+            ],
+            shortAnswer: [
+                '46',          // Câu 1
+                '-9',           // Câu 2
+                '44',            // Câu 3
+                '-1',         // Câu 4
+                
+            ]
+        },
+        'toan12-ck2-004': {
+            multipleChoice: [
+                'D', 'A', 'D', 'B', 'B', 'A', 'A', 'B', 'C', 'B',
+                'C', 'B'
+            ],
+            trueFalse: [
+                ['Đúng', 'Sai', 'Đúng', 'Đúng'], // Câu 1: a,b,c,d
+                ['Sai', 'Đúng', 'Đúng', 'Sai'], // Câu 2: a,b,c,d
+               
+                
+            ],
+            shortAnswer: [
+                '46',          // Câu 1
+                '-9',           // Câu 2
+                '44',            // Câu 3
+                '-1',         // Câu 4
+                
+            ]
+        },
+        
+        
     };
     
-    // Hàm chọn đề thi
-    function selectExam(examId) {
+    // Hàm hiển thị/ẩn mã đề khi click vào kỳ thi
+    function toggleExamCodes(examId) {
+        // Ẩn tất cả các danh sách mã đề
+        const allCodeLists = document.querySelectorAll('.exam-codes');
+        allCodeLists.forEach(list => {
+            list.classList.remove('active');
+        });
+        
+        // Hiển thị danh sách mã đề được chọn
+        const selectedList = document.getElementById(`${examId}-codes`);
+        if (selectedList) {
+            selectedList.classList.toggle('active');
+        }
+    }
+    
+    // Hàm chọn mã đề
+    function selectExamCode(examId, code) {
         selectedExam = examId;
+        selectedExamCode = code;
+        
+        // Hiển thị thông tin lựa chọn
         document.getElementById('selected-exam-name').textContent = getExamName(examId);
+        document.getElementById('selected-exam-code').textContent = `Mã đề ${code}`;
         document.getElementById('exam-selection').style.display = 'block';
+        
+        // Ẩn tất cả các danh sách mã đề
+        const allCodeLists = document.querySelectorAll('.exam-codes');
+        allCodeLists.forEach(list => {
+            list.classList.remove('active');
+        });
         
         // Cuộn đến phần chọn đề thi
         document.getElementById('exam-selection').scrollIntoView({ behavior: 'smooth' });
@@ -1004,18 +1849,50 @@
     // Hàm lấy tên đề thi
     function getExamName(examId) {
         const examNames = {
-            'toan10-gk1': 'Toán 10 - Đề thi giữa kỳ 1',
-            'toan10-ck1': 'Toán 10 - Đề thi cuối kỳ 1',
-            'toan10-gk2': 'Toán 10 - Đề thi giữa kỳ 2',
-            'toan10-ck2': 'Toán 10 - Đề thi cuối kỳ 2',
-            'toan11-gk1': 'Toán 11 - Đề thi giữa kỳ 1',
-            'toan11-ck1': 'Toán 11 - Đề thi cuối kỳ 1',
-            'toan11-gk2': 'Toán 11 - Đề thi giữa kỳ 2',
-            'toan11-ck2': 'Toán 11 - Đề thi cuối kỳ 2',
-            'toan12-gk1': 'Toán 12 - Đề thi giữa kỳ 1',
-            'toan12-ck1': 'Toán 12 - Đề thi cuối kỳ 1',
-            'toan12-gk2': 'Toán 12 - Đề thi giữa kỳ 2',
-            'toan12-ck2': 'Toán 12 - Đề thi cuối kỳ 2'
+            'toan10-gk1-001': 'Toán 10 - Đề kiểm tra giữa kỳ 1 Đề số 1',
+            'toan10-gk1-002': 'Toán 10 - Đề kiểm tra giữa kỳ 1 Đề số 2',
+            'toan10-gk1-003': 'Toán 10 - Đề kiểm tra giữa kỳ 1 Đề số 3',
+            'toan10-ck1-004': 'Toán 10 - Đề kiểm tra cuối kỳ 1 Đề số 4',
+            'toan10-gk2-001': 'Toán 10 - Đề kiểm tra giữa kỳ 2 Đề số 1',
+            'toan10-gk2-002': 'Toán 10 - Đề kiểm tra giữa kỳ 2 Đề số 2',
+            'toan10-gk2-003': 'Toán 10 - Đề kiểm tra giữa kỳ 2 Đề số 3',
+            'toan10-gk2-004': 'Toán 10 - Đề kiểm tra giữa kỳ 2 Đề số 4',
+            'toan10-ck2-001': 'Toán 10 - Đề kiểm tra cuối kỳ 2 Đề số 1',
+            'toan10-ck2-002': 'Toán 10 - Đề kiểm tra cuối kỳ 2 Đề số 2',
+            'toan10-ck2-003': 'Toán 10 - Đề kiểm tra cuối kỳ 2 Đề số 3',
+            'toan10-ck2-004': 'Toán 10 - Đề kiểm tra cuối kỳ 2 Đề số 4',
+            'toan11-gk1-001': 'Toán 11 - Đề kiểm tra giữa kỳ 1 Đề số 1',
+            'toan11-gk1-002': 'Toán 11 - Đề kiểm tra giữa kỳ 1 Đề số 2',
+            'toan11-gk1-003': 'Toán 11 - Đề kiểm tra giữa kỳ 1 Đề số 3',
+            'toan11-gk1-004': 'Toán 11 - Đề kiểm tra giữa kỳ 1 Đề số 4',
+            'toan11-ck1-001': 'Toán 11 - Đề kiểm tra cuối kỳ 1 Đề số 1',
+            'toan11-ck1-002': 'Toán 11 - Đề kiểm tra cuối kỳ 1 Đề số 2',
+            'toan11-ck1-003': 'Toán 11 - Đề kiểm tra cuối kỳ 1 Đề số 3',
+            'toan11-ck1-004': 'Toán 11 - Đề kiểm tra cuối kỳ 1 Đề số 4',
+            'toan11-gk2-001': 'Toán 11 - Đề kiểm tra giữa kỳ 2 Đề số 1',
+            'toan11-gk2-002': 'Toán 11 - Đề kiểm tra giữa kỳ 2 Đề số 2',
+            'toan11-gk2-003': 'Toán 11 - Đề kiểm tra giữa kỳ 2 Đề số 3',
+            'toan11-gk2-004': 'Toán 11 - Đề kiểm tra giữa kỳ 2 Đề số 4',
+            'toan11-ck2-001': 'Toán 11 - Đề kiểm tra cuối kỳ 2 Đề số 1',
+            'toan11-ck2-002': 'Toán 11 - Đề kiểm tra cuối kỳ 2 Đề số 2',
+            'toan11-ck2-003': 'Toán 11 - Đề kiểm tra cuối kỳ 2 Đề số 3',
+            'toan11-ck2-004': 'Toán 11 - Đề kiểm tra cuối kỳ 2 Đề số 4',
+            'toan12-gk1-001': 'Toán 12 - Đề kiểm tra giữa kỳ 1 Đề số 1',
+            'toan12-gk1-002': 'Toán 12 - Đề kiểm tra giữa kỳ 1 Đề số 2',
+            'toan12-gk1-003': 'Toán 12 - Đề kiểm tra giữa kỳ 1 Đề số 3',
+            'toan12-gk1-004': 'Toán 12 - Đề kiểm tra giữa kỳ 1 Đề số 4',
+            'toan12-ck1-001': 'Toán 12 - Đề kiểm tra cuối kỳ 1 Đề số 1',
+            'toan12-ck1-002': 'Toán 12 - Đề kiểm tra cuối kỳ 1 Đề số 2',
+            'toan12-ck1-003': 'Toán 12 - Đề kiểm tra cuối kỳ 1 Đề số 3',
+            'toan12-ck1-004': 'Toán 12 - Đề kiểm tra cuối kỳ 1 Đề số 4',
+            'toan12-gk2-001': 'Toán 12 - Đề kiểm tra giữa kỳ 2 Đề số 1',
+            'toan12-gk2-002': 'Toán 12 - Đề kiểm tra giữa kỳ 2 Đề số 2',
+            'toan12-gk2-003': 'Toán 12 - Đề kiểm tra giữa kỳ 2 Đề số 3',
+            'toan12-gk2-004': 'Toán 12 - Đề kiểm tra giữa kỳ 2 Đề số 4',
+            'toan12-ck2-001': 'Toán 12 - Đề kiểm tra cuối kỳ 2 Đề số 1',
+            'toan12-ck2-002': 'Toán 12 - Đề kiểm tra cuối kỳ 2 Đề số 2',
+            'toan12-ck2-003': 'Toán 12 - Đề kiểm tra cuối kỳ 2 Đề số 3',
+            'toan12-ck2-004': 'Toán 12 - Đề kiểm tra cuối kỳ 2 Đề số 4',
         };
         
         return examNames[examId] || 'Đề thi';
@@ -1039,8 +1916,8 @@
         document.getElementById('warning-count').textContent = '0';
         
         // Hiển thị đề thi
-        document.getElementById('exam-title').textContent = getExamName(selectedExam);
-        document.getElementById('exam-description').innerHTML = generateExamContent(selectedExam);
+        document.getElementById('exam-title').textContent = `${getExamName(selectedExam)} - Đề số ${selectedExamCode}`;
+        document.getElementById('exam-description').innerHTML = generateExamContent(selectedExam, selectedExamCode);
         
         // Khởi tạo câu hỏi mẫu
         generateSampleQuestions();
@@ -1060,433 +1937,421 @@
         document.getElementById('exam-container').scrollIntoView({ behavior: 'smooth' });
     }
     
-    // Hàm tạo nội dung đề thi //
-    // giữa kì 1 toán 10 // 
-    function generateExamContent(examId) {
-        if (examId === 'toan10-gk1') {
-            return `
-                <div class="exam-instructions">
-                    <p><strong>Thời gian làm bài: 60 phút</strong></p>
-                    <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
-                    <p><strong>Hướng dẫn chung:</strong></p>
-                    <ul>
-                        <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
-                        <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
-                        <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
-                        <li>Tổng điểm: 10 điểm</li>
-                        <li>Thí sinh không được sử dụng tài liệu</li>
-                        <li>Điền đáp án vào đúng vị trí quy định</li>
-                    </ul>
-                    <p style="color: #e74c3c; font-weight: bold;">
-                        ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
-                        Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
-                    </p>
-                </div>
-                <p><strong>Đề thi:</strong></p>
-                <iframe src="https://drive.google.com/file/d/1CbILHvTTWRPLcZpkDLOkxOifxhNctHbG/preview" 
-                        class="exam-frame" 
-                        allow="autoplay">
-                </iframe>
-            `;
+    // Hàm tạo nội dung đề thi
+    function generateExamContent(examId, examCode) {
+        // Tạo URL Google Drive cho đề thi
+        let driveUrl = '';
         
+        switch(examId) {
+            case 'toan10-gk1':
+                if (examCode === '001') {
+                    driveUrl = 'https://drive.google.com/file/d/1CbILHvTTWRPLcZpkDLOkxOifxhNctHbG/preview';
+                } else if (examCode === '002'){
+                    driveUrl = 'https://drive.google.com/file/d/1CbILHvTTWRPLcZpkDLOkxOifxhNctHbG/preview';
+                } else if (examCode === '003'){
+                    driveUrl = 'https://drive.google.com/file/d/1CbILHvTTWRPLcZpkDLOkxOifxhNctHbG/preview';
+                } else if (examCode === '004'){
+                    driveUrl = 'https://drive.google.com/file/d/1CbILHvTTWRPLcZpkDLOkxOifxhNctHbG/preview';
+                }
+                break;
+            case 'toan10-ck1':
+                if (examCode === '001') {
+                    driveUrl = 'https://drive.google.com/file/d/1GCq_4NC1DemeTJ-qC3TaS4A-dg5si2_5/preview';
+                } else if (examCode === '002') {
+                    driveUrl = 'https://drive.google.com/file/d/1s9CguQv2NIHXcucKYmG0jx-ALepjdBwK/preview';
+                } else if (examCode === '003') {
+                    driveUrl = 'https://drive.google.com/file/d/1GCq_4NC1DemeTJ-qC3TaS4A-dg5si2_5/preview';
+                } else if (examCode === '003') {
+                    driveUrl = 'https://drive.google.com/file/d/1GCq_4NC1DemeTJ-qC3TaS4A-dg5si2_5/preview';
+                } 
+                break;
+            case 'toan10-gk2':
+                if (examCode === '001') {
+                driveUrl = 'https://drive.google.com/file/d/1w2Pt5ktO-ADS8gOkfXzdhXMdft4sNTQL/preview';
+                } else if (examCode === '002') {
+                driveUrl = 'https://drive.google.com/file/d/10FXNVipsgTuGuoA6GwBBZQd1rmmtEUz4/preview';
+                } else if (examCode === '003') {
+                driveUrl = 'https://drive.google.com/file/d/1w2Pt5ktO-ADS8gOkfXzdhXMdft4sNTQL/preview';
+                } else if (examCode === '004') {
+                driveUrl = 'https://drive.google.com/file/d/1w2Pt5ktO-ADS8gOkfXzdhXMdft4sNTQL/preview';
+                }
+                break;
+            case 'toan10-ck2':
+                if (examCode ==='001'){
+                driveUrl = 'https://drive.google.com/file/d/1w48m6IyLmF9suq3vAlZwagV3L-8zlhtx/preview';
+                } else if (examCode ==='002'){
+                driveUrl = 'https://drive.google.com/file/d/1w48m6IyLmF9suq3vAlZwagV3L-8zlhtx/preview';
+                } else if (examCode ==='003'){
+                driveUrl = 'https://drive.google.com/file/d/1w48m6IyLmF9suq3vAlZwagV3L-8zlhtx/preview';
+                } else if (examCode ==='004'){
+                driveUrl = 'https://drive.google.com/file/d/1w48m6IyLmF9suq3vAlZwagV3L-8zlhtx/preview';
+                }
+                break;
+            case 'toan11-gk1':
+                if (examCode === '001'){
+                driveUrl = 'https://drive.google.com/file/d/1lepuGPnF-zv4eUClL-SeqKP5-7YwbKDd/preview';
+                } else if (examCode === '002'){
+                driveUrl = 'https://drive.google.com/file/d/1riW5vQuL8Ug8BVplOuNKZVYEQGy3PGFq/preview';
+                } else if (examCode === '003'){
+                driveUrl = 'https://drive.google.com/file/d/1lepuGPnF-zv4eUClL-SeqKP5-7YwbKDd/preview';
+                } else if (examCode === '004'){
+                driveUrl = 'https://drive.google.com/file/d/1lepuGPnF-zv4eUClL-SeqKP5-7YwbKDd/preview';
+                }
+                break;
+            case 'toan11-ck1':
+                if (examCode ==='001'){
+                driveUrl = 'https://drive.google.com/file/d/1gz0pzpAu7XaXwgDILZ8FHh7vu7SI8VWj/preview';
+                } else if (examCode ==='002'){
+                driveUrl = 'https://drive.google.com/file/d/1fbpPPSWv4z2Ep7zryEoOtjG2djd19J_2/preview';
+                } else if (examCode ==='003'){
+                driveUrl = 'https://drive.google.com/file/d/1gz0pzpAu7XaXwgDILZ8FHh7vu7SI8VWj/preview';
+                } else if (examCode ==='004'){
+                driveUrl = 'https://drive.google.com/file/d/1gz0pzpAu7XaXwgDILZ8FHh7vu7SI8VWj/preview';
+                }
+                break;
+            case 'toan11-gk2':
+                if (examCode === '001'){
+                driveUrl = 'https://drive.google.com/file/d/1O9yoHW_UyeHIaJk4LwhgtuuRhxUhe0Uj/preview';
+                } else if (examCode === '002'){
+                driveUrl = 'https://drive.google.com/file/d/1Wze8Wa9A3Ji7ehF_boV_NSzJ98kTtxMW/preview';
+                } else if (examCode === '003'){
+                driveUrl = 'https://drive.google.com/file/d/1O9yoHW_UyeHIaJk4LwhgtuuRhxUhe0Uj/preview';
+                } else if (examCode === '004'){
+                driveUrl = 'https://drive.google.com/file/d/1O9yoHW_UyeHIaJk4LwhgtuuRhxUhe0Uj/preview';
+                }
+                break;
+            case 'toan11-ck2':
+                if (examCode ==='001'){
+                driveUrl = 'https://drive.google.com/file/d/1lIip-UB3k62EWrHsE8Kmjo7SLsqww1Fu/preview';
+                } else if (examCode ==='002'){
+                driveUrl = 'https://drive.google.com/file/d/17iJKjEueJDlYn1mooPxAuB1plrhmPX2M/preview';
+                } else if (examCode ==='003'){
+                driveUrl = 'https://drive.google.com/file/d/1lIip-UB3k62EWrHsE8Kmjo7SLsqww1Fu/preview';
+                } else if (examCode ==='004'){
+                driveUrl = 'https://drive.google.com/file/d/1lIip-UB3k62EWrHsE8Kmjo7SLsqww1Fu/preview';
+                }
+                break;
+            case 'toan12-gk1':
+                if (examCode === '001'){
+                driveUrl = 'https://drive.google.com/file/d/1u3w5el0Xb9VeP6OzBP7BXgUGQGU7TTJH/preview';
+                } else if (examCode === '002'){
+                driveUrl = 'https://drive.google.com/file/d/14J2GEW-w8RTAu2qmsh7da_Cd00SsD9o1/preview';
+                } else if (examCode === '003'){
+                driveUrl = 'https://drive.google.com/file/d/1u3w5el0Xb9VeP6OzBP7BXgUGQGU7TTJH/preview';
+                } else if (examCode === '004'){
+                driveUrl = 'https://drive.google.com/file/d/1u3w5el0Xb9VeP6OzBP7BXgUGQGU7TTJH/preview';
+                }
+                break;
+            case 'toan12-ck1':
+                if (examCode ==='001'){
+                driveUrl = 'https://drive.google.com/file/d/1TCJYHNIdAp6z2oGVocecUhkg4rIgyeVB/preview';
+                } else if (examCode ==='002'){
+                driveUrl = 'https://drive.google.com/file/d/17Zp8lKmRG3JvXf62_x6V1f8ILJA-WSh5/preview';
+                } else if (examCode ==='003'){
+                driveUrl = 'https://drive.google.com/file/d/1TCJYHNIdAp6z2oGVocecUhkg4rIgyeVB/preview';
+                } else if (examCode ==='004'){
+                driveUrl = 'https://drive.google.com/file/d/1TCJYHNIdAp6z2oGVocecUhkg4rIgyeVB/preview';
+                }
+                break;
+            case 'toan12-gk2':
+                if (examCode ==='001'){
+                driveUrl = 'https://drive.google.com/file/d/1kf7edmUHo8mHXv1rq-nNAbLXSlgvaki6/preview';
+                } else if (examCode ==='002'){
+                driveUrl = 'https://drive.google.com/file/d/1FIC-zGhrzblfprxmeedDxzSzhuSuVAXv/preview';
+                } else if (examCode ==='003'){
+                driveUrl = 'https://drive.google.com/file/d/1kf7edmUHo8mHXv1rq-nNAbLXSlgvaki6/preview';
+                } else if (examCode ==='004'){
+                driveUrl = 'https://drive.google.com/file/d/1kf7edmUHo8mHXv1rq-nNAbLXSlgvaki6/preview';
+                }
+                break;
+            case 'toan12-ck2':
+                if (examCode === '001'){
+                driveUrl = 'https://drive.google.com/file/d/1FG8b1RfMiVGttph2qssqh8MkoC2H_742/preview';
+                } else if (examCode === '002'){
+                driveUrl = 'https://drive.google.com/file/d/1rlShabMc3pgzpe2s1RH5iLmwXcYRBA-X/preview';
+                } else if (examCode === '003'){
+                driveUrl = 'https://drive.google.com/file/d/1FG8b1RfMiVGttph2qssqh8MkoC2H_742/preview';
+                } else if (examCode === '004'){
+                driveUrl = 'https://drive.google.com/file/d/1FG8b1RfMiVGttph2qssqh8MkoC2H_742/preview';
+                }
+                break;
         }
-        if (examId === 'toan10-ck1') {
-            return `
-                <div class="exam-instructions">
-                    <p><strong>Thời gian làm bài: 60 phút</strong></p>
-                    <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
-                    <p><strong>Hướng dẫn chung:</strong></p>
-                    <ul>
-                        <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
-                        <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
-                        <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
-                        <li>Tổng điểm: 10 điểm</li>
-                        <li>Thí sinh không được sử dụng tài liệu</li>
-                        <li>Điền đáp án vào đúng vị trí quy định</li>
-                    </ul>
-                    <p style="color: #e74c3c; font-weight: bold;">
-                        ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
-                        Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
-                    </p>
-                </div>
-                <p><strong>Đề thi:</strong></p>
-                <iframe src="https://drive.google.com/file/d/1GCq_4NC1DemeTJ-qC3TaS4A-dg5si2_5/preview" 
-                        class="exam-frame" 
-                        allow="autoplay">
-                </iframe>
-            `;
         
-        }
-        if (examId === 'toan10-gk2') {
-            return `
-                <div class="exam-instructions">
-                    <p><strong>Thời gian làm bài: 60 phút</strong></p>
-                    <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
-                    <p><strong>Hướng dẫn chung:</strong></p>
-                    <ul>
-                        <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
-                        <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
-                        <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
-                        <li>Tổng điểm: 10 điểm</li>
-                        <li>Thí sinh không được sử dụng tài liệu</li>
-                        <li>Điền đáp án vào đúng vị trí quy định</li>
-                    </ul>
-                    <p style="color: #e74c3c; font-weight: bold;">
-                        ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
-                        Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
-                    </p>
-                </div>
-                <p><strong>Đề thi:</strong></p>
-                <iframe src="https://drive.google.com/file/d/1w2Pt5ktO-ADS8gOkfXzdhXMdft4sNTQL/preview" 
+        return `
+            <div class="exam-instructions">
+                <p><strong>Thời gian làm bài: 60 phút</strong></p>
+                <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
+                <p><strong>Đề: ${examCode}</strong></p>
+                <p><strong>Hướng dẫn chung:</strong></p>
+                <ul>
+                    <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
+                    <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
+                    <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm)</li>
+                    <li>Tổng điểm: 10 điểm</li>
+                    <li>Thí sinh không được sử dụng tài liệu</li>
+                    <li>Điền đáp án vào đúng vị trí quy định</li>
+                </ul>
+                <p style="color: #e74c3c; font-weight: bold;">
+                    ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
+                    Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
+                </p>
+            </div>
+            <p><strong>Đề thi:</strong></p>
+            <div class="exam-frame-container">
+                <iframe src="${driveUrl}" 
                         class="exam-frame" 
                         allow="autoplay">
                 </iframe>
-            `;
-        
-        }
-        if (examId === 'toan10-ck2') {
-            return `
-                <div class="exam-instructions">
-                    <p><strong>Thời gian làm bài: 60 phút</strong></p>
-                    <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
-                    <p><strong>Hướng dẫn chung:</strong></p>
-                    <ul>
-                        <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
-                        <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
-                        <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
-                        <li>Tổng điểm: 10 điểm</li>
-                        <li>Thí sinh không được sử dụng tài liệu</li>
-                        <li>Điền đáp án vào đúng vị trí quy định</li>
-                    </ul>
-                    <p style="color: #e74c3c; font-weight: bold;">
-                        ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
-                        Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
-                    </p>
-                </div>
-                <p><strong>Đề thi:</strong></p>
-                <iframe src="https://drive.google.com/file/d/1w48m6IyLmF9suq3vAlZwagV3L-8zlhtx/preview" 
-                        class="exam-frame" 
-                        allow="autoplay">
-                </iframe>
-            `;
-        }
-        if (examId === 'toan11-gk1') {
-            return `
-                <div class="exam-instructions">
-                    <p><strong>Thời gian làm bài: 60 phút</strong></p>
-                    <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
-                    <p><strong>Hướng dẫn chung:</strong></p>
-                    <ul>
-                        <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
-                        <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
-                        <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
-                        <li>Tổng điểm: 10 điểm</li>
-                        <li>Thí sinh không được sử dụng tài liệu</li>
-                        <li>Điền đáp án vào đúng vị trí quy định</li>
-                    </ul>
-                    <p style="color: #e74c3c; font-weight: bold;">
-                        ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
-                        Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
-                    </p>
-                </div>
-                <p><strong>Đề thi:</strong></p>
-                <iframe src="https://drive.google.com/file/d/1lepuGPnF-zv4eUClL-SeqKP5-7YwbKDd/preview" 
-                        class="exam-frame" 
-                        allow="autoplay">
-                </iframe>
-            `;
-        
-        }
-        if (examId === 'toan11-ck1') {
-            return `
-                <div class="exam-instructions">
-                    <p><strong>Thời gian làm bài: 60 phút</strong></p>
-                    <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
-                    <p><strong>Hướng dẫn chung:</strong></p>
-                    <ul>
-                        <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
-                        <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
-                        <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
-                        <li>Tổng điểm: 10 điểm</li>
-                        <li>Thí sinh không được sử dụng tài liệu</li>
-                        <li>Điền đáp án vào đúng vị trí quy định</li>
-                    </ul>
-                    <p style="color: #e74c3c; font-weight: bold;">
-                        ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
-                        Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
-                    </p>
-                </div>
-                <p><strong>Đề thi:</strong></p>
-                <iframe src="https://drive.google.com/file/d/1gz0pzpAu7XaXwgDILZ8FHh7vu7SI8VWj/preview" 
-                        class="exam-frame" 
-                        allow="autoplay">
-                </iframe>
-            `;
-        
-        }
-        if (examId === 'toan11-gk2') {
-            return `
-                <div class="exam-instructions">
-                    <p><strong>Thời gian làm bài: 60 phút</strong></p>
-                    <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
-                    <p><strong>Hướng dẫn chung:</strong></p>
-                    <ul>
-                        <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
-                        <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
-                        <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
-                        <li>Tổng điểm: 10 điểm</li>
-                        <li>Thí sinh không được sử dụng tài liệu</li>
-                        <li>Điền đáp án vào đúng vị trí quy định</li>
-                    </ul>
-                    <p style="color: #e74c3c; font-weight: bold;">
-                        ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
-                        Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
-                    </p>
-                </div>
-                <p><strong>Đề thi:</strong></p>
-                <iframe src="https://drive.google.com/file/d/1O9yoHW_UyeHIaJk4LwhgtuuRhxUhe0Uj/preview" 
-                        class="exam-frame" 
-                        allow="autoplay">
-                </iframe>
-            `;
-        
-        }
-        if (examId === 'toan11-ck2') {
-            return `
-                <div class="exam-instructions">
-                    <p><strong>Thời gian làm bài: 60 phút</strong></p>
-                    <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
-                    <p><strong>Hướng dẫn chung:</strong></p>
-                    <ul>
-                        <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
-                        <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
-                        <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
-                        <li>Tổng điểm: 10 điểm</li>
-                        <li>Thí sinh không được sử dụng tài liệu</li>
-                        <li>Điền đáp án vào đúng vị trí quy định</li>
-                    </ul>
-                    <p style="color: #e74c3c; font-weight: bold;">
-                        ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
-                        Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
-                    </p>
-                </div>
-                <p><strong>Đề thi:</strong></p>
-                <iframe src="https://drive.google.com/file/d/1lIip-UB3k62EWrHsE8Kmjo7SLsqww1Fu/preview" 
-                        class="exam-frame" 
-                        allow="autoplay">
-                </iframe>
-            `;
-        
-        }
-        if (examId === 'toan12-gk1') {
-            return `
-                <div class="exam-instructions">
-                    <p><strong>Thời gian làm bài: 60 phút</strong></p>
-                    <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
-                    <p><strong>Hướng dẫn chung:</strong></p>
-                    <ul>
-                        <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
-                        <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
-                        <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
-                        <li>Tổng điểm: 10 điểm</li>
-                        <li>Thí sinh không được sử dụng tài liệu</li>
-                        <li>Điền đáp án vào đúng vị trí quy định</li>
-                    </ul>
-                    <p style="color: #e74c3c; font-weight: bold;">
-                        ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
-                        Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
-                    </p>
-                </div>
-                <p><strong>Đề thi:</strong></p>
-                <iframe src="https://drive.google.com/file/d/1u3w5el0Xb9VeP6OzBP7BXgUGQGU7TTJH/preview" 
-                        class="exam-frame" 
-                        allow="autoplay">
-                </iframe>
-            `;
-        
-        }
-        if (examId === 'toan12-ck1') {
-            return `
-                <div class="exam-instructions">
-                    <p><strong>Thời gian làm bài: 60 phút</strong></p>
-                    <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
-                    <p><strong>Hướng dẫn chung:</strong></p>
-                    <ul>
-                        <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
-                        <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
-                        <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
-                        <li>Tổng điểm: 10 điểm</li>
-                        <li>Thí sinh không được sử dụng tài liệu</li>
-                        <li>Điền đáp án vào đúng vị trí quy định</li>
-                    </ul>
-                    <p style="color: #e74c3c; font-weight: bold;">
-                        ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
-                        Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
-                    </p>
-                </div>
-                <p><strong>Đề thi:</strong></p>
-                <iframe src="https://drive.google.com/file/d/1TCJYHNIdAp6z2oGVocecUhkg4rIgyeVB/preview" 
-                        class="exam-frame" 
-                        allow="autoplay">
-                </iframe>
-            `;
-        }
-        if (examId === 'toan12-gk2') {
-            return `
-                <div class="exam-instructions">
-                    <p><strong>Thời gian làm bài: 60 phút</strong></p>
-                    <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
-                    <p><strong>Hướng dẫn chung:</strong></p>
-                    <ul>
-                        <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
-                        <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
-                        <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
-                        <li>Tổng điểm: 10 điểm</li>
-                        <li>Thí sinh không được sử dụng tài liệu</li>
-                        <li>Điền đáp án vào đúng vị trí quy định</li>
-                    </ul>
-                    <p style="color: #e74c3c; font-weight: bold;">
-                        ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
-                        Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
-                    </p>
-                </div>
-                <p><strong>Đề thi:</strong></p>
-                <iframe src="https://drive.google.com/file/d/1kf7edmUHo8mHXv1rq-nNAbLXSlgvaki6/preview" 
-                        class="exam-frame" 
-                        allow="autoplay">
-                </iframe>
-            `;
-        
-        }
-        if (examId === 'toan12-ck2') {
-            return `
-                <div class="exam-instructions">
-                    <p><strong>Thời gian làm bài: 60 phút</strong></p>
-                    <p><strong>Hình thức thi: Trắc nghiệm kết hợp tự luận</strong></p>
-                    <p><strong>Hướng dẫn chung:</strong></p>
-                    <ul>
-                        <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
-                        <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
-                        <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm. Trong đó 4 câu trên là của trả lời ngắn, 4 câu dưới là tự luận. Lưu ý: Khi làm bài phân số được viết dưới dạng a/b, số thập phân là "." chứ không phải dấu "," tìm tọa độ (a;b) thì ghi a;b hoặc (a;b;c) thì ghi a;b;c)</li>
-                        <li>Tổng điểm: 10 điểm</li>
-                        <li>Thí sinh không được sử dụng tài liệu</li>
-                        <li>Điền đáp án vào đúng vị trí quy định</li>
-                    </ul>
-                    <p style="color: #e74c3c; font-weight: bold;">
-                        ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
-                        Nếu bạn rời khỏi màn hình thi hoặc chuyển tab, bài thi sẽ bị hủy với 0 điểm!
-                    </p>
-                </div>
-                <p><strong>Đề thi:</strong></p>
-                <iframe src="https://drive.google.com/file/d/1FG8b1RfMiVGttph2qssqh8MkoC2H_742/preview" 
-                        class="exam-frame" 
-                        allow="autoplay">
-                </iframe>
-            `;
-        
-        }
+            </div>
+        `;
     }
     
     // Hàm tạo câu hỏi mẫu
-    function generateSampleQuestions() {
-        const multipleChoiceContainer = document.getElementById('multiple-choice-questions');
-        const trueFalseContainer = document.getElementById('true-false-questions');
-        const shortAnswerContainer = document.getElementById('short-answer-questions');
+    // Hàm tạo câu hỏi mẫu - SỬA ĐỂ TẠO ĐÚNG SỐ CÂU HỎI THEO TỪNG ĐỀ
+function generateSampleQuestions() {
+    const multipleChoiceContainer = document.getElementById('multiple-choice-questions');
+    const trueFalseContainer = document.getElementById('true-false-questions');
+    const shortAnswerContainer = document.getElementById('short-answer-questions');
+    
+    // Xóa nội dung cũ
+    multipleChoiceContainer.innerHTML = '';
+    trueFalseContainer.innerHTML = '';
+    shortAnswerContainer.innerHTML = '';
+    
+    // Lấy đáp án cho đề thi hiện tại
+    const answerKey = examAnswers[`${selectedExam}-${selectedExamCode}`];
+    
+    if (!answerKey) {
+        console.log(`Không tìm thấy đáp án cho mã đề: ${selectedExam}-${selectedExamCode}`);
+        return;
+    }
+    
+    // Tạo câu hỏi trắc nghiệm nhiều lựa chọn (luôn 12 câu)
+    for (let i = 1; i <= 12; i++) {
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'question';
         
-        // Xóa nội dung cũ
-        multipleChoiceContainer.innerHTML = '';
-        trueFalseContainer.innerHTML = '';
-        shortAnswerContainer.innerHTML = '';
-        
-        // Tạo 12 câu hỏi trắc nghiệm nhiều lựa chọn
-        for (let i = 1; i <= 12; i++) {
-            const questionDiv = document.createElement('div');
-            questionDiv.className = 'question';
-            
-            questionDiv.innerHTML = `
-                <div class="question-title">Câu ${i}: Đây là câu hỏi mẫu số ${i}?</div>
-                <div class="options">
-                    <div class="option">
-                        <input type="radio" id="q${i}_a" name="q${i}" value="A">
-                        <label for="q${i}_a">Đáp án A</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" id="q${i}_b" name="q${i}" value="B">
-                        <label for="q${i}_b">Đáp án B</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" id="q${i}_c" name="q${i}" value="C">
-                        <label for="q${i}_c">Đáp án C</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" id="q${i}_d" name="q${i}" value="D">
-                        <label for="q${i}_d">Đáp án D</label>
-                    </div>
+        questionDiv.innerHTML = `
+            <div class="question-title">Câu ${i}: Chọn đáp án đúng:</div>
+            <div class="options">
+                <div class="option">
+                    <input type="radio" id="q${i}_a" name="q${i}" value="A">
+                    <label for="q${i}_a">A</label>
                 </div>
-            `;
-            
-            multipleChoiceContainer.appendChild(questionDiv);
-        }
-        
-        // Tạo 3 câu hỏi trắc nghiệm đúng/sai (mỗi câu có 4 ý con)
-        for (let i = 1; i <= 4; i++) {
-            const questionDiv = document.createElement('div');
-            questionDiv.className = 'question';
-            
-            questionDiv.innerHTML = `
-                <div class="question-title">Câu ${i}: Phát biểu này đúng hay sai?</div>
-                <div class="options">
-                    <div class="option">
-                        <input type="radio" id="tf${i}_a_true" name="tf${i}_a" value="true">
-                        <label for="tf${i}_a_true">a) Đúng</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" id="tf${i}_a_false" name="tf${i}_a" value="false">
-                        <label for="tf${i}_a_false">a) Sai</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" id="tf${i}_b_true" name="tf${i}_b" value="true">
-                        <label for="tf${i}_b_true">b) Đúng</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" id="tf${i}_b_false" name="tf${i}_b" value="false">
-                        <label for="tf${i}_b_false">b) Sai</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" id="tf${i}_c_true" name="tf${i}_c" value="true">
-                        <label for="tf${i}_c_true">c) Đúng</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" id="tf${i}_c_false" name="tf${i}_c" value="false">
-                        <label for="tf${i}_c_false">c) Sai</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" id="tf${i}_d_true" name="tf${i}_d" value="true">
-                        <label for="tf${i}_d_true">d) Đúng</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" id="tf${i}_d_false" name="tf${i}_d" value="false">
-                        <label for="tf${i}_d_false">d) Sai</label>
-                    </div>
+                <div class="option">
+                    <input type="radio" id="q${i}_b" name="q${i}" value="B">
+                    <label for="q${i}_b">B</label>
                 </div>
-            `;
-            
-            trueFalseContainer.appendChild(questionDiv);
-        }
+                <div class="option">
+                    <input type="radio" id="q${i}_c" name="q${i}" value="C">
+                    <label for="q${i}_c">C</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q${i}_d" name="q${i}" value="D">
+                    <label for="q${i}_d">D</label>
+                </div>
+            </div>
+        `;
         
-        // Tạo 8 câu hỏi trả lời ngắn
-        for (let i = 1; i <= 8; i++) {
-            const questionDiv = document.createElement('div');
-            questionDiv.className = 'question';
-            
-            questionDiv.innerHTML = `
-                <div class="question-title">Câu ${i}: Hãy nhập đáp án cho câu hỏi này:</div>
-                <input type="text" class="short-answer" id="sa${i}" placeholder="Nhập đáp án...">
-            `;
-            
-            shortAnswerContainer.appendChild(questionDiv);
+        multipleChoiceContainer.appendChild(questionDiv);
+    }
+    
+    // Tạo câu hỏi trắc nghiệm đúng/sai - SỬA: TẠO ĐÚNG SỐ CÂU THEO ĐÁP ÁN
+    const trueFalseCount = answerKey.trueFalse ? answerKey.trueFalse.length : 0;
+    for (let i = 1; i <= trueFalseCount; i++) {
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'question';
+        
+        questionDiv.innerHTML = `
+            <div class="question-title">Câu ${i}: Xác định tính đúng/sai của các phát biểu:</div>
+            <div class="options">
+                <div class="option">
+                    <input type="radio" id="tf${i}_a_true" name="tf${i}_a" value="Đúng">
+                    <label for="tf${i}_a_true">a) Đúng</label>
+                    <input type="radio" id="tf${i}_a_false" name="tf${i}_a" value="Sai">
+                    <label for="tf${i}_a_false">a) Sai</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="tf${i}_b_true" name="tf${i}_b" value="Đúng">
+                    <label for="tf${i}_b_true">b) Đúng</label>
+                    <input type="radio" id="tf${i}_b_false" name="tf${i}_b" value="Sai">
+                    <label for="tf${i}_b_false">b) Sai</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="tf${i}_c_true" name="tf${i}_c" value="Đúng">
+                    <label for="tf${i}_c_true">c) Đúng</label>
+                    <input type="radio" id="tf${i}_c_false" name="tf${i}_c" value="Sai">
+                    <label for="tf${i}_c_false">c) Sai</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="tf${i}_d_true" name="tf${i}_d" value="Đúng">
+                    <label for="tf${i}_d_true">d) Đúng</label>
+                    <input type="radio" id="tf${i}_d_false" name="tf${i}_d" value="Sai">
+                    <label for="tf${i}_d_false">d) Sai</label>
+                </div>
+            </div>
+        `;
+        
+        trueFalseContainer.appendChild(questionDiv);
+    }
+    
+    // Cập nhật tiêu đề phần đúng/sai với số câu thực tế
+    if (trueFalseContainer.parentNode.querySelector('h3')) {
+        trueFalseContainer.parentNode.querySelector('h3').textContent = 
+            `B. Trắc nghiệm đúng/sai (${trueFalseCount} câu × 1 điểm = ${trueFalseCount} điểm)`;
+    }
+    
+    // Tạo câu hỏi trả lời ngắn - SỬA: TẠO ĐÚNG SỐ CÂU THEO ĐÁP ÁN
+    const shortAnswerCount = answerKey.shortAnswer ? answerKey.shortAnswer.length : 0;
+    for (let i = 1; i <= shortAnswerCount; i++) {
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'question';
+        
+        questionDiv.innerHTML = `
+            <div class="question-title">Câu ${i}: Nhập đáp án:</div>
+            <input type="text" class="short-answer" id="sa${i}" placeholder="Nhập đáp án...">
+        `;
+        
+        shortAnswerContainer.appendChild(questionDiv);
+    }
+    
+    // Cập nhật tiêu đề phần trả lời ngắn với số câu thực tế
+    if (shortAnswerContainer.parentNode.querySelector('h3')) {
+        const saPoints = shortAnswerCount * 0.5;
+        shortAnswerContainer.parentNode.querySelector('h3').textContent = 
+            `C. Trả lời ngắn (${shortAnswerCount} câu × 0.5 điểm = ${saPoints} điểm)`;
+    }
+}
+
+// Hàm tính điểm chi tiết - SỬA ĐỂ TÍNH ĐÚNG THEO SỐ CÂU THỰC TẾ
+function calculateDetailedScores() {
+    let mcScore = 0;
+    let tfScore = 0;
+    let saScore = 0;
+    
+    const answerKey = examAnswers[`${selectedExam}-${selectedExamCode}`];
+    
+    if (!answerKey) {
+        // Nếu không có đáp án cho mã đề này, trả về điểm 0
+        console.log(`Không tìm thấy đáp án cho mã đề: ${selectedExam}-${selectedExamCode}`);
+        return { mcScore, tfScore, saScore, totalScore: 0 };
+    }
+    
+    // Tính điểm phần trắc nghiệm nhiều lựa chọn (luôn 12 câu)
+    for (let i = 1; i <= 12; i++) {
+        const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selectedAnswer && selectedAnswer.value === answerKey.multipleChoice[i-1]) {
+            mcScore += 0.25;
         }
     }
+    
+    // Tính điểm phần trắc nghiệm đúng/sai - SỬA: TÍNH ĐÚNG SỐ CÂU THỰC TẾ
+    const trueFalseCount = answerKey.trueFalse ? answerKey.trueFalse.length : 0;
+    for (let i = 1; i <= trueFalseCount; i++) {
+        const correctAnswers = answerKey.trueFalse[i-1];
+        
+        // Kiểm tra 4 ý con trong mỗi câu
+        const subQuestions = ['a', 'b', 'c', 'd'];
+        subQuestions.forEach((sub, index) => {
+            const selectedAnswer = document.querySelector(`input[name="tf${i}_${sub}"]:checked`);
+            if (selectedAnswer && selectedAnswer.value === correctAnswers[index]) {
+                tfScore += 0.25; // Mỗi ý đúng được 0.25 điểm
+            }
+        });
+    }
+    
+    // Tính điểm phần trả lời ngắn - SỬA: TÍNH ĐÚNG SỐ CÂU THỰC TẾ
+    const shortAnswerCount = answerKey.shortAnswer ? answerKey.shortAnswer.length : 0;
+    for (let i = 1; i <= shortAnswerCount; i++) {
+        const userAnswer = document.getElementById(`sa${i}`).value.trim();
+        const correctAnswer = answerKey.shortAnswer[i-1];
+        
+        // So sánh đáp án (có thể thêm logic chuẩn hóa nếu cần)
+        if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+            saScore += 0.5;
+        }
+    }
+    
+    const totalScore = mcScore + tfScore + saScore;
+    return { mcScore, tfScore, saScore, totalScore };
+}
+
+// Hàm hiển thị đánh giá chi tiết - SỬA ĐỂ HIỂN THỊ ĐÚNG SỐ CÂU
+function showAnswerReview(scores) {
+    const answerDetails = document.getElementById('answer-details');
+    answerDetails.innerHTML = '';
+    
+    const answerKey = examAnswers[`${selectedExam}-${selectedExamCode}`];
+    
+    if (!answerKey) {
+        answerDetails.innerHTML = '<p>Không có thông tin đáp án cho mã đề này.</p>';
+        return;
+    }
+    
+    // Hiển thị đáp án phần trắc nghiệm nhiều lựa chọn
+    let mcReview = '<h4>Phần A: Trắc nghiệm nhiều lựa chọn (3 điểm)</h4>';
+    for (let i = 1; i <= 12; i++) {
+        const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+        const userAnswer = selectedAnswer ? selectedAnswer.value : 'Chưa chọn';
+        const correctAnswer = answerKey.multipleChoice[i-1];
+        const isCorrect = userAnswer === correctAnswer;
+        
+        mcReview += `<p><strong>Câu ${i}:</strong> `;
+        mcReview += `<span class="user-answer">${userAnswer}</span> `;
+        if (isCorrect) {
+            mcReview += `<span class="correct-answer">(Đúng)</span>`;
+        } else {
+            mcReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
+        }
+        mcReview += '</p>';
+    }
+    
+    // Hiển thị đáp án phần đúng/sai - SỬA: HIỂN THỊ ĐÚNG SỐ CÂU
+    let tfReview = '<h4>Phần B: Trắc nghiệm đúng/sai</h4>';
+    const trueFalseCount = answerKey.trueFalse ? answerKey.trueFalse.length : 0;
+    for (let i = 1; i <= trueFalseCount; i++) {
+        const correctAnswers = answerKey.trueFalse[i-1];
+        tfReview += `<p><strong>Câu ${i}:</strong></p><ul>`;
+        
+        const subQuestions = ['a', 'b', 'c', 'd'];
+        subQuestions.forEach((sub, index) => {
+            const selectedAnswer = document.querySelector(`input[name="tf${i}_${sub}"]:checked`);
+            const userAnswer = selectedAnswer ? selectedAnswer.value : 'Chưa chọn';
+            const correctAnswer = correctAnswers[index];
+            const isCorrect = userAnswer === correctAnswer;
+            
+            tfReview += `<li>Ý ${sub}: `;
+            tfReview += `<span class="user-answer">${userAnswer}</span> `;
+            if (isCorrect) {
+                tfReview += `<span class="correct-answer">(Đúng)</span>`;
+            } else {
+                tfReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
+            }
+            tfReview += '</li>';
+        });
+        tfReview += '</ul>';
+    }
+    
+    // Hiển thị đáp án phần trả lời ngắn - SỬA: HIỂN THỊ ĐÚNG SỐ CÂU
+    let saReview = '<h4>Phần C: Trả lời ngắn</h4>';
+    const shortAnswerCount = answerKey.shortAnswer ? answerKey.shortAnswer.length : 0;
+    for (let i = 1; i <= shortAnswerCount; i++) {
+        const userAnswer = document.getElementById(`sa${i}`).value.trim();
+        const correctAnswer = answerKey.shortAnswer[i-1];
+        const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+        
+        saReview += `<p><strong>Câu ${i}:</strong> `;
+        saReview += `<span class="user-answer">${userAnswer || 'Chưa trả lời'}</span> `;
+        if (isCorrect) {
+            saReview += `<span class="correct-answer">(Đúng)</span>`;
+        } else {
+            saReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
+        }
+        saReview += '</p>';
+    }
+    
+    answerDetails.innerHTML = mcReview + tfReview + saReview;
+}
     
     // Hàm bắt đầu đếm ngược
     function startTimer() {
@@ -1525,20 +2390,16 @@
         document.getElementById('exam-container').style.display = 'none';
         document.getElementById('result-container').style.display = 'block';
         
-        // Tính điểm (0 điểm nếu phát hiện gian lận)
-        let totalScore = 0;
-        let mcScore = 0;
-        let tfScore = 0;
-        let saScore = 0;
-        let isZeroDueToCheating = false;
+        // Tính điểm
+        const scores = calculateDetailedScores();
+        const totalScore = cheatDetected ? 0 : scores.totalScore;
         
+        // Hiển thị kết quả
         if (cheatDetected) {
-            totalScore = 0;
-            isZeroDueToCheating = true;
             document.getElementById('score').textContent = `0/10`;
             document.getElementById('score').className = 'score score-zero';
             document.getElementById('result-details').textContent = 
-                `Bài thi ${getExamName(selectedExam)} của bạn bị hủy do vi phạm quy chế thi.`;
+                `Bài thi ${getExamName(selectedExam)} - Đề ${selectedExamCode} của bạn bị hủy do vi phạm quy chế thi.`;
             document.getElementById('cheat-penalty-message').style.display = 'block';
             document.getElementById('answer-review').style.display = 'none';
             
@@ -1547,25 +2408,17 @@
             document.getElementById('tf-score').textContent = '0';
             document.getElementById('sa-score').textContent = '0';
         } else {
-            // Tính điểm chi tiết
-            const scores = calculateDetailedScores();
-            mcScore = scores.mcScore;
-            tfScore = scores.tfScore;
-            saScore = scores.saScore;
-            totalScore = scores.totalScore;
-            
-            // Hiển thị điểm
             document.getElementById('score').textContent = `${totalScore.toFixed(2)}/10`;
             document.getElementById('score').className = 'score';
             document.getElementById('result-details').textContent = 
-                `Bạn đã hoàn thành bài thi ${getExamName(selectedExam)} với số điểm ${totalScore.toFixed(2)}/10.`;
+                `Bạn đã hoàn thành bài thi ${getExamName(selectedExam)} - Đề ${selectedExamCode} với số điểm ${totalScore.toFixed(2)}/10.`;
             document.getElementById('cheat-penalty-message').style.display = 'none';
             document.getElementById('answer-review').style.display = 'block';
             
             // Hiển thị điểm chi tiết
-            document.getElementById('mc-score').textContent = mcScore.toFixed(2);
-            document.getElementById('tf-score').textContent = tfScore.toFixed(2);
-            document.getElementById('sa-score').textContent = saScore.toFixed(2);
+            document.getElementById('mc-score').textContent = scores.mcScore.toFixed(2);
+            document.getElementById('tf-score').textContent = scores.tfScore.toFixed(2);
+            document.getElementById('sa-score').textContent = scores.saScore.toFixed(2);
             
             // Hiển thị đánh giá chi tiết
             showAnswerReview(scores);
@@ -1574,139 +2427,139 @@
         // Cuộn đến phần kết quả
         document.getElementById('result-container').scrollIntoView({ behavior: 'smooth' });
     }
-         
-    // Hàm tính điểm chi tiết - SỬA LỖI TẠI ĐÂY
-    function calculateDetailedScores() {
-        let mcScore = 0;
-        let tfScore = 0;
-        let saScore = 0;
-        
-        const answers = examAnswers[selectedExam];
-        if (!answers) {
-            return { mcScore, tfScore, saScore, totalScore: 0 };
-        }
-        
-        // Tính điểm phần trắc nghiệm nhiều lựa chọn (12 câu x 0.25 điểm = 3 điểm)
-        for (let i = 1; i <= 12; i++) {
-            const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
-            if (selectedAnswer && selectedAnswer.value === answers.multipleChoice[i-1]) {
-                mcScore += 0.25;
-            }
-        }
-        
-        // Tính điểm phần trắc nghiệm đúng/sai (3 câu x 1 điểm = 3 điểm)
-        // Lưu ý: Số lượng câu đúng/sai thay đổi tùy đề thi, cần lấy từ đáp án
-        const trueFalseCount = answers.trueFalse.length;
-        for (let i = 1; i <= trueFalseCount; i++) {
-            const correctAnswers = answers.trueFalse[i-1];
-            let correctCount = 0;
-            
-            // Kiểm tra 4 ý con trong mỗi câu
-            const subQuestions = ['a', 'b', 'c', 'd'];
-            subQuestions.forEach((sub, index) => {
-                const selectedAnswer = document.querySelector(`input[name="tf${i}_${sub}"]:checked`);
-                if (selectedAnswer) {
-                    const isCorrect = (correctAnswers[index] === 'Đúng' && selectedAnswer.value === 'true') || 
-                                     (correctAnswers[index] === 'Sai' && selectedAnswer.value === 'false');
-                    if (isCorrect) {
-                        correctCount++;
-                    }
-                }
-            });
-            
-            // Mỗi câu 4 ý, mỗi ý đúng được 0.25 điểm, tổng 1 điểm cho mỗi câu
-            tfScore += (correctCount * 0.25);
-        }
-        
-        // Tính điểm phần trả lời ngắn (8 câu x 0.5 điểm = 4 điểm)
-        // Lưu ý: Số lượng câu trả lời ngắn thay đổi tùy đề thi, cần lấy từ đáp án
-        const shortAnswerCount = answers.shortAnswer.length;
-        for (let i = 1; i <= shortAnswerCount; i++) {
-            const userAnswer = document.getElementById(`sa${i}`).value.trim();
-            const correctAnswer = answers.shortAnswer[i-1];
-            
-            // So sánh đáp án, chú ý chuẩn hóa chuỗi để so sánh
-            if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
-                saScore += 0.5;
-            }
-        }
-        
-        const totalScore = mcScore + tfScore + saScore;
-        return { mcScore, tfScore, saScore, totalScore };
+    
+    // Hàm tính điểm chi tiết
+   // Hàm tính điểm chi tiết - SỬA ĐỂ TÍNH ĐÚNG THEO SỐ CÂU THỰC TẾ
+function calculateDetailedScores() {
+    let mcScore = 0;
+    let tfScore = 0;
+    let saScore = 0;
+    
+    const answerKey = examAnswers[`${selectedExam}-${selectedExamCode}`];
+    
+    if (!answerKey) {
+        // Nếu không có đáp án cho mã đề này, trả về điểm 0
+        console.log(`Không tìm thấy đáp án cho mã đề: ${selectedExam}-${selectedExamCode}`);
+        return { mcScore, tfScore, saScore, totalScore: 0 };
     }
-
-    // Hàm hiển thị đánh giá chi tiết - SỬA LỖI TẠI ĐÂY
-    function showAnswerReview(scores) {
-        const answerDetails = document.getElementById('answer-details');
-        answerDetails.innerHTML = '';
+    
+    // Tính điểm phần trắc nghiệm nhiều lựa chọn (luôn 12 câu)
+    for (let i = 1; i <= 12; i++) {
+        const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selectedAnswer && selectedAnswer.value === answerKey.multipleChoice[i-1]) {
+            mcScore += 0.25;
+        }
+    }
+    
+    // Tính điểm phần trắc nghiệm đúng/sai - SỬA: TÍNH ĐÚNG SỐ CÂU THỰC TẾ
+    const trueFalseCount = answerKey.trueFalse ? answerKey.trueFalse.length : 0;
+    for (let i = 1; i <= trueFalseCount; i++) {
+        const correctAnswers = answerKey.trueFalse[i-1];
         
-        const answers = examAnswers[selectedExam];
-        if (!answers) return;
+        // Kiểm tra 4 ý con trong mỗi câu
+        const subQuestions = ['a', 'b', 'c', 'd'];
+        subQuestions.forEach((sub, index) => {
+            const selectedAnswer = document.querySelector(`input[name="tf${i}_${sub}"]:checked`);
+            if (selectedAnswer && selectedAnswer.value === correctAnswers[index]) {
+                tfScore += 0.25; // Mỗi ý đúng được 0.25 điểm
+            }
+        });
+    }
+    
+    // Tính điểm phần trả lời ngắn - SỬA: TÍNH ĐÚNG SỐ CÂU THỰC TẾ
+    const shortAnswerCount = answerKey.shortAnswer ? answerKey.shortAnswer.length : 0;
+    for (let i = 1; i <= shortAnswerCount; i++) {
+        const userAnswer = document.getElementById(`sa${i}`).value.trim();
+        const correctAnswer = answerKey.shortAnswer[i-1];
         
-        // Hiển thị đáp án phần trắc nghiệm nhiều lựa chọn
-        let mcReview = '<h4>Phần A: Trắc nghiệm nhiều lựa chọn (3 điểm)</h4>';
-        for (let i = 1; i <= 12; i++) {
-            const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+        // So sánh đáp án (có thể thêm logic chuẩn hóa nếu cần)
+        if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+            saScore += 0.5;
+        }
+    }
+    
+    const totalScore = mcScore + tfScore + saScore;
+    return { mcScore, tfScore, saScore, totalScore };
+}
+    // Hàm hiển thị đánh giá chi tiết - SỬA ĐỂ HIỂN THỊ ĐÚNG SỐ CÂU
+function showAnswerReview(scores) {
+    const answerDetails = document.getElementById('answer-details');
+    answerDetails.innerHTML = '';
+    
+    const answerKey = examAnswers[`${selectedExam}-${selectedExamCode}`];
+    
+    if (!answerKey) {
+        answerDetails.innerHTML = '<p>Không có thông tin đáp án cho mã đề này.</p>';
+        return;
+    }
+    
+    // Hiển thị đáp án phần trắc nghiệm nhiều lựa chọn
+    let mcReview = '<h4>Phần A: Trắc nghiệm nhiều lựa chọn (3 điểm)</h4>';
+    for (let i = 1; i <= 12; i++) {
+        const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+        const userAnswer = selectedAnswer ? selectedAnswer.value : 'Chưa chọn';
+        const correctAnswer = answerKey.multipleChoice[i-1];
+        const isCorrect = userAnswer === correctAnswer;
+        
+        mcReview += `<p><strong>Câu ${i}:</strong> `;
+        mcReview += `<span class="user-answer">${userAnswer}</span> `;
+        if (isCorrect) {
+            mcReview += `<span class="correct-answer">(Đúng)</span>`;
+        } else {
+            mcReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
+        }
+        mcReview += '</p>';
+    }
+    
+    // Hiển thị đáp án phần đúng/sai - SỬA: HIỂN THỊ ĐÚNG SỐ CÂU
+    let tfReview = '<h4>Phần B: Trắc nghiệm đúng/sai</h4>';
+    const trueFalseCount = answerKey.trueFalse ? answerKey.trueFalse.length : 0;
+    for (let i = 1; i <= trueFalseCount; i++) {
+        const correctAnswers = answerKey.trueFalse[i-1];
+        tfReview += `<p><strong>Câu ${i}:</strong></p><ul>`;
+        
+        const subQuestions = ['a', 'b', 'c', 'd'];
+        subQuestions.forEach((sub, index) => {
+            const selectedAnswer = document.querySelector(`input[name="tf${i}_${sub}"]:checked`);
             const userAnswer = selectedAnswer ? selectedAnswer.value : 'Chưa chọn';
-            const correctAnswer = answers.multipleChoice[i-1];
+            const correctAnswer = correctAnswers[index];
             const isCorrect = userAnswer === correctAnswer;
             
-            mcReview += `<p><strong>Câu ${i}:</strong> `;
-            mcReview += `<span class="user-answer">${userAnswer}</span> `;
+            tfReview += `<li>Ý ${sub}: `;
+            tfReview += `<span class="user-answer">${userAnswer}</span> `;
             if (isCorrect) {
-                mcReview += `<span class="correct-answer">(Đúng)</span>`;
+                tfReview += `<span class="correct-answer">(Đúng)</span>`;
             } else {
-                mcReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
+                tfReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
             }
-            mcReview += '</p>';
-        }
-        
-        // Hiển thị đáp án phần đúng/sai
-        const trueFalseCount = answers.trueFalse.length;
-        let tfReview = `<h4>Phần B: Trắc nghiệm đúng/sai (${trueFalseCount} câu × 1 điểm = ${trueFalseCount} điểm)</h4>`;
-        for (let i = 1; i <= trueFalseCount; i++) {
-            const correctAnswers = answers.trueFalse[i-1];
-            tfReview += `<p><strong>Câu ${i}:</strong></p><ul>`;
-            
-            const subQuestions = ['a', 'b', 'c', 'd'];
-            subQuestions.forEach((sub, index) => {
-                const selectedAnswer = document.querySelector(`input[name="tf${i}_${sub}"]:checked`);
-                const userAnswer = selectedAnswer ? (selectedAnswer.value === 'true' ? 'Đúng' : 'Sai') : 'Chưa chọn';
-                const correctAnswer = correctAnswers[index];
-                const isCorrect = userAnswer === correctAnswer;
-                
-                tfReview += `<li>Ý ${sub}: `;
-                tfReview += `<span class="user-answer">${userAnswer}</span> `;
-                if (isCorrect) {
-                    tfReview += `<span class="correct-answer">(Đúng)</span>`;
-                } else {
-                    tfReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
-                }
-                tfReview += '</li>';
-            });
-            tfReview += '</ul>';
-        }
-        
-        // Hiển thị đáp án phần trả lời ngắn
-        const shortAnswerCount = answers.shortAnswer.length;
-        let saReview = `<h4>Phần C: Trả lời ngắn (${shortAnswerCount} câu × 0.5 điểm = ${(shortAnswerCount * 0.5).toFixed(1)} điểm)</h4>`;
-        for (let i = 1; i <= shortAnswerCount; i++) {
-            const userAnswer = document.getElementById(`sa${i}`).value.trim();
-            const correctAnswer = answers.shortAnswer[i-1];
-            const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
-            
-            saReview += `<p><strong>Câu ${i}:</strong> `;
-            saReview += `<span class="user-answer">${userAnswer || 'Chưa trả lời'}</span> `;
-            if (isCorrect) {
-                saReview += `<span class="correct-answer">(Đúng)</span>`;
-            } else {
-                saReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
-            }
-            saReview += '</p>';
-        }
-        
-        answerDetails.innerHTML = mcReview + tfReview + saReview;
+            tfReview += '</li>';
+        });
+        tfReview += '</ul>';
     }
+    
+    // Hiển thị đáp án phần trả lời ngắn - SỬA: HIỂN THỊ ĐÚNG SỐ CÂU
+    let saReview = '<h4>Phần C: Trả lời ngắn</h4>';
+    const shortAnswerCount = answerKey.shortAnswer ? answerKey.shortAnswer.length : 0;
+    for (let i = 1; i <= shortAnswerCount; i++) {
+        const userAnswer = document.getElementById(`sa${i}`).value.trim();
+        const correctAnswer = answerKey.shortAnswer[i-1];
+        const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+        
+        saReview += `<p><strong>Câu ${i}:</strong> `;
+        saReview += `<span class="user-answer">${userAnswer || 'Chưa trả lời'}</span> `;
+        if (isCorrect) {
+            saReview += `<span class="correct-answer">(Đúng)</span>`;
+        } else {
+            saReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
+        }
+        saReview += '</p>';
+    }
+    
+    answerDetails.innerHTML = mcReview + tfReview + saReview;
+}    
+        
+    
+    
     
     // Hàm quay lại trang chủ
     function goHome() {
@@ -1859,9 +2712,6 @@
             setTimeout(() => {
                 document.getElementById('warning-message').style.display = 'none';
             }, 5000);
-            
-            // Ghi log vi phạm
-            console.log(`Vi phạm #${violationCount}: ${reason}`);
         } else {
             // Phát hiện gian lận, hủy bài thi
             cheatDetected = true;
@@ -1872,9 +2722,6 @@
             setTimeout(() => {
                 submitExam();
             }, 3000);
-            
-            // Ghi log vi phạm nghiêm trọng
-            console.log(`VI PHẠM NGHIÊM TRỌNG: ${reason} - Bài thi bị hủy`);
         }
     }
     
@@ -1896,6 +2743,124 @@
         }
     `;
     document.head.appendChild(style);
-</script>
+    // Thêm các biến zoom
+let currentZoom = 1;
+const ZOOM_STEP = 0.2;
+const MIN_ZOOM = 0.5;
+const MAX_ZOOM = 2.0;
+
+// Hàm phóng to
+function zoomIn() {
+    if (currentZoom < MAX_ZOOM) {
+        currentZoom += ZOOM_STEP;
+        applyZoom();
+    }
+}
+
+// Hàm thu nhỏ
+function zoomOut() {
+    if (currentZoom > MIN_ZOOM) {
+        currentZoom -= ZOOM_STEP;
+        applyZoom();
+    }
+}
+
+// Hàm reset zoom
+function resetZoom() {
+    currentZoom = 1;
+    applyZoom();
+}
+
+// Áp dụng zoom
+function applyZoom() {
+    const frame = document.getElementById('exam-frame');
+    if (frame) {
+        frame.style.transform = `scale(${currentZoom})`;
+        frame.style.transformOrigin = 'top left';
+        frame.style.width = `${100 / currentZoom}%`;
+        frame.style.height = `${100 / currentZoom}%`;
+        
+        // Hiển thị thông báo zoom
+        showZoomMessage(`Đang xem ở tỷ lệ: ${Math.round(currentZoom * 100)}%`);
+    }
+}
+
+// Hiển thị thông báo zoom
+function showZoomMessage(message) {
+    let messageDiv = document.getElementById('zoom-message');
+    if (!messageDiv) {
+        messageDiv = document.createElement('div');
+        messageDiv.id = 'zoom-message';
+        messageDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            z-index: 1000;
+            font-size: 14px;
+            animation: fadeOut 2s forwards;
+        `;
+        document.body.appendChild(messageDiv);
+    }
+    
+    messageDiv.textContent = message;
+    messageDiv.style.animation = 'none';
+    setTimeout(() => {
+        messageDiv.style.animation = 'fadeOut 2s forwards';
+    }, 10);
+}
+
+// Thêm animation fadeOut
+const zoomStyle = document.createElement('style');
+zoomStyle.textContent = `
+    @keyframes fadeOut {
+        0% { opacity: 1; }
+        70% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+`;
+document.head.appendChild(zoomStyle);
+
+// Thêm CSS cho iframe khi zoom
+const iframeStyle = document.createElement('style');
+iframeStyle.textContent = `
+    .exam-frame {
+        transition: transform 0.3s ease;
+    }
+    
+    .exam-frame-container {
+        overflow: auto;
+        border: 2px solid #3498db;
+        background: white;
+    }
+`;
+document.head.appendChild(iframeStyle);
+// Thêm sự kiện bàn phím
+document.addEventListener('keydown', function(e) {
+    if (!isExamActive) return;
+    
+    // Ctrl + + để phóng to
+    if ((e.ctrlKey || e.metaKey) && e.key === '+') {
+        e.preventDefault();
+        zoomIn();
+    }
+    
+    // Ctrl + - để thu nhỏ
+    if ((e.ctrlKey || e.metaKey) && e.key === '-') {
+        e.preventDefault();
+        zoomOut();
+    }
+    
+    // Ctrl + 0 để reset
+    if ((e.ctrlKey || e.metaKey) && e.key === '0') {
+        e.preventDefault();
+        resetZoom();
+    }
+});
+
+    </script>
 </body>
 </html>
