@@ -371,7 +371,7 @@
     display: block;
 }
 
-/* Responsive điều chỉnh */
+/* điều chỉnh */
 @media (min-width: 768px) {
     .exam-frame-container {
         height: 80vh;
@@ -666,9 +666,9 @@ body:-ms-fullscreen .exam-frame {
         <section class="intro">
             <h2>Giới thiệu</h2>
             <p>Chào mừng bạn đến với Kiểm tra trực tuyến - nền tảng hỗ trợ học tập và ôn luyện môn Toán dành cho học sinh từ lớp 10 đến lớp 12.</p>
-            <p>Web cung cấp các bài kiểm tra theo chương trình học, giúp học sinh củng cố kiến thức và chuẩn bị tốt cho các bài kiểm tra quan trọng.</p>
+            <p>Web cung cấp các đề kiểm tra theo chương trình học, giúp học sinh củng cố kiến thức và chuẩn bị tốt cho các kỳ kiểm tra quan trọng.</p>
             <p>Với giao diện thân thiện, dễ sử dụng và hệ thống chấm điểm tự động, Kiểm tra trực tuyến là công cụ hữu ích cho việc tự học và đánh giá năng lực.</p>
-            <p><strong>Lưu ý:</strong> Hệ thống có tính năng chống gian lận. Nếu bạn thoát khỏi màn hình kiểm tra hoặc chuyển tab trong khi kiểm tra, bài làm sẽ tự động bị chấm 0 điểm.</p>
+            <p><strong>Lưu ý:</strong> Hệ thống có tính năng chống gian lận. Nếu bạn thoát khỏi màn hình kiểm tra hoặc chuyển tab trong khi kiểm tra, bài kiểm tra sẽ tự động bị chấm 0 điểm.</p>
         </section>
         
         <section class="menu">
@@ -836,7 +836,7 @@ body:-ms-fullscreen .exam-frame {
             </div>
             
             <div class="fullscreen-message" id="fullscreen-message">
-                Bạn đang ở chế độ toàn màn hình. Thoát khỏi chế độ này sẽ bị tính là vi phạm quy chế làm bài!
+                Bạn đang ở chế độ toàn màn hình. Thoát khỏi chế độ này sẽ bị tính là vi phạm quy chế kiểm tra!
             </div>
             
             <div class="warning-message" id="warning-message">
@@ -844,8 +844,8 @@ body:-ms-fullscreen .exam-frame {
             </div>
             
             <div id="cheat-detected-message" class="cheat-detected" style="display: none;">
-                <h3>⚠️ VI PHẠM QUY CHẾ LÀM BÀI KIỂM TRA ⚠️</h3>
-                <p>Bạn đã rời khỏi màn hình bài làm quá nhiều lần.</p>
+                <h3>⚠️ VI PHẠM QUY CHẾ KIỂM TRA ⚠️</h3>
+                <p>Bạn đã rời khỏi màn hình kiểm tra quá nhiều lần.</p>
                 <p>Bài kiểm tra của bạn đã bị hủy với 0 điểm.</p>
             </div>
             
@@ -854,7 +854,7 @@ body:-ms-fullscreen .exam-frame {
                     <div class="exam-content">
                         <div class="exam-title" id="exam-title">ĐỀ KIỂM TRA MÔN TOÁN</div>
                         <div id="exam-description">
-                            <!-- Nội dung đề kiểm tra sẽ được hiển thị ở đây -->
+                            <!-- Nội dung đề thi sẽ được hiển thị ở đây -->
                         </div>
                     </div>
                 </div>
@@ -913,13 +913,13 @@ body:-ms-fullscreen .exam-frame {
             </div>
             
             <div id="cheat-penalty-message" style="display: none; color: #e74c3c; font-weight: bold; margin: 15px 0;">
-                ⚠️ Bài kiểm tra của bạn bị hủy do vi phạm quy chế: Rời khỏi màn hình bài làm nhiều lần.
+                ⚠️ Bài kiểm tra của bạn bị hủy do vi phạm quy chế: Rời khỏi màn hình kiểm tra nhiều lần.
             </div>
             <button class="btn btn-secondary" onclick="goHome()">Quay lại trang chủ</button>
         </div>
         
         <footer>
-            <p style="font-size: 0.9rem; color: #e74c3c; margin-top: 10px;">Hệ thống có tính năng chống gian lận - Không thoát màn hình khi đang làm bài kiểm tra</p>
+            <p style="font-size: 0.9rem; color: #e74c3c; margin-top: 10px;">Hệ thống có tính năng chống gian lận - Không thoát màn hình khi đang kiểm tra</p>
         </footer>
     </div>
     <script>
@@ -1607,16 +1607,15 @@ body:-ms-fullscreen .exam-frame {
         },
         'toan12-ck1-002': {
             multipleChoice: [
-                'A', 'A', 'D', 'D', 'D', 'D', 'C', 'D', 'B', 'A',
-                'D', 'D'
+                'A', 'B', 'A', 'A', 'B', 'A', 'B', 'C', 'B', 'B',
+                'C', 'A'
             ],
             trueFalse: [
-                ['Sai', 'Sai', 'Đúng', 'Đúng'],
-                ['Sai', 'Sai', 'Đúng', 'Sai'],
-                ['Đúng', 'Sai', 'Đúng', 'Sai']
+                ['Sai', 'Đúng', 'Đúng', 'Đúng'],
+                ['Đúng', 'Đúng', 'Sai', 'Đúng']
             ],
             shortAnswer: [
-                '8', '22.2', '2.5', '36', '-2;2', '34.2', '2', '5/12'
+                '2', '165', '8.13', '4', '3/14;-6/7;0', '11', '5.89' 
             ]
         },
         'toan12-ck1-003': {
@@ -1811,9 +1810,9 @@ body:-ms-fullscreen .exam-frame {
         
     };
     
-    // Hàm hiển thị/ẩn đề khi click vào kỳ thi
+    // Hàm hiển thị/ẩn mã đề khi click vào kỳ thi
     function toggleExamCodes(examId) {
-        // Ẩn tất cả các danh sách đề
+        // Ẩn tất cả các danh sách mã đề
         const allCodeLists = document.querySelectorAll('.exam-codes');
         allCodeLists.forEach(list => {
             list.classList.remove('active');
@@ -1827,24 +1826,38 @@ body:-ms-fullscreen .exam-frame {
     }
     
     // Hàm chọn mã đề
-    function selectExamCode(examId, code) {
-        selectedExam = examId;
-        selectedExamCode = code;
-        
-        // Hiển thị thông tin lựa chọn
-        document.getElementById('selected-exam-name').textContent = getExamName(examId);
-        document.getElementById('selected-exam-code').textContent = `Đề số  ${code}`;
-        document.getElementById('exam-selection').style.display = 'block';
-        
+function selectExamCode(examId, code) {
+    // Kiểm tra nếu là đề số 3 hoặc 4 - áp dụng cho mọi kỳ thi
+    if (code === '003' || code === '004') {
+        alert('Xin lỗi người dùng, hệ thống sẽ cập nhật đề này sớm nhất');
         // Ẩn tất cả các danh sách mã đề
         const allCodeLists = document.querySelectorAll('.exam-codes');
         allCodeLists.forEach(list => {
             list.classList.remove('active');
         });
-        
-        // Cuộn đến phần chọn đề thi
-        document.getElementById('exam-selection').scrollIntoView({ behavior: 'smooth' });
+        return; // Dừng hàm, không thực hiện tiếp
     }
+    
+    selectedExam = examId;
+    selectedExamCode = code;
+    
+    // Lấy tên đề thi đầy đủ
+    let examFullName = getExamName(examId);
+    
+    // Hiển thị thông tin lựa chọn
+    document.getElementById('selected-exam-name').textContent = examFullName;
+    document.getElementById('selected-exam-code').textContent = `Đề số ${code}`;
+    document.getElementById('exam-selection').style.display = 'block';
+    
+    // Ẩn tất cả các danh sách mã đề
+    const allCodeLists = document.querySelectorAll('.exam-codes');
+    allCodeLists.forEach(list => {
+        list.classList.remove('active');
+    });
+    
+    // Cuộn đến phần chọn đề thi
+    document.getElementById('exam-selection').scrollIntoView({ behavior: 'smooth' });
+}
     
     // Hàm lấy tên đề thi
     function getExamName(examId) {
@@ -1895,7 +1908,7 @@ body:-ms-fullscreen .exam-frame {
             'toan12-ck2-004': 'Toán 12 - Đề kiểm tra cuối kỳ 2 Đề số 4',
         };
         
-        return examNames[examId] || 'Bài kiểm tra';
+        return examNames[examId] || 'Đề kiểm tra';
     }
     
     // Hàm bắt đầu làm bài thi
@@ -1991,7 +2004,7 @@ body:-ms-fullscreen .exam-frame {
                 if (examCode === '001'){
                 driveUrl = 'https://drive.google.com/file/d/1lepuGPnF-zv4eUClL-SeqKP5-7YwbKDd/preview';
                 } else if (examCode === '002'){
-                driveUrl = 'https://drive.google.com/file/d/1riW5vQuL8Ug8BVplOuNKZVYEQGy3PGFq/preview';
+                driveUrl = 'https://drive.google.com/file/d/13QF_cNflh1XZMHa_Z6dxR_t425ZLKTE1/preview';
                 } else if (examCode === '003'){
                 driveUrl = 'https://drive.google.com/file/d/1lepuGPnF-zv4eUClL-SeqKP5-7YwbKDd/preview';
                 } else if (examCode === '004'){
@@ -2046,7 +2059,7 @@ body:-ms-fullscreen .exam-frame {
                 if (examCode ==='001'){
                 driveUrl = 'https://drive.google.com/file/d/1TCJYHNIdAp6z2oGVocecUhkg4rIgyeVB/preview';
                 } else if (examCode ==='002'){
-                driveUrl = 'https://drive.google.com/file/d/17Zp8lKmRG3JvXf62_x6V1f8ILJA-WSh5/preview';
+                driveUrl = 'https://drive.google.com/file/d/1Pu1UcCxxQKXjxuXQ0Tw6voS0-356CGoc/preview';
                 } else if (examCode ==='003'){
                 driveUrl = 'https://drive.google.com/file/d/1TCJYHNIdAp6z2oGVocecUhkg4rIgyeVB/preview';
                 } else if (examCode ==='004'){
@@ -2081,22 +2094,22 @@ body:-ms-fullscreen .exam-frame {
             <div class="exam-instructions">
                 <p><strong>Thời gian làm bài: 60 phút</strong></p>
                 <p><strong>Hình thức kiểm tra: Trắc nghiệm kết hợp tự luận</strong></p>
-                <p><strong>Bài kiểm tra: ${examCode}</strong></p>
+                <p><strong>Đề: ${examCode}</strong></p>
                 <p><strong>Hướng dẫn chung:</strong></p>
                 <ul>
                     <li>Phần A: Trắc nghiệm nhiều lựa chọn (12 câu × 0.25 điểm = 3 điểm)</li>
                     <li>Phần B: Trắc nghiệm đúng/sai (3 câu × 1 điểm = 3 điểm)</li>
-                    <li>Phần C: Trả lời ngắn và tự luận (8 câu × 0.5 điểm = 4 điểm)</li>
+                    <li>Phần C: Trả lời ngắn (8 câu × 0.5 điểm = 4 điểm)</li>
                     <li>Tổng điểm: 10 điểm</li>
                     <li>Thí sinh không được sử dụng tài liệu</li>
                     <li>Điền đáp án vào đúng vị trí quy định</li>
                 </ul>
                 <p style="color: #e74c3c; font-weight: bold;">
                     ⚠️ CẢNH BÁO: Hệ thống có tính năng chống gian lận. 
-                    Nếu bạn rời khỏi màn hình làm bài hoặc chuyển tab, bài làm sẽ bị hủy với 0 điểm!
+                    Nếu bạn rời khỏi màn hình kiểm tra hoặc chuyển tab, bài kiểm tra sẽ bị hủy với 0 điểm!
                 </p>
             </div>
-            <p><strong>Bài kiểm tra:</strong></p>
+            <p><strong>Đề kiểm tra:</strong></p>
             <div class="exam-frame-container">
                 <iframe src="${driveUrl}" 
                         class="exam-frame" 
@@ -2107,97 +2120,251 @@ body:-ms-fullscreen .exam-frame {
     }
     
     // Hàm tạo câu hỏi mẫu
-    function generateSampleQuestions() {
-        const multipleChoiceContainer = document.getElementById('multiple-choice-questions');
-        const trueFalseContainer = document.getElementById('true-false-questions');
-        const shortAnswerContainer = document.getElementById('short-answer-questions');
+    // Hàm tạo câu hỏi mẫu - SỬA ĐỂ TẠO ĐÚNG SỐ CÂU HỎI THEO TỪNG ĐỀ
+function generateSampleQuestions() {
+    const multipleChoiceContainer = document.getElementById('multiple-choice-questions');
+    const trueFalseContainer = document.getElementById('true-false-questions');
+    const shortAnswerContainer = document.getElementById('short-answer-questions');
+    
+    // Xóa nội dung cũ
+    multipleChoiceContainer.innerHTML = '';
+    trueFalseContainer.innerHTML = '';
+    shortAnswerContainer.innerHTML = '';
+    
+    // Lấy đáp án cho đề thi hiện tại
+    const answerKey = examAnswers[`${selectedExam}-${selectedExamCode}`];
+    
+    if (!answerKey) {
+        console.log(`Không tìm thấy đáp án cho đề số: ${selectedExam}-${selectedExamCode}`);
+        return;
+    }
+    
+    // Tạo câu hỏi trắc nghiệm nhiều lựa chọn (luôn 12 câu)
+    for (let i = 1; i <= 12; i++) {
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'question';
         
-        // Xóa nội dung cũ
-        multipleChoiceContainer.innerHTML = '';
-        trueFalseContainer.innerHTML = '';
-        shortAnswerContainer.innerHTML = '';
-        
-        // Tạo 12 câu hỏi trắc nghiệm nhiều lựa chọn
-        for (let i = 1; i <= 12; i++) {
-            const questionDiv = document.createElement('div');
-            questionDiv.className = 'question';
-            
-            questionDiv.innerHTML = `
-                <div class="question-title">Câu ${i}: Chọn đáp án đúng:</div>
-                <div class="options">
-                    <div class="option">
-                        <input type="radio" id="q${i}_a" name="q${i}" value="A">
-                        <label for="q${i}_a">A</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" id="q${i}_b" name="q${i}" value="B">
-                        <label for="q${i}_b">B</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" id="q${i}_c" name="q${i}" value="C">
-                        <label for="q${i}_c">C</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" id="q${i}_d" name="q${i}" value="D">
-                        <label for="q${i}_d">D</label>
-                    </div>
+        questionDiv.innerHTML = `
+            <div class="question-title">Câu ${i}: Chọn đáp án đúng:</div>
+            <div class="options">
+                <div class="option">
+                    <input type="radio" id="q${i}_a" name="q${i}" value="A">
+                    <label for="q${i}_a">A</label>
                 </div>
-            `;
-            
-            multipleChoiceContainer.appendChild(questionDiv);
-        }
-        
-        // Tạo 3 câu hỏi trắc nghiệm đúng/sai (mỗi câu có 4 ý con)
-        for (let i = 1; i <= 3; i++) {
-            const questionDiv = document.createElement('div');
-            questionDiv.className = 'question';
-            
-            questionDiv.innerHTML = `
-                <div class="question-title">Câu ${i}: Xác định tính đúng/sai của các phát biểu:</div>
-                <div class="options">
-                    <div class="option">
-                        <input type="radio" id="tf${i}_a_true" name="tf${i}_a" value="Đúng">
-                        <label for="tf${i}_a_true">a) Đúng</label>
-                        <input type="radio" id="tf${i}_a_false" name="tf${i}_a" value="Sai">
-                        <label for="tf${i}_a_false">a) Sai</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" id="tf${i}_b_true" name="tf${i}_b" value="Đúng">
-                        <label for="tf${i}_b_true">b) Đúng</label>
-                        <input type="radio" id="tf${i}_b_false" name="tf${i}_b" value="Sai">
-                        <label for="tf${i}_b_false">b) Sai</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" id="tf${i}_c_true" name="tf${i}_c" value="Đúng">
-                        <label for="tf${i}_c_true">c) Đúng</label>
-                        <input type="radio" id="tf${i}_c_false" name="tf${i}_c" value="Sai">
-                        <label for="tf${i}_c_false">c) Sai</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" id="tf${i}_d_true" name="tf${i}_d" value="Đúng">
-                        <label for="tf${i}_d_true">d) Đúng</label>
-                        <input type="radio" id="tf${i}_d_false" name="tf${i}_d" value="Sai">
-                        <label for="tf${i}_d_false">d) Sai</label>
-                    </div>
+                <div class="option">
+                    <input type="radio" id="q${i}_b" name="q${i}" value="B">
+                    <label for="q${i}_b">B</label>
                 </div>
-            `;
-            
-            trueFalseContainer.appendChild(questionDiv);
-        }
+                <div class="option">
+                    <input type="radio" id="q${i}_c" name="q${i}" value="C">
+                    <label for="q${i}_c">C</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q${i}_d" name="q${i}" value="D">
+                    <label for="q${i}_d">D</label>
+                </div>
+            </div>
+        `;
         
-        // Tạo 8 câu hỏi trả lời ngắn
-        for (let i = 1; i <= 8; i++) {
-            const questionDiv = document.createElement('div');
-            questionDiv.className = 'question';
-            
-            questionDiv.innerHTML = `
-                <div class="question-title">Câu ${i}: Nhập đáp án:</div>
-                <input type="text" class="short-answer" id="sa${i}" placeholder="Nhập đáp án...">
-            `;
-            
-            shortAnswerContainer.appendChild(questionDiv);
+        multipleChoiceContainer.appendChild(questionDiv);
+    }
+    
+    // Tạo câu hỏi trắc nghiệm đúng/sai - SỬA: TẠO ĐÚNG SỐ CÂU THEO ĐÁP ÁN
+    const trueFalseCount = answerKey.trueFalse ? answerKey.trueFalse.length : 0;
+    for (let i = 1; i <= trueFalseCount; i++) {
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'question';
+        
+        questionDiv.innerHTML = `
+            <div class="question-title">Câu ${i}: Xác định tính đúng/sai của các phát biểu:</div>
+            <div class="options">
+                <div class="option">
+                    <input type="radio" id="tf${i}_a_true" name="tf${i}_a" value="Đúng">
+                    <label for="tf${i}_a_true">a) Đúng</label>
+                    <input type="radio" id="tf${i}_a_false" name="tf${i}_a" value="Sai">
+                    <label for="tf${i}_a_false">a) Sai</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="tf${i}_b_true" name="tf${i}_b" value="Đúng">
+                    <label for="tf${i}_b_true">b) Đúng</label>
+                    <input type="radio" id="tf${i}_b_false" name="tf${i}_b" value="Sai">
+                    <label for="tf${i}_b_false">b) Sai</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="tf${i}_c_true" name="tf${i}_c" value="Đúng">
+                    <label for="tf${i}_c_true">c) Đúng</label>
+                    <input type="radio" id="tf${i}_c_false" name="tf${i}_c" value="Sai">
+                    <label for="tf${i}_c_false">c) Sai</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="tf${i}_d_true" name="tf${i}_d" value="Đúng">
+                    <label for="tf${i}_d_true">d) Đúng</label>
+                    <input type="radio" id="tf${i}_d_false" name="tf${i}_d" value="Sai">
+                    <label for="tf${i}_d_false">d) Sai</label>
+                </div>
+            </div>
+        `;
+        
+        trueFalseContainer.appendChild(questionDiv);
+    }
+    
+    // Cập nhật tiêu đề phần đúng/sai với số câu thực tế
+    if (trueFalseContainer.parentNode.querySelector('h3')) {
+        trueFalseContainer.parentNode.querySelector('h3').textContent = 
+            `B. Trắc nghiệm đúng/sai (${trueFalseCount} câu × 1 điểm = ${trueFalseCount} điểm)`;
+    }
+    
+    // Tạo câu hỏi trả lời ngắn - SỬA: TẠO ĐÚNG SỐ CÂU THEO ĐÁP ÁN
+    const shortAnswerCount = answerKey.shortAnswer ? answerKey.shortAnswer.length : 0;
+    for (let i = 1; i <= shortAnswerCount; i++) {
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'question';
+        
+        questionDiv.innerHTML = `
+            <div class="question-title">Câu ${i}: Nhập đáp án:</div>
+            <input type="text" class="short-answer" id="sa${i}" placeholder="Nhập đáp án...">
+        `;
+        
+        shortAnswerContainer.appendChild(questionDiv);
+    }
+    
+    // Cập nhật tiêu đề phần trả lời ngắn với số câu thực tế
+    if (shortAnswerContainer.parentNode.querySelector('h3')) {
+        const saPoints = shortAnswerCount * 0.5;
+        shortAnswerContainer.parentNode.querySelector('h3').textContent = 
+            `C. Trả lời ngắn (${shortAnswerCount} câu × 0.5 điểm = ${saPoints} điểm)`;
+    }
+}
+
+// Hàm tính điểm chi tiết - SỬA ĐỂ TÍNH ĐÚNG THEO SỐ CÂU THỰC TẾ
+function calculateDetailedScores() {
+    let mcScore = 0;
+    let tfScore = 0;
+    let saScore = 0;
+    
+    const answerKey = examAnswers[`${selectedExam}-${selectedExamCode}`];
+    
+    if (!answerKey) {
+        // Nếu không có đáp án cho mã đề này, trả về điểm 0
+        console.log(`Không tìm thấy đáp án cho đề số: ${selectedExam}-${selectedExamCode}`);
+        return { mcScore, tfScore, saScore, totalScore: 0 };
+    }
+    
+    // Tính điểm phần trắc nghiệm nhiều lựa chọn (luôn 12 câu)
+    for (let i = 1; i <= 12; i++) {
+        const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selectedAnswer && selectedAnswer.value === answerKey.multipleChoice[i-1]) {
+            mcScore += 0.25;
         }
     }
+    
+    // Tính điểm phần trắc nghiệm đúng/sai - SỬA: TÍNH ĐÚNG SỐ CÂU THỰC TẾ
+    const trueFalseCount = answerKey.trueFalse ? answerKey.trueFalse.length : 0;
+    for (let i = 1; i <= trueFalseCount; i++) {
+        const correctAnswers = answerKey.trueFalse[i-1];
+        
+        // Kiểm tra 4 ý con trong mỗi câu
+        const subQuestions = ['a', 'b', 'c', 'd'];
+        subQuestions.forEach((sub, index) => {
+            const selectedAnswer = document.querySelector(`input[name="tf${i}_${sub}"]:checked`);
+            if (selectedAnswer && selectedAnswer.value === correctAnswers[index]) {
+                tfScore += 0.25; // Mỗi ý đúng được 0.25 điểm
+            }
+        });
+    }
+    
+    // Tính điểm phần trả lời ngắn - SỬA: TÍNH ĐÚNG SỐ CÂU THỰC TẾ
+    const shortAnswerCount = answerKey.shortAnswer ? answerKey.shortAnswer.length : 0;
+    for (let i = 1; i <= shortAnswerCount; i++) {
+        const userAnswer = document.getElementById(`sa${i}`).value.trim();
+        const correctAnswer = answerKey.shortAnswer[i-1];
+        
+        // So sánh đáp án (có thể thêm logic chuẩn hóa nếu cần)
+        if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+            saScore += 0.5;
+        }
+    }
+    
+    const totalScore = mcScore + tfScore + saScore;
+    return { mcScore, tfScore, saScore, totalScore };
+}
+
+// Hàm hiển thị đánh giá chi tiết - SỬA ĐỂ HIỂN THỊ ĐÚNG SỐ CÂU
+function showAnswerReview(scores) {
+    const answerDetails = document.getElementById('answer-details');
+    answerDetails.innerHTML = '';
+    
+    const answerKey = examAnswers[`${selectedExam}-${selectedExamCode}`];
+    
+    if (!answerKey) {
+        answerDetails.innerHTML = '<p>Không có thông tin đáp án cho đề này.</p>';
+        return;
+    }
+    
+    // Hiển thị đáp án phần trắc nghiệm nhiều lựa chọn
+    let mcReview = '<h4>Phần A: Trắc nghiệm nhiều lựa chọn (3 điểm)</h4>';
+    for (let i = 1; i <= 12; i++) {
+        const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+        const userAnswer = selectedAnswer ? selectedAnswer.value : 'Chưa chọn';
+        const correctAnswer = answerKey.multipleChoice[i-1];
+        const isCorrect = userAnswer === correctAnswer;
+        
+        mcReview += `<p><strong>Câu ${i}:</strong> `;
+        mcReview += `<span class="user-answer">${userAnswer}</span> `;
+        if (isCorrect) {
+            mcReview += `<span class="correct-answer">(Đúng)</span>`;
+        } else {
+            mcReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
+        }
+        mcReview += '</p>';
+    }
+    
+    // Hiển thị đáp án phần đúng/sai - SỬA: HIỂN THỊ ĐÚNG SỐ CÂU
+    let tfReview = '<h4>Phần B: Trắc nghiệm đúng/sai</h4>';
+    const trueFalseCount = answerKey.trueFalse ? answerKey.trueFalse.length : 0;
+    for (let i = 1; i <= trueFalseCount; i++) {
+        const correctAnswers = answerKey.trueFalse[i-1];
+        tfReview += `<p><strong>Câu ${i}:</strong></p><ul>`;
+        
+        const subQuestions = ['a', 'b', 'c', 'd'];
+        subQuestions.forEach((sub, index) => {
+            const selectedAnswer = document.querySelector(`input[name="tf${i}_${sub}"]:checked`);
+            const userAnswer = selectedAnswer ? selectedAnswer.value : 'Chưa chọn';
+            const correctAnswer = correctAnswers[index];
+            const isCorrect = userAnswer === correctAnswer;
+            
+            tfReview += `<li>Ý ${sub}: `;
+            tfReview += `<span class="user-answer">${userAnswer}</span> `;
+            if (isCorrect) {
+                tfReview += `<span class="correct-answer">(Đúng)</span>`;
+            } else {
+                tfReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
+            }
+            tfReview += '</li>';
+        });
+        tfReview += '</ul>';
+    }
+    
+    // Hiển thị đáp án phần trả lời ngắn - SỬA: HIỂN THỊ ĐÚNG SỐ CÂU
+    let saReview = '<h4>Phần C: Trả lời ngắn</h4>';
+    const shortAnswerCount = answerKey.shortAnswer ? answerKey.shortAnswer.length : 0;
+    for (let i = 1; i <= shortAnswerCount; i++) {
+        const userAnswer = document.getElementById(`sa${i}`).value.trim();
+        const correctAnswer = answerKey.shortAnswer[i-1];
+        const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+        
+        saReview += `<p><strong>Câu ${i}:</strong> `;
+        saReview += `<span class="user-answer">${userAnswer || 'Chưa trả lời'}</span> `;
+        if (isCorrect) {
+            saReview += `<span class="correct-answer">(Đúng)</span>`;
+        } else {
+            saReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
+        }
+        saReview += '</p>';
+    }
+    
+    answerDetails.innerHTML = mcReview + tfReview + saReview;
+}
     
     // Hàm bắt đầu đếm ngược
     function startTimer() {
@@ -2245,7 +2412,7 @@ body:-ms-fullscreen .exam-frame {
             document.getElementById('score').textContent = `0/10`;
             document.getElementById('score').className = 'score score-zero';
             document.getElementById('result-details').textContent = 
-                `Bài kiểm tra ${getExamName(selectedExam)} - Đề ${selectedExamCode} của bạn bị hủy do vi phạm quy chế làm bài.`;
+                `Bài kiểm tra ${getExamName(selectedExam)} - Đề ${selectedExamCode} của bạn bị hủy do vi phạm quy chế kiểm tra.`;
             document.getElementById('cheat-penalty-message').style.display = 'block';
             document.getElementById('answer-review').style.display = 'none';
             
@@ -2275,130 +2442,137 @@ body:-ms-fullscreen .exam-frame {
     }
     
     // Hàm tính điểm chi tiết
-    function calculateDetailedScores() {
-        let mcScore = 0;
-        let tfScore = 0;
-        let saScore = 0;
-        
-        const answerKey = examAnswers[`${selectedExam}-${selectedExamCode}`];
-        
-        if (!answerKey) {
-            // Nếu không có đáp án cho mã đề này, trả về điểm 0
-            console.log(`Không tìm thấy đáp án cho đề: ${selectedExam}-${selectedExamCode}`);
-            return { mcScore, tfScore, saScore, totalScore: 0 };
-        }
-        
-        // Tính điểm phần trắc nghiệm nhiều lựa chọn
-        for (let i = 1; i <= 12; i++) {
-            const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
-            if (selectedAnswer && selectedAnswer.value === answerKey.multipleChoice[i-1]) {
-                mcScore += 0.25;
-            }
-        }
-        
-        // Tính điểm phần trắc nghiệm đúng/sai
-        for (let i = 1; i <= 3; i++) {
-            const correctAnswers = answerKey.trueFalse[i-1];
-            
-            // Kiểm tra 4 ý con trong mỗi câu
-            const subQuestions = ['a', 'b', 'c', 'd'];
-            subQuestions.forEach((sub, index) => {
-                const selectedAnswer = document.querySelector(`input[name="tf${i}_${sub}"]:checked`);
-                if (selectedAnswer && selectedAnswer.value === correctAnswers[index]) {
-                    tfScore += 0.25; // Mỗi ý đúng được 0.25 điểm
-                }
-            });
-        }
-        
-        // Tính điểm phần trả lời ngắn
-        for (let i = 1; i <= 8; i++) {
-            const userAnswer = document.getElementById(`sa${i}`).value.trim();
-            const correctAnswer = answerKey.shortAnswer[i-1];
-            
-            // So sánh đáp án (có thể thêm logic chuẩn hóa nếu cần)
-            if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
-                saScore += 0.5;
-            }
-        }
-        
-        const totalScore = mcScore + tfScore + saScore;
-        return { mcScore, tfScore, saScore, totalScore };
+   // Hàm tính điểm chi tiết - SỬA ĐỂ TÍNH ĐÚNG THEO SỐ CÂU THỰC TẾ
+function calculateDetailedScores() {
+    let mcScore = 0;
+    let tfScore = 0;
+    let saScore = 0;
+    
+    const answerKey = examAnswers[`${selectedExam}-${selectedExamCode}`];
+    
+    if (!answerKey) {
+        // Nếu không có đáp án cho mã đề này, trả về điểm 0
+        console.log(`Không tìm thấy đáp án cho đề: ${selectedExam}-${selectedExamCode}`);
+        return { mcScore, tfScore, saScore, totalScore: 0 };
     }
     
-    // Hàm hiển thị đánh giá chi tiết
-    function showAnswerReview(scores) {
-        const answerDetails = document.getElementById('answer-details');
-        answerDetails.innerHTML = '';
-        
-        const answerKey = examAnswers[`${selectedExam}-${selectedExamCode}`];
-        
-        if (!answerKey) {
-            answerDetails.innerHTML = '<p>Không có thông tin đáp án cho đề này.</p>';
-            return;
+    // Tính điểm phần trắc nghiệm nhiều lựa chọn (luôn 12 câu)
+    for (let i = 1; i <= 12; i++) {
+        const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selectedAnswer && selectedAnswer.value === answerKey.multipleChoice[i-1]) {
+            mcScore += 0.25;
         }
+    }
+    
+    // Tính điểm phần trắc nghiệm đúng/sai - SỬA: TÍNH ĐÚNG SỐ CÂU THỰC TẾ
+    const trueFalseCount = answerKey.trueFalse ? answerKey.trueFalse.length : 0;
+    for (let i = 1; i <= trueFalseCount; i++) {
+        const correctAnswers = answerKey.trueFalse[i-1];
         
-        // Hiển thị đáp án phần trắc nghiệm nhiều lựa chọn
-        let mcReview = '<h4>Phần A: Trắc nghiệm nhiều lựa chọn (3 điểm)</h4>';
-        for (let i = 1; i <= 12; i++) {
-            const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+        // Kiểm tra 4 ý con trong mỗi câu
+        const subQuestions = ['a', 'b', 'c', 'd'];
+        subQuestions.forEach((sub, index) => {
+            const selectedAnswer = document.querySelector(`input[name="tf${i}_${sub}"]:checked`);
+            if (selectedAnswer && selectedAnswer.value === correctAnswers[index]) {
+                tfScore += 0.25; // Mỗi ý đúng được 0.25 điểm
+            }
+        });
+    }
+    
+    // Tính điểm phần trả lời ngắn - SỬA: TÍNH ĐÚNG SỐ CÂU THỰC TẾ
+    const shortAnswerCount = answerKey.shortAnswer ? answerKey.shortAnswer.length : 0;
+    for (let i = 1; i <= shortAnswerCount; i++) {
+        const userAnswer = document.getElementById(`sa${i}`).value.trim();
+        const correctAnswer = answerKey.shortAnswer[i-1];
+        
+        // So sánh đáp án (có thể thêm logic chuẩn hóa nếu cần)
+        if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+            saScore += 0.5;
+        }
+    }
+    
+    const totalScore = mcScore + tfScore + saScore;
+    return { mcScore, tfScore, saScore, totalScore };
+}
+    // Hàm hiển thị đánh giá chi tiết - SỬA ĐỂ HIỂN THỊ ĐÚNG SỐ CÂU
+function showAnswerReview(scores) {
+    const answerDetails = document.getElementById('answer-details');
+    answerDetails.innerHTML = '';
+    
+    const answerKey = examAnswers[`${selectedExam}-${selectedExamCode}`];
+    
+    if (!answerKey) {
+        answerDetails.innerHTML = '<p>Không có thông tin đáp án cho đề này.</p>';
+        return;
+    }
+    
+    // Hiển thị đáp án phần trắc nghiệm nhiều lựa chọn
+    let mcReview = '<h4>Phần A: Trắc nghiệm nhiều lựa chọn (3 điểm)</h4>';
+    for (let i = 1; i <= 12; i++) {
+        const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+        const userAnswer = selectedAnswer ? selectedAnswer.value : 'Chưa chọn';
+        const correctAnswer = answerKey.multipleChoice[i-1];
+        const isCorrect = userAnswer === correctAnswer;
+        
+        mcReview += `<p><strong>Câu ${i}:</strong> `;
+        mcReview += `<span class="user-answer">${userAnswer}</span> `;
+        if (isCorrect) {
+            mcReview += `<span class="correct-answer">(Đúng)</span>`;
+        } else {
+            mcReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
+        }
+        mcReview += '</p>';
+    }
+    
+    // Hiển thị đáp án phần đúng/sai - SỬA: HIỂN THỊ ĐÚNG SỐ CÂU
+    let tfReview = '<h4>Phần B: Trắc nghiệm đúng/sai</h4>';
+    const trueFalseCount = answerKey.trueFalse ? answerKey.trueFalse.length : 0;
+    for (let i = 1; i <= trueFalseCount; i++) {
+        const correctAnswers = answerKey.trueFalse[i-1];
+        tfReview += `<p><strong>Câu ${i}:</strong></p><ul>`;
+        
+        const subQuestions = ['a', 'b', 'c', 'd'];
+        subQuestions.forEach((sub, index) => {
+            const selectedAnswer = document.querySelector(`input[name="tf${i}_${sub}"]:checked`);
             const userAnswer = selectedAnswer ? selectedAnswer.value : 'Chưa chọn';
-            const correctAnswer = answerKey.multipleChoice[i-1];
+            const correctAnswer = correctAnswers[index];
             const isCorrect = userAnswer === correctAnswer;
             
-            mcReview += `<p><strong>Câu ${i}:</strong> `;
-            mcReview += `<span class="user-answer">${userAnswer}</span> `;
+            tfReview += `<li>Ý ${sub}: `;
+            tfReview += `<span class="user-answer">${userAnswer}</span> `;
             if (isCorrect) {
-                mcReview += `<span class="correct-answer">(Đúng)</span>`;
+                tfReview += `<span class="correct-answer">(Đúng)</span>`;
             } else {
-                mcReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
+                tfReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
             }
-            mcReview += '</p>';
-        }
-        
-        // Hiển thị đáp án phần đúng/sai
-        let tfReview = '<h4>Phần B: Trắc nghiệm đúng/sai (3 điểm)</h4>';
-        for (let i = 1; i <= 3; i++) {
-            const correctAnswers = answerKey.trueFalse[i-1];
-            tfReview += `<p><strong>Câu ${i}:</strong></p><ul>`;
-            
-            const subQuestions = ['a', 'b', 'c', 'd'];
-            subQuestions.forEach((sub, index) => {
-                const selectedAnswer = document.querySelector(`input[name="tf${i}_${sub}"]:checked`);
-                const userAnswer = selectedAnswer ? selectedAnswer.value : 'Chưa chọn';
-                const correctAnswer = correctAnswers[index];
-                const isCorrect = userAnswer === correctAnswer;
-                
-                tfReview += `<li>Ý ${sub}: `;
-                tfReview += `<span class="user-answer">${userAnswer}</span> `;
-                if (isCorrect) {
-                    tfReview += `<span class="correct-answer">(Đúng)</span>`;
-                } else {
-                    tfReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
-                }
-                tfReview += '</li>';
-            });
-            tfReview += '</ul>';
-        }
-        
-        // Hiển thị đáp án phần trả lời ngắn
-        let saReview = '<h4>Phần C: Trả lời ngắn (4 điểm)</h4>';
-        for (let i = 1; i <= 8; i++) {
-            const userAnswer = document.getElementById(`sa${i}`).value.trim();
-            const correctAnswer = answerKey.shortAnswer[i-1];
-            const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
-            
-            saReview += `<p><strong>Câu ${i}:</strong> `;
-            saReview += `<span class="user-answer">${userAnswer || 'Chưa trả lời'}</span> `;
-            if (isCorrect) {
-                saReview += `<span class="correct-answer">(Đúng)</span>`;
-            } else {
-                saReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
-            }
-            saReview += '</p>';
-        }
-        
-        answerDetails.innerHTML = mcReview + tfReview + saReview;
+            tfReview += '</li>';
+        });
+        tfReview += '</ul>';
     }
+    
+    // Hiển thị đáp án phần trả lời ngắn - SỬA: HIỂN THỊ ĐÚNG SỐ CÂU
+    let saReview = '<h4>Phần C: Trả lời ngắn</h4>';
+    const shortAnswerCount = answerKey.shortAnswer ? answerKey.shortAnswer.length : 0;
+    for (let i = 1; i <= shortAnswerCount; i++) {
+        const userAnswer = document.getElementById(`sa${i}`).value.trim();
+        const correctAnswer = answerKey.shortAnswer[i-1];
+        const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+        
+        saReview += `<p><strong>Câu ${i}:</strong> `;
+        saReview += `<span class="user-answer">${userAnswer || 'Chưa trả lời'}</span> `;
+        if (isCorrect) {
+            saReview += `<span class="correct-answer">(Đúng)</span>`;
+        } else {
+            saReview += `<span class="wrong-answer">(Sai) → Đáp án đúng: <span class="correct-answer">${correctAnswer}</span></span>`;
+        }
+        saReview += '</p>';
+    }
+    
+    answerDetails.innerHTML = mcReview + tfReview + saReview;
+}    
+        
+    
+    
     
     // Hàm quay lại trang chủ
     function goHome() {
@@ -2568,7 +2742,7 @@ body:-ms-fullscreen .exam-frame {
     window.addEventListener('beforeunload', function (e) {
         if (isExamActive) {
             e.preventDefault();
-            e.returnValue = 'Bạn đang trong bài kiểm tra. Nếu thoát ra, bài làm của bạn sẽ bị hủy với 0 điểm. Bạn có chắc chắn muốn thoát?';
+            e.returnValue = 'Bạn đang trong bài kiểm tra. Nếu thoát ra, bài kiểm tra của bạn sẽ bị hủy với 0 điểm. Bạn có chắc chắn muốn thoát?';
         }
     });
     
